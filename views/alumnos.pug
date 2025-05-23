@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  h2 Listado de Alumnos
+
+  table.table.table-striped.table-bordered
+    thead
+      tr
+        th ID
+        th Nombre
+        th Apellido
+        th Email
+        th Curso
+        th Acciones
+    tbody
+      each alumno in alumnos
+        tr
+          td= alumno.id
+          td= alumno.nombre
+          td= alumno.apellido
+          td= alumno.email
+          td= alumno.curso
+          td
+            form(action=`/alumnos/${alumno.id}?_method=DELETE`, method="POST", style="display:inline")
+              button.btn.btn-danger.btn-sm(type="submit") Eliminar
+            form(action=`/alumnos/${alumno.id}/editar`, method="GET", style="display:inline")
+              button.btn.btn-primary.btn-sm(type="submit") Editar
+
+  hr
+
+  h3 Agregar Nuevo Alumno
+  form(action="/alumnos", method="POST")
+    div.mb-3
+      label.form-label(for="nombre") Nombre:
+      input.form-control(type="text", name="nombre", required)
+    div.mb-3
+      label.form-label(for="apellido") Apellido:
+      input.form-control(type="text", name="apellido", required)
+    div.mb-3
+      label.form-label(for="email") Email:
+      input.form-control(type="email", name="email", required)
+    div.mb-3
+      label.form-label(for="curso") Curso:
+      input.form-control(type="text", name="curso", required)
+    button.btn.btn-success(type="submit") Agregar

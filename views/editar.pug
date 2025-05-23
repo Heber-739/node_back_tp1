@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h2 Editar Alumno
+
+  form(action=`/alumnos/${alumno.id}?_method=PUT`, method="POST")
+    div
+      label Nombre:
+      input(type="text", name="nombre", value=alumno.nombre, required)
+    div
+      label Apellido:
+      input(type="text", name="apellido", value=alumno.apellido, required)
+    div
+      label Email:
+      input(type="email", name="email", value=alumno.email, required)
+    div
+      label Curso:
+      input(type="text", name="curso", value=alumno.curso, required)
+    button(type="submit") Guardar cambios
