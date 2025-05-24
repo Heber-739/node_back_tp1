@@ -1,27 +1,34 @@
-
 extends ../layout
 
 block content
-    .div.card(style="border:1px solid #ccc; padding:1em; margin:1em; border-radius:8px; max-width: 400px;")
-      h2 #{course.nombre}
-      p 
-        strong Horario: 
-        | #{course.horario}
-      p
-        strong Cupo: 
-        | #{course.cupo}
-      p
-        strong Área: 
-        | #{course.area}
-      p
-        strong Estado: 
-        | #{course.estado}
-      p
-        strong Alumnos inscriptos: 
-        | #{course.alumnos.length}
-      if course.dictados && course.dictados.length
-        p 
-          strong Fechas de dictado hasta ahora:
-        ul
-          each d in course.dictados
-            li #{d.fecha}
+  .container.mt-5
+    .card.shadow-lg.border-0.rounded-3
+      .card-body
+        h2.card-title.text-primary.mb-4 #{course.nombre}
+        
+        ul.list-group.list-group-flush.mb-3
+          li.list-group-item
+            strong Horario: 
+            |  #{course.horario}
+          li.list-group-item
+            strong Cupo: 
+            |  #{course.cupo}
+          li.list-group-item
+            strong Área: 
+            |  #{course.area}
+          li.list-group-item
+            strong Estado: 
+            |  #{course.estado}
+          li.list-group-item
+            strong Alumnos inscriptos: 
+            |  #{course.alumnos.length}
+        
+        if course.dictados && course.dictados.length
+          h5.mt-4.text-secondary Fechas de dictado
+          ul.list-group
+            each d in course.dictados
+              li.list-group-item #{d.fecha}
+  br
+  div.d-flex.justify-content-center
+    a(href="/courses"): button.btn.btn-primary(type="button")  Volver a cursos
+  br

@@ -3,13 +3,36 @@ const { Course } = require("../models/course.class");
 const { coursesService } = require("../services/courses.service");
 const COURSES_FILE = require("path").join(__dirname, "../data/courses.json");
 
+const USER_AGENT_API = ["Thunder Client", "Postman"]
+
+const isApi = (req) => {
+  const userAgent = req.get('User-Agent');
+  return USER_AGENT_API.some(agent => {
+    console.log(userAgent.includes(agent))
+    return userAgent.includes(agent)
+  });
+};
 
 const getAllCourses = (req, res) => {
   try {
     const response = coursesService.getAllCourses();
-    res.render("courses/lista", { response });
+    isApi(req) ? res.status(200).send(response) 
+    : res.render("courses/list", { response });
   } catch (error) {
     res.status(500).send("No se pudieron obtener los courses");
+  }
+};
+
+const getCourseById = (req, res) => {
+  try {
+    const course = coursesService.getCourseById(req.params.id);
+
+    // TODO agregar la logica para obtener el nombre del profesor
+    if (!course) return res.status(404).send("Curso no encontrado");
+    isApi(req) ? res.status(200).send(course)
+    : res.render("courses/details", { course }) ;
+  } catch (error) {
+    res.status(500).send("Error al buscar el curso");
   }
 };
 
@@ -20,44 +43,33 @@ const goToEditCourseById = (req, res) => {
     if (!course) {
       res.status(404).send("Curso no encontrado");
     }
-    res.render("courses/editar", { course });
+    isApi(req) ? res.status(200).send(course) 
+    : res.render("courses/edit", { course });
   } catch (error) {
     res.status(500).send("No se pudieron obtener el curso");
   }
 };
 
-const getCourseById = () => {
-  try {
-    const course = coursesService.getCourseById(req.params.id);
-
-    // TODO agregar la logica para obtener el nombre del profesor
-    if (!course) return res.status(404).send("Curso no encontrado");
-    res.render("courses/detalle", { course });
-  } catch (error) {
-    res.status(500).send("Error al buscar el curso");
-  }
-};
-
-const newCourse = () => {
+const newCourse = (req, res) => {
   try {
     const { profesor, nombre, horario, cupo, area, estado } = req.body;
     if (!profesor || !nombre || !horario || !cupo || !area || !estado) {
       res.status(400).send("Campos faltan para crear un nuevo curso");
     }
-    const course = new Course(profesor, nombre, horario, cupo, area, estado);
-    const data = readFile(COURSES_FILE);
-    data = data?.courses || { courses: [] };
-    data.courses.push(course);
-    writeFile(data, COURSES_FILE);
+    const course = new Course(profesor, nombre, horario, Number(cupo), area, estado);
+    coursesService.addCourse(course);
+    isApi(req) ? res.status(200).send(course)
+    : res.redirect("/courses");
   } catch (error) {
     console.error(error);
+    res.status(500).send("No pudimos agregar el curso")
   }
-  res.redirect("/courses");
+  
 };
 
-const updateCourseById = () => {
+const updateCourseById = (req,res) => {
   try {
-    const course = coursesService.getCourseById()
+    let course = coursesService.getCourseById(req.params.id)
     if (!course === -1) {
       return res.status(404).send("Curso no encontrado");
     }
@@ -66,20 +78,21 @@ const updateCourseById = () => {
       profesor: req.body.profesor,
       nombre: req.body.nombre,
       horario: req.body.horario,
-      cupo: req.body.cupo,
+      cupo: Number(req.body.cupo),
       area: req.body.area,
       estado: req.body.estado,
     };
     coursesService.updateCourse(course)
+    isApi(req) ? res.status(200).send(course)
+    : res.redirect("/courses");
   } catch (err) {
     console.error(err);
     res.status(500);
   }
 
-  res.redirect("/courses");
 };
 
-const deleteCourseById = () => {
+const deleteCourseById = (req,res) => {
   try {
     const data = readFile(COURSES_FILE);
     const id = req.params.id;
