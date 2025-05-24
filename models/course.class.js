@@ -1,7 +1,7 @@
 const uuid = require("uuid");
 
-class Curso {
-  constructor(profesor,nombre,horario,cupo,area,estado,alumnos) {
+class Course {
+  constructor(profesor,nombre,horario,cupo,area,estado) {
     this.id = uuid.v4();
     this.profesor = profesor;
     this.dictados = [];
@@ -13,4 +13,4 @@ class Curso {
     this.alumnos = [];
   }
 }
-module.exports = {Curso};
+module.exports = { Course };
