@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+    form(action=`/courses/${course.id}?_method=PUT` method="POST" class="container mt-5")
+        .card.shadow
+          .card-body
+            h2.mb-4 Editar Curso
+
+            .mb-3
+              label(for="profesor" class="form-label") Profesor (ID):
+              input#profesor.form-control(type="text" value=course.profesor name="profesor" required)
+
+            .mb-3
+              label(for="nombre" class="form-label") Nombre del curso:
+              input#nombre.form-control(type="text" value=course.nombre name="nombre" required)
+
+            .mb-3
+              label(for="horario" class="form-label") Horario:
+              input#horario.form-control(type="text" value=course.horario name="horario" required)
+
+            .mb-3
+              label(for="cupo" class="form-label") Cupo:
+              input#cupo.form-control(type="number" value=course.cupo name="cupo" min="1" required)
+
+            .mb-3
+              label(for="area" class="form-label") Área:
+              input#area.form-control(type="text" value=course.area name="area" required)
+
+            .mb-3
+              label(for="estado" class="form-label") Estado:
+              select#estado.form-select(value=course.estado name="estado" required)
+                option(value="activa") Activa
+                option(value="inactiva") Inactiva
+
+            .text-center
+              button.btn.btn-primary(type="submit") Guardar

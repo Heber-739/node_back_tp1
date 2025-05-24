@@ -1,0 +1,27 @@
+
+extends ../layout
+
+block content
+    .div.card(style="border:1px solid #ccc; padding:1em; margin:1em; border-radius:8px; max-width: 400px;")
+      h2 #{course.nombre}
+      p 
+        strong Horario: 
+        | #{course.horario}
+      p
+        strong Cupo: 
+        | #{course.cupo}
+      p
+        strong Área: 
+        | #{course.area}
+      p
+        strong Estado: 
+        | #{course.estado}
+      p
+        strong Alumnos inscriptos: 
+        | #{course.alumnos.length}
+      if course.dictados && course.dictados.length
+        p 
+          strong Fechas de dictado a la fecha:
+        ul
+          each d in course.dictados
+            li #{d.fecha}
