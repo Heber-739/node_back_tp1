@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container.mt-5
+    h2.text-center.mb-4 Iniciar Sesión
+
+    if error
+      .alert.alert-danger= error
+
+    form(action="/login", method="POST", class="mx-auto", style="max-width: 400px;")
+      .mb-3
+        label.form-label(for="email") Email:
+        input#email.form-control(type="email", name="email", required, placeholder="Ingrese su email")
+      .mb-3
+        label.form-label(for="password") Contraseña:
+        input#password.form-control(type="password", name="password", required, placeholder="Ingrese su contraseña")
+      button.btn.btn-primary.w-100(type="submit") Entrar
