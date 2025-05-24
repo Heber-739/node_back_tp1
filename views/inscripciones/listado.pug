@@ -1,0 +1,77 @@
+extends ../layout
+
+block content
+  div.d-flex.justify-content-center
+      a(href="#create"): button.btn.btn-primary(type="button") Nueva inscripción
+  h2 Listado de Inscripciones
+
+  if inscripciones.length === 0
+    p No hay inscripciones registradas.
+  else
+    table.table.table-striped.table-bordered
+      thead
+        tr
+          th ID
+          th Alumno
+          th Curso
+          th Fecha
+          th Estado
+          th Pagos
+          th Acciones
+      tbody
+        each inscripcion in inscripciones
+          tr
+            td= inscripcion.id
+            td= inscripcion.alumno ? `${inscripcion.alumno.nombre} ${inscripcion.alumno.apellido}` : 'Sin alumno'
+            td= inscripcion.curso ? inscripcion.curso.nombre : 'Sin curso'
+            td= inscripcion.fecha_inscripcion || 'Sin fecha'
+            td= inscripcion.estado || 'Activa'
+            td
+              if inscripcion.pagos.length
+                ul
+                  each pago in inscripcion.pagos
+                    =`${pago.fecha_pago} - $${pago.monto} (${pago.medio})`
+              else
+                i Sin pagos
+            td
+              form(action=`/inscripciones/${inscripcion.id}?_method=DELETE`, method="POST", style="display:inline")
+                button.btn.btn-danger.btn-sm(type="submit") Eliminar
+                
+              form(action=`/inscripciones/editar/${inscripcion.id}`, method="GET", style="display:inline")
+                button.btn.btn-warning.btn-sm(type="submit") Editar
+
+              form(action=`/inscripciones/pago/${inscripcion.id}`, method="GET", style="display:inline")
+                button.btn.btn-success.btn-sm(type="submit") Agregar Pago
+
+  br
+  // Formulario para crear nueva inscripción
+  form(action="/inscripciones" id="create" method="POST" class="container mt-5")
+    .card.shadow
+      .card-body
+        h2.mb-4 Nueva Inscripción
+
+        .mb-3
+          label(for="alumnoId" class="form-label") ID del Alumno:
+          input#alumnoId.form-control(type="text" name="alumnoId" required)
+
+        .mb-3
+          label(for="cursoId" class="form-label") ID del Curso:
+          input#cursoId.form-control(type="text" name="cursoId" required)
+
+        //- Campos para un pago inicial opcional
+        h4.mt-4.mb-3 Pago Inicial (opcional)
+
+        .mb-3
+          label(for="pagoFecha" class="form-label") Fecha del Pago:
+          input#pagoFecha.form-control(type="date" name="pagos[0][fecha]")
+
+        .mb-3
+          label(for="pagoMonto" class="form-label") Monto:
+          input#pagoMonto.form-control(type="number" name="pagos[0][monto]" step="0.01")
+
+        .mb-3
+          label(for="pagoMedio" class="form-label") Medio de Pago:
+          input#pagoMedio.form-control(type="text" name="pagos[0][medio]")
+
+        .text-center
+          button.btn.btn-primary(type="submit") Crear Inscripción
