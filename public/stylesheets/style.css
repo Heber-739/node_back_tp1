@@ -2,6 +2,9 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+*{
+  font-size: 1rem;
+}
 
 a {
   color: #00B7FF;

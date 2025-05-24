@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev":"nodemon --inspect app.js"
   },
+  "type": "commonjs",
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -13,7 +15,8 @@
     "jade": "~1.11.0",
     "method-override": "^3.0.0",
     "morgan": "~1.9.1",
-    "pug": "^3.0.3"
+    "pug": "^3.0.3",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

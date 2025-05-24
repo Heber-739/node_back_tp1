@@ -73,7 +73,6 @@ router.delete('/:id', (req, res) => {
     if (alumnos.length === cantidadInicial)
         return res.status(404).send('Alumno no encontrado');
     escribirDatos(alumnos);
-    console.log(res.sendStatus(204));
     res.redirect('/alumnos'); // Redirige a la lista de alumnos para mostrar el cambio
 });
 
