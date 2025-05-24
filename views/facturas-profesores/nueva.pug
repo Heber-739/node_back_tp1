@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  h2 Registrar nueva factura
+
+  form(action="/facturas-profesores" method="POST")
+    .mb-3
+      label(for="profesorId") Profesor
+      select.form-control(name="profesorId" required)
+        option(value="") -- Seleccionar --
+        each p in profesores
+          option(value=p.id) #{p.nombre} #{p.apellido}
+    .mb-3
+      label(for="fecha") Fecha
+      input.form-control(type="date" name="fecha" required)
+    .mb-3 
+      label(for="numeroFactura") Número de Factura:
+      input.form-control(type="text", name="numeroFactura", required, pattern="[A-Z][0-9]{4}-[0-9]{8}", placeholder="A0000-00000000")
+    .mb-3
+      label(for="monto") Monto ($)
+      input.form-control(type="number" name="monto" step="0.01" required)
+    .mb-3
+      label(for="detalle") Detalle
+      textarea.form-control(name="detalle" required)
+    .mb-3 
+      label(for="estado") Estado
+      select.form-control(name="estado" required)
+        option(value="pendiente") Pendiente
+        option(value="pagada") Pagada
+        option(value="cancelada") Cancelada
+    button.btn.btn-success(type="submit") Guardar factura

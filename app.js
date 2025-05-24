@@ -14,6 +14,9 @@ const profesoresRouter = require('./routes/profesores');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const coursesRouter = require('./routes/courses');
+const facturasProfesoresRouter = require('./routes/facturas-profesores');
+
+
 
 const app = express();
 
@@ -50,6 +53,7 @@ app.use('/profesores', profesoresRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/courses', coursesRouter);
+app.use('/facturas-profesores', facturasProfesoresRouter);
 
 // Captura de error 404
 app.use((req, res, next) => {

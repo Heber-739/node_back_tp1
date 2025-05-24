@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h2 Facturas por Honorarios
+
+  table.table
+    thead
+      tr
+        th ID
+        th Profesor
+        th Fecha
+        th Número de Factura
+        th Monto
+        th Detalle
+        th Estado
+    tbody
+      each f in facturas
+        tr
+          td= f.id
+          td= f.profesorNombre
+          td= f.fecha
+          td= f.numeroFactura
+          td $#{f.monto}
+          td= f.detalle
+          td= f.estadoPago
+
+  a.btn.btn-primary(href="/facturas-profesores/nueva") Nueva factura

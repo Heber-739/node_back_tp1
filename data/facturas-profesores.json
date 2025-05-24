@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "numeroFactura": "C1234-56789012",
+    "profesorId": 2,
+    "fecha": "2025-05-24",
+    "monto": 15000,
+    "detalle": "Curso de Diseño Gráfico",
+    "estadoPago": "pendiente"
+  },
+  {
+    "id": 2,
+    "numeroFactura": "A5678-12345678",
+    "profesorId": 3,
+    "fecha": "2025-06-15",
+    "monto": 20000,
+    "detalle": "Curso de Programación",
+    "estadoPago": "pagado"
+  },
+  {
+    "id": 3,
+    "numeroFactura": "C4321-87654321",
+    "profesorId": 1,
+    "fecha": "2025-07-10",
+    "monto": 12000,
+    "detalle": "Curso de Fotografía",
+    "estadoPago": "pendiente"
+  },
+  {
+    "id": 4,
+    "numeroFactura": "C9876-11223344",
+    "profesorId": 4,
+    "fecha": "2025-08-20",
+    "monto": 18000,
+    "detalle": "Curso de Marketing Digital",
+    "estadoPago": "pagado"
+  },
+  {
+    "id": 5,
+    "numeroFactura": "A0001-00000001",
+    "profesorId": 1,
+    "fecha": "2025-05-24",
+    "monto": 100000,
+    "detalle": "dfsgfgdfs",
+    "estadoPago": "pendiente"
+  },
+  {
+    "id": 6,
+    "numeroFactura": "A1111-11111111",
+    "profesorId": 11,
+    "fecha": "2025-05-24",
+    "monto": 100000,
+    "detalle": "SDFSADFASD",
+    "estadoPago": "pendiente"
+  },
+  {
+    "id": 7,
+    "numeroFactura": "A0001-00000555",
+    "profesorId": 10,
+    "fecha": "2025-05-23",
+    "monto": 99000,
+    "detalle": "sdfsad",
+    "estadoPago": "pendiente"
+  }
+]
