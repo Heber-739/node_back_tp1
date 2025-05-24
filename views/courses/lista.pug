@@ -19,21 +19,21 @@ block content
         th Área
         th Estado
     tbody
-      each curso in response
+      each course in response
         tr
-          td= curso.nombre
-          td= curso.profesor
-          td= curso.horario
-          td= curso.cupo
-          td= curso.area
-          td= curso.estado
+          td= course.nombre
+          td= course.profesor
+          td= course.horario
+          td= course.cupo
+          td= course.area
+          td= course.estado
           td
-            a(href=`/cursos/${curso.id}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
-            a(href=`/cursos/editar/${curso.id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
-            form(action=`/cursos/${curso.id}?_method=DELETE` method="POST")
+            a(href=`/courses/${course}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
+            a(href=`/courses/edit/${course}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
+            form(action=`/courses/${course}?_method=DELETE` method="POST")
               button.btn.btn-danger.btn-sm(type="submit") Eliminar
   br
-  form(action="/cursos/new" id="new" method="POST" class="container mt-5")
+  form(action="/courses/new" id="new" method="POST" class="container mt-5")
     .card.shadow
       .card-body
         h2.mb-4 Crear Curso

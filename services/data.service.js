@@ -1,9 +1,9 @@
 const fs = require('fs');
 
 // Funcion reutilizable para leer los json
-const leerDatos = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
+const readFile = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 
 // Funcion reutilizable para escribir los json
- const escribirDatos = (data,path) => fs.writeFileSync(path, JSON.stringify(data, null, 2));
+ const writeFile = (data,path) => fs.writeFileSync(path, JSON.stringify(data, null, 2));
 
-module.exports = { leerDatos, escribirDatos} 
+module.exports = { leerDatos: readFile, escribirDatos: writeFile} 
