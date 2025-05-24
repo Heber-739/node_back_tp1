@@ -28,9 +28,9 @@ block content
           td= course.area
           td= course.estado
           td
-            a(href=`/courses/${course}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
-            a(href=`/courses/edit/${course}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
-            form(action=`/courses/${course}?_method=DELETE` method="POST")
+            a(href=`/courses/${course.id}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
+            a(href=`/courses/edit/${course.id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
+            form(action=`/courses/${course.id}?_method=DELETE` method="POST")
               button.btn.btn-danger.btn-sm(type="submit") Eliminar
   br
   form(action="/courses/new" id="new" method="POST" class="container mt-5")
