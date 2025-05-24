@@ -8,7 +8,7 @@ const {
   newCourse,
   updateCourseById,
   deleteCourseById,
-} = require("../controller/cursos.controller");
+} = require("../controller/courses.controller");
 
 // Get all courses whitout dictation
 router.get("/", getAllCourses);

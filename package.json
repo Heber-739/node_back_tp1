@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "npx nodemon app.js",
-    "inspect":"nodemon --inspect app.js"
+    "inspect":"nodemon --inspect app.js "
   },
   "type": "commonjs",
   "dependencies": {
