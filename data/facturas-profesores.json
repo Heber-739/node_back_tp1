@@ -4,9 +4,10 @@
     "numeroFactura": "C1234-56789012",
     "profesorId": 2,
     "fecha": "2025-05-24",
-    "monto": 15000,
+    "monto": 250000,
     "detalle": "Curso de Diseño Gráfico",
-    "estadoPago": "pendiente"
+    "estadoPago": "pagada",
+    "estadoFactura": "activa"
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "fecha": "2025-06-15",
     "monto": 20000,
     "detalle": "Curso de Programación",
-    "estadoPago": "pagado"
+    "estadoPago": "pagado",
+    "estadoFactura": "activa"
   },
   {
     "id": 3,
@@ -24,7 +26,8 @@
     "fecha": "2025-07-10",
     "monto": 12000,
     "detalle": "Curso de Fotografía",
-    "estadoPago": "pendiente"
+    "estadoPago": "pendiente",
+    "estadoFactura": "anulada"
   },
   {
     "id": 4,
@@ -33,7 +36,8 @@
     "fecha": "2025-08-20",
     "monto": 18000,
     "detalle": "Curso de Marketing Digital",
-    "estadoPago": "pagado"
+    "estadoPago": "pagado",
+    "estadoFactura": "activa"
   },
   {
     "id": 5,
@@ -42,7 +46,8 @@
     "fecha": "2025-05-24",
     "monto": 100000,
     "detalle": "dfsgfgdfs",
-    "estadoPago": "pendiente"
+    "estadoPago": "pagada",
+    "estadoFactura": "activa"
   },
   {
     "id": 6,
@@ -51,7 +56,8 @@
     "fecha": "2025-05-24",
     "monto": 100000,
     "detalle": "SDFSADFASD",
-    "estadoPago": "pendiente"
+    "estadoPago": "pendiente",
+    "estadoFactura": "activa"
   },
   {
     "id": 7,
@@ -60,6 +66,7 @@
     "fecha": "2025-05-23",
     "monto": 99000,
     "detalle": "sdfsad",
-    "estadoPago": "pendiente"
+    "estadoPago": "cancelada",
+    "estadoFactura": "activa"
   }
 ]

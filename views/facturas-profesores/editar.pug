@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+  h2 Editar factura
+
+  form(action=`/facturas-profesores/${factura.id}` method="POST")
+    .mb-3
+      label(for="profesorId") Profesor
+      select.form-control(name="profesorId" required)
+        option(value="") -- Seleccionar --
+        each p in profesores
+          option(value=p.id selected=(p.id === factura.profesorId)) #{p.nombre} #{p.apellido}
+    .mb-3
+      label(for="fecha") Fecha
+      input.form-control(type="date" name="fecha" required value=factura.fecha)
+    .mb-3 
+      label(for="numeroFactura") Número de Factura:
+      input.form-control(type="text", name="numeroFactura", required, pattern="[A-Z][0-9]{4}-[0-9]{8}", placeholder="A0000-00000000", value=factura.numeroFactura)
+    .mb-3
+      label(for="monto") Monto ($)
+      input.form-control(type="number" name="monto" step="0.01" required value=factura.monto)
+    .mb-3
+      label(for="detalle") Detalle
+      textarea.form-control(name="detalle" required)= factura.detalle
+    .mb-3 
+      label(for="estadoPago") Estado de Pago
+      select.form-control(name="estadoPago" required)
+        option(value="pendiente" selected=(factura.estadoPago === 'pendiente')) Pendiente
+        option(value="pagada" selected=(factura.estadoPago === 'pagada')) Pagada
+    .mb-3
+      label(for="estadoFactura") Estado de Factura
+      select.form-control(name="estadoFactura" required)
+        option(value="activa" selected=(factura.estadoFactura === 'activa')) Activa
+        option(value="anulada" selected=(factura.estadoFactura === 'anulada')) Anulada
+    button.btn.btn-primary(type="submit") Guardar cambios
