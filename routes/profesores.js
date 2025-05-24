@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-const DB_FILE = path.join(__dirname, '../profesores.json');
+const DB_FILE = path.join(__dirname, '../data/profesores.json');
 console.log(DB_FILE);
 
 // Funciones para leer y escribir datos

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-const DB_FILE = require('path').join(__dirname, '../alumnos.json');
+const DB_FILE = require('path').join(__dirname, '../data/alumnos.json');
 console.log(DB_FILE);
 
 
@@ -73,6 +73,7 @@ router.delete('/:id', (req, res) => {
     if (alumnos.length === cantidadInicial)
         return res.status(404).send('Alumno no encontrado');
     escribirDatos(alumnos);
+    console.log(res.sendStatus(204));
     res.redirect('/alumnos'); // Redirige a la lista de alumnos para mostrar el cambio
 });
 
