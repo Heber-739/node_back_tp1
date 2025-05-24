@@ -44,22 +44,22 @@ npx nodemon app.js
 El servidor estará disponible en: http://localhost:3000
 ```
 
-## 📌 Endpoints de /alumnos
-```
-Método	Ruta	Descripción
-GET	/alumnos	Devuelve la lista completa de alumnos
-GET	/alumnos/:id	Devuelve un alumno por su ID
-POST	/alumnos	Crea un nuevo alumno
-PUT	/alumnos/:id	Reemplaza completamente un alumno
-PATCH	/alumnos/:id	Actualiza parcialmente un alumno
-DELETE	/alumnos/:id	Elimina un alumno por ID
-```
-## 📥 Formato esperado para crear/editar alumno
-```json
-{
-  "nombre": "Juan",
-  "apellido": "Pérez",
-  "email": "juan.perez@example.com",
-  "curso": "Programación"
-}
-```
+## 📌 ACTUALIZACIONES
+
+23-05  RAMA: ori1
+
+- CRUD profesores
+- Login de usaurios
+  ```
+  "email": "admin@admin",
+  "password": "1234",
+  "nombre": "Administrador",
+  "rol": "admin"
+
+  "email": "profe1@profe",
+  "password": "pass123",
+  "nombre": "Profesor Uno",
+  "rol": "profesor"
+  ```
+
+

@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  h2 Listado de Profesores
+
+  table.table.table-striped.table-bordered
+    thead
+      tr
+        th ID
+        th Nombre
+        th Apellido
+        th Email
+        th Teléfono
+        th CUIT
+        th Acciones
+    tbody
+      each profesor in profesores
+        tr
+          td= profesor.id
+          td= profesor.nombre
+          td= profesor.apellido
+          td= profesor.email
+          td= profesor.telefono
+          td= profesor.cuit
+          td
+            form(action=`/profesores/${profesor.id}?_method=DELETE`, method="POST", style="display:inline")
+              button.btn.btn-danger.btn-sm(type="submit") Eliminar
+            form(action=`/profesores/${profesor.id}/editar`, method="GET", style="display:inline")
+              button.btn.btn-primary.btn-sm(type="submit") Editar
+
+  hr
+
+  h3 Agregar Nuevo Profesor
+  form(action="/profesores", method="POST")
+    div.mb-3
+      label.form-label(for="nombre") Nombre:
+      input.form-control(type="text", name="nombre", required)
+    div.mb-3
+      label.form-label(for="apellido") Apellido:
+      input.form-control(type="text", name="apellido", required)
+    div.mb-3
+      label.form-label(for="email") Email:
+      input.form-control(type="email", name="email", required)
+    div.mb-3
+      label.form-label(for="telefono") Teléfono:
+      input.form-control(type="text", name="telefono", required)
+    div.mb-3
+      label.form-label(for="cuit") CUIT:
+      input.form-control(type="text", name="cuit", required)
+    button.btn.btn-success(type="submit") Agregar
