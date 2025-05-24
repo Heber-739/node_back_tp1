@@ -42,8 +42,7 @@ router.post('/', (req, res) => {
     };
     alumnos.push(nuevoAlumno);
     escribirDatos(alumnos);
-    //console.log(res.status(201).json(nuevoAlumno));
-    res.redirect('/alumnos'); // Redirige a la lista de alumnos para mostrar el cambio  
+    res.redirect('/alumnos'); 
 });
 
 

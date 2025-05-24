@@ -1,0 +1,51 @@
+extends ../layout
+
+block content
+  h2 Facturas por Honorarios
+
+  table.table
+    thead
+      tr
+        th ID
+        th Profesor
+        th Fecha
+        th Número de Factura
+        th Monto
+        th Detalle
+        th Estado Pago
+        th Estado Factura
+        th Acciones
+    tbody
+      each f in facturas
+        tr
+          td= f.id
+          td= f.profesorNombre
+          td= f.fecha
+          td= f.numeroFactura
+          td $#{f.monto}
+          td= f.detalle
+          td= f.estadoPago
+          td= f.estadoFactura
+          td
+            // Acciones según estadoPago
+            if f.estadoPago === 'pendiente'
+              form(action=`/facturas-profesores/pagar/${f.id}`, method="POST", style="display:inline")
+                button.btn.btn-success.btn-sm(type="submit") Pagar
+              form(action=`/facturas-profesores/anular-pago/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
+                button.btn.btn-warning.btn-sm(type="submit") Anular pago
+            else if f.estadoPago === 'pagada'
+              form(action=`/facturas-profesores/anular-pago/${f.id}`, method="POST", style="display:inline")
+                button.btn.btn-warning.btn-sm(type="submit") Anular pago
+              
+            // Acciones según estadoFactura
+            if f.estadoFactura === 'activa'
+              form(action=`/facturas-profesores/anular-factura/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
+                button.btn.btn-danger.btn-sm(type="submit") Anular factura
+            else if f.estadoFactura === 'anulada'
+              form(action=`/facturas-profesores/reactivar-factura/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
+                button.btn.btn-primary.btn-sm(type="submit") Reactivar factura
+            
+            // Botón Editar (siempre visible)
+            a.btn.btn-secondary.btn-sm(href=`/facturas-profesores/editar/${f.id}`, style="margin-left: 5px;") Editar
+
+  a.btn.btn-primary(href="/facturas-profesores/nueva") Nueva factura
