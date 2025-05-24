@@ -1,0 +1,89 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "aprender+",
+    "collectionId": "f1956648-d2ee-4c12-9fb7-fc937950c6a8",
+    "dateExported": "2025-05-24T20:24:58.976Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "fb57d661-d3f4-4656-aa49-2441f5424cb5",
+            "name": "courses",
+            "containerId": "",
+            "created": "2025-05-24T20:12:43.151Z",
+            "sortNum": 10000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "d7bd1cdd-22a9-4fcc-b855-4583a09a8a37",
+            "colId": "f1956648-d2ee-4c12-9fb7-fc937950c6a8",
+            "containerId": "fb57d661-d3f4-4656-aa49-2441f5424cb5",
+            "name": "get-courses",
+            "url": "http://127.0.0.1:3000/courses",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2025-05-24T17:38:06.996Z",
+            "modified": "2025-05-24T17:38:20.308Z",
+            "headers": []
+        },
+        {
+            "_id": "e422fef4-9592-4895-a43f-ff7de3e19dc7",
+            "colId": "f1956648-d2ee-4c12-9fb7-fc937950c6a8",
+            "containerId": "fb57d661-d3f4-4656-aa49-2441f5424cb5",
+            "name": "get-course-detals",
+            "url": "http://127.0.0.1:3000/courses/d8900984-3687-4074-a619-984d6fb9e066",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2025-05-24T17:38:35.242Z",
+            "modified": "2025-05-24T20:11:47.641Z",
+            "headers": []
+        },
+        {
+            "_id": "9037d6c3-6681-402c-9f8e-beb6c0c14c2f",
+            "colId": "f1956648-d2ee-4c12-9fb7-fc937950c6a8",
+            "containerId": "fb57d661-d3f4-4656-aa49-2441f5424cb5",
+            "name": "get-course-for-edit",
+            "url": "http://127.0.0.1:3000/courses/edit/d8900984-3687-4074-a619-984d6fb9e066",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2025-05-24T17:57:22.565Z",
+            "modified": "2025-05-24T20:11:54.584Z",
+            "headers": []
+        },
+        {
+            "_id": "30f42fcb-66c9-4ca6-a78c-832674d0dc28",
+            "colId": "f1956648-d2ee-4c12-9fb7-fc937950c6a8",
+            "containerId": "fb57d661-d3f4-4656-aa49-2441f5424cb5",
+            "name": "create-new-course",
+            "url": "http://127.0.0.1:3000/courses/new",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2025-05-24T18:05:16.355Z",
+            "modified": "2025-05-24T20:12:05.164Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"profesor\": \"6651d118a12c4a7e53e1db00\",\n  \"nombre\": \"Cursooooo\",\n  \"horario\": \"Lunes y Miércoles 18-20hs\",\n  \"cupo\": \"15\",\n  \"area\": \"programacion\",\n  \"estado\": \"activa\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "ca603480-84c2-47ca-ba33-3edcbffcc5f4",
+            "colId": "f1956648-d2ee-4c12-9fb7-fc937950c6a8",
+            "containerId": "fb57d661-d3f4-4656-aa49-2441f5424cb5",
+            "name": "update-course-by-id",
+            "url": "http://127.0.0.1:3000/courses/d8900984-3687-4074-a619-984d6fb9e066",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2025-05-24T18:32:20.285Z",
+            "modified": "2025-05-24T20:12:15.825Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"profesor\": \"Jirafales\",\r\n  \"nombre\": \"Curso\",\r\n  \"horario\": \"Lunes y Miércoles 18-20hs\",\r\n  \"cupo\": 15,\r\n  \"area\": \"Seduccion\",\r\n  \"estado\": \"activa\"\r\n}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "CItvY8TO_hBrFYb6xLHGxnXr6on5gZjbhRSnDzdo-HOJpRIU8v_mGX7GwD7EmaGEH09n4VqCdSRrcbFAN3IbJg"
+}
