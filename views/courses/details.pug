@@ -21,7 +21,7 @@ block content
         | #{course.alumnos.length}
       if course.dictados && course.dictados.length
         p 
-          strong Fechas de dictado a la fecha:
+          strong Fechas de dictado hasta ahora:
         ul
           each d in course.dictados
             li #{d.fecha}
