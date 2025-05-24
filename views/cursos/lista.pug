@@ -1,0 +1,70 @@
+//- cursos.pug
+
+extends ../layout
+
+block content
+  h1 Lista de Cursos
+  br
+  div.d-flex.justify-content-center
+    a(href="#new"): button.btn.btn-primary(type="button")  Crear nuevo curso
+  br
+
+  table.table.table-striped.table-bordered(border="1" cellpadding="5" cellspacing="0")
+    thead
+      tr
+        th Nombre
+        th Profesor
+        th Horario
+        th Cupo
+        th Área
+        th Estado
+    tbody
+      each curso in response
+        tr
+          td= curso.nombre
+          td= curso.profesor
+          td= curso.horario
+          td= curso.cupo
+          td= curso.area
+          td= curso.estado
+          td
+            a(href=`/cursos/${curso.id}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
+            a(href=`/cursos/editar/${curso.id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
+            form(action=`/cursos/${curso.id}?_method=DELETE` method="POST")
+              button.btn.btn-danger.btn-sm(type="submit") Eliminar
+  br
+  form(action="/cursos/new" id="new" method="POST" class="container mt-5")
+    .card.shadow
+      .card-body
+        h2.mb-4 Crear Curso
+
+        .mb-3
+          label(for="profesor" class="form-label") Profesor (ID):
+          input#profesor.form-control(type="text" name="profesor" required)
+
+        .mb-3
+          label(for="nombre" class="form-label") Nombre del curso:
+          input#nombre.form-control(type="text" name="nombre" required)
+
+        .mb-3
+          label(for="horario" class="form-label") Horario:
+          input#horario.form-control(type="text" name="horario" required)
+
+        .mb-3
+          label(for="cupo" class="form-label") Cupo:
+          input#cupo.form-control(type="number" name="cupo" min="1" required)
+
+        .mb-3
+          label(for="area" class="form-label") Área:
+          input#area.form-control(type="text" name="area" required)
+
+        .mb-3
+          label(for="estado" class="form-label") Estado:
+          select#estado.form-select(name="estado" required)
+            option(value="activa") Activa
+            option(value="inactiva") Inactiva
+
+        .text-center
+          button.btn.btn-primary(type="submit") Crear Curso
+
+  
