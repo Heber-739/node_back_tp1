@@ -14,6 +14,12 @@ class CoursesService {
     );
   };
 
+  addCourse = (curse) => {
+    let courses = this.getAllCourses()
+    courses.unshift(curse);
+    writeFile({courses},COURSES_FILE)
+  }
+
   updateCourse = (course) => {
     const data = readFile(COURSES_FILE);
     const index = data?.courses?.findIndex((c) => c.id === course.id);
@@ -28,7 +34,7 @@ class CoursesService {
     const data = readFile(COURSES_FILE);
     const course = data?.courses?.find((c) => c.id === id);
     if (!course) {
-      throw new Error("Curso no encontrado");
+      throw new Error("");
     }
 
     // TODO agregar la logica para obtener el nombre del profesor
@@ -46,6 +52,10 @@ class CoursesService {
 
   addAlumns = (courseId, alumnArray) => {
     let course = this.getCourseById(courseId);
+    if(course.cupo == course.alumnos.length){
+        throw new Error("Cupo lleno");
+        
+    }
     alumnArray = alumnArray.filter((a)=> !course.alumnos.includes(a))
     course.alumnos.push(...alumnArray);
     this.updateCourse(course);
