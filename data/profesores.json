@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "nombre": "Laura",
+    "apellido": "Gómez",
+    "email": "laura.gomez@educacion.edu",
+    "telefono": "1134567890",
+    "cuit": "20-12345678-9"
+  },
+  {
+    "id": 2,
+    "nombre": "Carlos",
+    "apellido": "Pérez",
+    "email": "carlos.perez@docentes.com",
+    "telefono": "1122334455",
+    "cuit": "23-87654321-0"
+  },
+  {
+    "id": 3,
+    "nombre": "Mariana",
+    "apellido": "Lopez",
+    "email": "mariana.lopez@profes.org",
+    "telefono": "1145671234",
+    "cuit": "27-12349876-5"
+  },
+  {
+    "id": 4,
+    "nombre": "Javier",
+    "apellido": "Rodríguez",
+    "email": "javier.rodriguez@uni.edu.ar",
+    "telefono": "1198765432",
+    "cuit": "20-56781234-6"
+  },
+  {
+    "id": 5,
+    "nombre": "Andrea",
+    "apellido": "Martínez",
+    "email": "andrea.martinez@educa.ar",
+    "telefono": "1167894321",
+    "cuit": "23-43218765-2"
+  },
+  {
+    "id": 6,
+    "nombre": "Federico",
+    "apellido": "Sosa",
+    "email": "federico.sosa@instituto.com",
+    "telefono": "1176543210",
+    "cuit": "20-11223344-5"
+  },
+  {
+    "id": 7,
+    "nombre": "Lucía",
+    "apellido": "Fernández",
+    "email": "lucia.fernandez@uni.ar",
+    "telefono": "1154321876",
+    "cuit": "23-33445566-7"
+  },
+  {
+    "id": 8,
+    "nombre": "Ricardo",
+    "apellido": "Ramírez",
+    "email": "ricardo.ramirez@profe.ar",
+    "telefono": "1187654321",
+    "cuit": "27-55667788-9"
+  },
+  {
+    "id": 9,
+    "nombre": "Sofía",
+    "apellido": "Torres",
+    "email": "sofia.torres@escuela.org",
+    "telefono": "1133211234",
+    "cuit": "20-66778899-1"
+  },
+  {
+    "id": 10,
+    "nombre": "Diego",
+    "apellido": "Morales",
+    "email": "diego.morales@docentes.ar",
+    "telefono": "1191234567",
+    "cuit": "23-99887766-4"
+  },
+  {
+    "id": 11,
+    "nombre": "Cristian",
+    "apellido": "Orihuela",
+    "email": "sdfsda@fgdf",
+    "telefono": "223",
+    "cuit": "20250612436"
+  }
+]
