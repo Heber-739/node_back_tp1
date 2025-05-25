@@ -15,16 +15,19 @@ block content
         th Nombre
         th Profesor
         th Horario
-        th Cupo
+        th Cupo Total/Disponible
         th Área
         th Estado
+        th Acciones
     tbody
       each course in response
         tr
           td= course.nombre
           td= course.profesor
           td= course.horario
-          td= course.cupo
+          - var inscriptos = course.alumnos ? course.alumnos.length : 0;
+          - var disponibles = course.cupo - inscriptos;
+          td= `${course.cupo} / ${disponibles}`
           td= course.area
           td= course.estado
           td
@@ -32,6 +35,8 @@ block content
             a(href=`/courses/edit/${course.id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
             form(action=`/courses/${course.id}?_method=DELETE` method="POST")
               button.btn.btn-danger.btn-sm(type="submit") Eliminar
+
+
   br
   form(action="/courses/new" id="new" method="POST" class="container mt-5")
     .card.shadow
