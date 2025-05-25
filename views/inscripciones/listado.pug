@@ -5,6 +5,16 @@ block content
       a(href="#create"): button.btn.btn-primary(type="button") Nueva inscripción
   h2 Listado de Inscripciones
 
+  div.mb-5
+    form(method="GET", action="/inscripciones", class="mb-3")
+      div.row
+        div.col
+          input.form-control(type="text", name="nombreAlumno", placeholder="Buscar por nombre o apellido", value=nombreAlumno || '')
+        div.col
+          input.form-control(type="text", name="nombreCurso", placeholder="Buscar por curso", value=nombreCurso || '')
+        div.col
+          button.btn.btn-primary(type="submit") Buscar
+
   if inscripciones.length === 0
     p No hay inscripciones registradas.
   else
@@ -35,7 +45,7 @@ block content
                 i Sin pagos
             td
               form(action=`/inscripciones/${inscripcion.id}?_method=DELETE`, method="POST", style="display:inline")
-                button.btn.btn-danger.btn-sm(type="submit") Eliminar
+                button.btn.btn-danger.btn-sm.me-2(type="submit") Eliminar
                 
               form(action=`/inscripciones/editar/${inscripcion.id}`, method="GET", style="display:inline")
                 button.btn.btn-primary.btn-sm(type="submit") Editar

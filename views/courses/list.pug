@@ -8,6 +8,15 @@ block content
   div.d-flex.justify-content-center
     a(href="#new"): button.btn.btn-primary(type="button")  Crear nuevo curso
   br
+  div.mb-5
+    form(method="GET", action="/courses", class="mb-3")
+      div.row
+        div.col
+          input.form-control(type="text", name="nombreCurso", placeholder="Buscar por nombre del curso", value=filtros.nombreCurso || '')
+        div.col
+          input.form-control(type="text", name="nombreProfesor", placeholder="Buscar por nombre de profesor", value=filtros.nombreProfesor || '')
+        div.col
+          button.btn.btn-primary(type="submit") Buscar
 
   table.table.table-striped.table-bordered(border="1" cellpadding="5" cellspacing="0")
     thead
@@ -15,16 +24,19 @@ block content
         th Nombre
         th Profesor
         th Horario
-        th Cupo
+        th Cupo Total/Disponible
         th Área
         th Estado
+        th Acciones
     tbody
       each course in response
         tr
           td= course.nombre
-          td= course.profesor
+          td= course.profesorNombre
           td= course.horario
-          td= course.cupo
+          - var inscriptos = course.alumnos ? course.alumnos.length : 0;
+          - var disponibles = course.cupo - inscriptos;
+          td= `${course.cupo} / ${disponibles}`
           td= course.area
           td= course.estado
           td
@@ -32,15 +44,22 @@ block content
             a(href=`/courses/edit/${course.id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
             form(action=`/courses/${course.id}?_method=DELETE` method="POST")
               button.btn.btn-danger.btn-sm(type="submit") Eliminar
+
+
   br
   form(action="/courses/new" id="new" method="POST" class="container mt-5")
     .card.shadow
       .card-body
         h2.mb-4 Crear Curso
 
+        //- .mb-3
+        //-   label(for="profesor" class="form-label") Profesor (ID):
+        //-   input#profesor.form-control(type="text" name="profesor" required)
         .mb-3
-          label(for="profesor" class="form-label") Profesor (ID):
-          input#profesor.form-control(type="text" name="profesor" required)
+          label(for="profesor" class="form-label") Profesor:
+          select#profesor.form-select(name="profesor" required)
+            each prof in profesores
+              option(value=prof.id)= `${prof.apellido} ${prof.nombre} (${prof.id})`
 
         .mb-3
           label(for="nombre" class="form-label") Nombre del curso:

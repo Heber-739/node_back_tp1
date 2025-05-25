@@ -16,10 +16,12 @@ const escribirDatos = (ruta, datos) =>
 
 // GET todas las inscripciones
 router.get('/', (req, res) => {
+  const { nombreAlumno = '', nombreCurso = '' } = req.query;
+
   const inscripciones = leerDatos(inscripcionesPath);
   const alumnos = leerDatos(alumnosPath);
-
   const cursos = coursesService.getAllCourses();
+  
 
   const inscripcionesConInfo = inscripciones.map(insc => {
     const alumno = alumnos.find(a => String(a.id) === String(insc.alumnoId));
@@ -27,7 +29,6 @@ router.get('/', (req, res) => {
 
     // Formatear fechas
     const fechaInscripcion = new Date(insc.fecha_inscripcion).toLocaleDateString('es-AR');
-
     const pagosFormateados = (insc.pagos || []).map(pago => ({
       ...pago,
       fecha_pago: new Date(pago.fecha_pago).toLocaleDateString('es-AR')
@@ -53,11 +54,33 @@ router.get('/', (req, res) => {
     };
   });
 
+  let listado = inscripcionesConInfo;
+  
+  // Filtrar por nombre de alumno
+    if (nombreAlumno) {
+    const aux = nombreAlumno.toLowerCase();
+    listado = listado.filter(i =>
+      i.alumno?.nombre.toLowerCase().includes(aux)
+    );
+  }
+
+  
+  // Filtro por nombre de curso
+  if (nombreCurso) {
+    const aux = nombreCurso.toLowerCase();
+    listado = listado.filter(i =>
+      i.curso?.nombre.toLowerCase().includes(aux)
+    );
+  }
+
   res.render('inscripciones/listado', {
-    inscripciones: inscripcionesConInfo,
+    inscripciones: listado,
     alumnos,
     cursos,
-    cursosDisponibles: coursesService.getVacancyCourses() || []
+    cursosDisponibles: coursesService.getVacancyCourses() || [],
+    nombreAlumno,
+    nombreCurso
+
   });
 });
 
