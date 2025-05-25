@@ -44,22 +44,5 @@ npx nodemon app.js
 El servidor estará disponible en: http://localhost:3000
 ```
 
-## 📌 ACTUALIZACIONES
-
-23-05  RAMA: ori1
-
-- CRUD profesores
-- Login de usaurios
-  ```
-  "email": "admin@admin",
-  "password": "1234",
-  "nombre": "Administrador",
-  "rol": "admin"
-
-  "email": "profe1@profe",
-  "password": "pass123",
-  "nombre": "Profesor Uno",
-  "rol": "profesor"
-  ```
 
 
