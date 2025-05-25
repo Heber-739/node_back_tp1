@@ -1,7 +1,14 @@
-extends layout
+extends ../layout
 
 block content
   h2 Listado de Profesores
+    div.mb-5
+    form(method="GET", action="/profesores", class="mb-3")
+      div.row
+        div.col
+          input.form-control(type="text", name="nombre", placeholder="Buscar por nombre o apellido", value=nombre || '')
+        div.col
+          button.btn.btn-primary(type="submit") Buscar
 
   table.table.table-striped.table-bordered
     thead
@@ -24,7 +31,7 @@ block content
           td= profesor.cuit
           td
             form(action=`/profesores/${profesor.id}?_method=DELETE`, method="POST", style="display:inline")
-              button.btn.btn-danger.btn-sm(type="submit") Eliminar
+              button.me-2.btn.btn-danger.btn-sm(type="submit") Eliminar
             form(action=`/profesores/${profesor.id}/editar`, method="GET", style="display:inline")
               button.btn.btn-primary.btn-sm(type="submit") Editar
 

@@ -3,6 +3,27 @@ extends ../layout
 block content
   h2 Facturas por Honorarios
 
+  // Formulario de filtros
+  form(method="GET", action="/facturas-profesores", class="mb-4")
+    .row.mb-3
+      .col
+        input.form-control(type="text", name="profesor", placeholder="Buscar por profesor", value=profesor || '')
+      .col
+        input.form-control(type="date", name="fecha", value=fecha || '')
+      .col
+        select.form-control(name="estadoPago")
+          option(value="") Estado de pago
+          option(value="pagada", selected=estadoPago==='pagada') Pagada
+          option(value="pendiente", selected=estadoPago==='pendiente') Pendiente
+      .col
+        select.form-control(name="estadoFactura")
+          option(value="") Estado de factura
+          option(value="activa", selected=estadoFactura==='activa') Activa
+          option(value="anulada", selected=estadoFactura==='anulada') Anulada
+      .col
+        button.btn.btn-primary(type="submit") Filtrar
+
+  // Tabla de resultados
   table.table
     thead
       tr
@@ -27,7 +48,6 @@ block content
           td= f.estadoPago
           td= f.estadoFactura
           td
-            // Acciones según estadoPago
             if f.estadoPago === 'pendiente'
               form(action=`/facturas-profesores/pagar/${f.id}`, method="POST", style="display:inline")
                 button.btn.btn-success.btn-sm(type="submit") Pagar
@@ -36,16 +56,14 @@ block content
             else if f.estadoPago === 'pagada'
               form(action=`/facturas-profesores/anular-pago/${f.id}`, method="POST", style="display:inline")
                 button.btn.btn-warning.btn-sm(type="submit") Anular pago
-              
-            // Acciones según estadoFactura
+
             if f.estadoFactura === 'activa'
               form(action=`/facturas-profesores/anular-factura/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
                 button.btn.btn-danger.btn-sm(type="submit") Anular factura
             else if f.estadoFactura === 'anulada'
               form(action=`/facturas-profesores/reactivar-factura/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
                 button.btn.btn-primary.btn-sm(type="submit") Reactivar factura
-            
-            // Botón Editar (siempre visible)
+
             a.btn.btn-secondary.btn-sm(href=`/facturas-profesores/editar/${f.id}`, style="margin-left: 5px;") Editar
 
   a.btn.btn-primary(href="/facturas-profesores/nueva") Nueva factura

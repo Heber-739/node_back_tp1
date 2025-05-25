@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  h2 Editar Profesor
+
+  form(action=`/profesores/${profesor.id}?_method=PUT`, method="POST")
+    div.mb-3
+      label.form-label(for="nombre") Nombre:
+      input.form-control(type="text", name="nombre", id="nombre", value=profesor.nombre, required)
+    div.mb-3
+      label.form-label(for="apellido") Apellido:
+      input.form-control(type="text", name="apellido", id="apellido", value=profesor.apellido, required)
+    div.mb-3
+      label.form-label(for="email") Email:
+      input.form-control(type="email", name="email", id="email", value=profesor.email, required)
+    div.mb-3
+      label.form-label(for="telefono") Teléfono:
+      input.form-control(type="text", name="telefono", id="telefono", value=profesor.telefono, required)
+    div.mb-3
+      label.form-label(for="cuit") CUIT:
+      input.form-control(type="text", name="cuit", id="cuit", value=profesor.cuit, required)
+    button.btn.btn-success(type="submit") Guardar cambios

@@ -16,7 +16,7 @@
     "fecha": "2025-06-15",
     "monto": 20000,
     "detalle": "Curso de Programación",
-    "estadoPago": "pagado",
+    "estadoPago": "pendiente",
     "estadoFactura": "activa"
   },
   {

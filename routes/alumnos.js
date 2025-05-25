@@ -3,17 +3,32 @@ const router = express.Router();
 const fs = require('fs');
 
 const DB_FILE = require('path').join(__dirname, '../data/alumnos.json');
-console.log(DB_FILE);
 
 
 // Funciones para leer y escribir datos
 const leerDatos = () => JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
 const escribirDatos = (data) => fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 
-// GET /alumnos
+// GET /alumnos con búsqueda y filtros
 router.get('/', (req, res) => {
-    const alumnos = leerDatos();
-    res.render('alumnos', { alumnos }); // Renderiza la vista 'alumnos' y pasa los datos
+  const alumnos = leerDatos();
+  const { nombre, curso } = req.query;
+
+  let filtrados = alumnos;
+
+  if (nombre) {
+    const busqueda = nombre.toLowerCase();
+    filtrados = filtrados.filter(a =>
+      a.nombre.toLowerCase().includes(busqueda) ||
+      a.apellido.toLowerCase().includes(busqueda)
+    );
+  }
+
+  if (curso) {
+    filtrados = filtrados.filter(a => a.curso.toLowerCase().includes(curso.toLowerCase()));
+  }
+
+  res.render('alumnos/index', { alumnos: filtrados, nombre, curso });
 });
 
 // GET /alumnos/:id/editar
@@ -21,7 +36,7 @@ router.get('/:id/editar', (req, res) => {
     const alumnos = leerDatos();
     const alumno = alumnos.find(a => a.id === parseInt(req.params.id));
     if (!alumno) return res.status(404).send('Alumno no encontrado');
-    res.render('editar', { alumno });
+    res.render('alumnos/editar', { alumno });
 });
 
 // POST /alumnos - crea un nuevo alumno
