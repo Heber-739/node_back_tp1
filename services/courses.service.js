@@ -4,7 +4,7 @@ const COURSES_FILE = require("path").join(__dirname, "../data/courses.json");
 
 class CoursesService {
 
-  getAllCourses = () => {
+  getAllCoursesForViewOnly = () => {
     const data = readFile(COURSES_FILE);
     return (
       data?.courses?.map((course) => {
@@ -12,6 +12,16 @@ class CoursesService {
         return course;
       }) || []
     );
+  };
+
+  getAllCourses = () => {
+    const data = readFile(COURSES_FILE);
+    return data?.courses || [];
+  };
+
+  getActiveCourses = () => {
+    const data = readFile(COURSES_FILE);
+    return data?.courses?.filter((course) => course?.estado === "activa") || [];
   };
 
   addCourse = (curse) => {
@@ -41,13 +51,18 @@ class CoursesService {
     return course;
   };
 
-  addDictation = (courseId, fecha) => {
+  addDictation = (courseId, fecha, alumns) => {
     let course = this.getCourseById(courseId);
-    if(course.dictados.some(d => new Date(d?.fecha) === new Date(fecha))){
+    try {
+      const newDate = new Date(fecha)
+      if(course.dictados.some(d => new Date(d?.fecha) === newDate)){
         return;
     }
-    course.dictados?.unshift({ fecha, asistencias: [] });
+    course.dictados?.unshift({ fecha, asistencias: alumns });
     this.updateCourse(course);
+    } catch (error) {
+      throw new Error("No se pudo agregar el registro de clase");
+    }
   };
 
   addAlumns = (courseId, alumnArray) => {

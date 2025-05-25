@@ -15,7 +15,7 @@ const isApi = (req) => {
 
 const getAllCourses = (req, res) => {
   try {
-    const response = coursesService.getAllCourses();
+    const response = coursesService.getAllCoursesForViewOnly();
     isApi(req) ? res.status(200).send(response) 
     : res.render("courses/list", { response });
   } catch (error) {

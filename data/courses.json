@@ -6,7 +6,7 @@
       "dictados": [],
       "nombre": "Cursooooo",
       "horario": "Lunes y Miércoles 18-20hs",
-      "cupo": 15,
+      "cupo": 0,
       "area": "programacion",
       "estado": "activa",
       "alumnos": []
@@ -174,27 +174,55 @@
     {
       "id": "6651d105a12c4a7e53e1da00",
       "profesor": "Jirafales",
-      "nombre": "Curso",
+      "nombre": "Jirafales",
       "horario": "Lunes y Miércoles 18-20hs",
-      "cupo": 15,
+      "cupo": 16,
+      "dictados": [
+        {
+          "fecha": "2025-05-04",
+          "asistencias": [
+            "1",
+            "4",
+            "7",
+            "9"
+          ]
+        },
+        {
+          "fecha": "2025-06-04",
+          "asistencias": [
+            "3",
+            "4",
+            "7"
+          ]
+        },
+        {
+          "fecha": "2025-06-05",
+          "asistencias": [
+            "4",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "fecha": "2025-06-05",
+          "asistencias": [
+            "4",
+            "7",
+            "8"
+          ]
+        }
+      ],
       "area": "Seduccion",
       "estado": "activa",
       "alumnos": [
-        "6652d1f8a001000001",
-        "6652d1f8a001000002",
-        "6652d1f8a001000003",
-        "6652d1f8a001000004",
-        "6652d1f8a001000005",
-        "6652d1f8a001000006",
-        "6652d1f8a001000007",
-        "6652d1f8a001000008",
-        "6652d1f8a001000009",
-        "6652d1f8a001000010",
-        "6652d1f8a001000011",
-        "6652d1f8a001000012",
-        "6652d1f8a001000013",
-        "6652d1f8a001000014",
-        "6652d1f8a001000015"
+        "1",
+        "2",
+        "3",
+        "4",
+        "7",
+        "8",
+        "9",
+        "11"
       ]
     },
     {
