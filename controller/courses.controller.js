@@ -15,25 +15,14 @@ const isApi = (req) => {
   });
 };
 
-// const getAllCourses = (req, res) => {
-//   try {
-//     const response = coursesService.getAllCourses();
-//     const profesores = getAllProfesores();
-
-//     isApi(req) ? res.status(200).send(response) 
-//     : res.render("courses/list", { response, profesores });
-//   } catch (error) {
-//     res.status(500).send("No se pudieron obtener los courses o profesores");
-//   }
-// };
-
 const getAllCourses = (req, res) => {
   try {
-    const courses = coursesService.getAllCourses();
+    const { nombreCurso = '', nombreProfesor = '' } = req.query;
+    let courses = coursesService.getAllCourses();
     const profesores = getAllProfesores();
 
     // Enriquecer cursos con el nombre completo del profe
-    const response = courses.map(course => {
+    let response = courses.map(course => {
       // Buscar al profe con el mismo ID
       const prof = profesores.find(p => String(p.id) === String(course.profesor));
       return {
@@ -44,18 +33,29 @@ const getAllCourses = (req, res) => {
       };
     });
 
+    if (nombreCurso.trim()) {
+      const term = nombreCurso.toLowerCase();
+      response = response.filter(c =>
+        c.nombre.toLowerCase().includes(term)
+      );
+    }
+    if (nombreProfesor.trim()) {
+      const term = nombreProfesor.toLowerCase();
+      response = response.filter(c =>
+        c.profesorNombre.toLowerCase().includes(term)
+      );
+    }
+
     if (isApi(req)) {
       return res.status(200).send(response);
     } else {
-      return res.render("courses/list", { response, profesores });
+      return res.render("courses/list", { response, profesores, filtros: { nombreCurso, nombreProfesor } });
     }
   } catch (error) {
     console.error("Error en getAllCourses:", error);
     res.status(500).send("No se pudieron obtener los cursos o profesores");
   }
 };
-
-
 
 const getCourseById = (req, res) => {
   try {
@@ -70,24 +70,9 @@ const getCourseById = (req, res) => {
   }
 };
 
-// const goToEditCourseById = (req, res) => {
-//   try {
-    
-//     const course = coursesService.getCourseById(req.params.id);
-//     if (!course) {
-//       res.status(404).send("Curso no encontrado");
-//     }
-//     isApi(req) ? res.status(200).send(course) 
-//     : res.render("courses/edit", { course });
-//   } catch (error) {
-//     res.status(500).send("No se pudieron obtener el curso");
-//   }
-// };
-
-
 const goToEditCourseById = (req, res) => {
   try {
-const id = req.params.id;
+    const id = req.params.id;
     const course = coursesService.getCourseById(id);
     if (!course) {
       return res.status(404).send("Curso no encontrado");

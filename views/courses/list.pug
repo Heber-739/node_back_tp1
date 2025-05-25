@@ -12,9 +12,9 @@ block content
     form(method="GET", action="/courses", class="mb-3")
       div.row
         div.col
-          input.form-control(type="text", name="nombreCurso", placeholder="Buscar por nombre del curso", value=nombreCurso || '')
+          input.form-control(type="text", name="nombreCurso", placeholder="Buscar por nombre del curso", value=filtros.nombreCurso || '')
         div.col
-          input.form-control(type="text", name="nombreProfesor", placeholder="Buscar por nombre de profesor", value=nombreProfesor || '')
+          input.form-control(type="text", name="nombreProfesor", placeholder="Buscar por nombre de profesor", value=filtros.nombreProfesor || '')
         div.col
           button.btn.btn-primary(type="submit") Buscar
 
