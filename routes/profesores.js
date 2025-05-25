@@ -3,25 +3,49 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-const DB_FILE = path.join(__dirname, '../profesores.json');
+const DB_FILE = path.join(__dirname, '../data/profesores.json');
 console.log(DB_FILE);
 
 // Funciones para leer y escribir datos
 const leerDatos = () => JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
 const escribirDatos = (data) => fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 
-// GET /profesores
+// // GET /profesores
+// router.get('/', (req, res) => {
+//     const profesores = leerDatos();
+//     res.render('profesores/index', { profesores }); // Renderiza la vista 'profesores' y pasa los datos
+// });
+
+// GET /profesores con búsqueda y filtros
 router.get('/', (req, res) => {
-    const profesores = leerDatos();
-    res.render('profesores', { profesores }); // Renderiza la vista 'profesores' y pasa los datos
+  const profesores = leerDatos();
+  const { nombre } = req.query;
+
+  let filtrados = profesores;
+
+  if (nombre) {
+    const busqueda = nombre.toLowerCase();
+    filtrados = filtrados.filter(a =>
+      a.nombre.toLowerCase().includes(busqueda) ||
+      a.apellido.toLowerCase().includes(busqueda)
+    );
+  }
+
+  res.render('profesores/index', { profesores: filtrados, nombre });
 });
+
+
+
+
+
+
 
 // GET /profesores/:id/editar
 router.get('/:id/editar', (req, res) => {
     const profesores = leerDatos();
     const profesor = profesores.find(p => p.id === parseInt(req.params.id));
     if (!profesor) return res.status(404).send('Profesor no encontrado');
-    res.render('editarProfesor', { profesor });
+    res.render('profesores/editar', { profesor });
 });
 
 // POST /profesores - crea un nuevo profesor

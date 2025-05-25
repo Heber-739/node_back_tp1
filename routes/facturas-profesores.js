@@ -4,29 +4,58 @@ const fs = require('fs');
 const path = require('path');
 
 const FACTURAS_FILE = path.join(__dirname, '../data/facturas-profesores.json');
-const PROFESORES_FILE = path.join(__dirname, '../profesores.json');
+const PROFESORES_FILE = path.join(__dirname, '../data/profesores.json');
 
 const leerFacturas = () => JSON.parse(fs.readFileSync(FACTURAS_FILE, 'utf8'));
 const escribirFacturas = (data) => fs.writeFileSync(FACTURAS_FILE, JSON.stringify(data, null, 2));
 const leerProfesores = () => JSON.parse(fs.readFileSync(PROFESORES_FILE, 'utf8'));
 
-// GET /facturas-profesores
+
+// GET /facturas-profesores con búsqueda y filtros
 router.get('/', (req, res) => {
+  const { profesor, fecha, estadoPago, estadoFactura } = req.query;
   const facturas = leerFacturas();
   const profesores = leerProfesores();
 
-  const facturasConNombre = facturas.map(f => {
+  let facturasConNombre = facturas.map(f => {
     const profe = profesores.find(p => p.id === f.profesorId);
     return {
       ...f,
       profesorNombre: profe ? `${profe.nombre} ${profe.apellido}` : 'Desconocido',
-      estadoFactura: f.estadoFactura || "activa",  // estadoFactura: activa o anulada
-      estadoPago: f.estadoPago === "pagada" ? "pagada" : "pendiente" // solo "pagada" o "pendiente"
+      estadoFactura: f.estadoFactura || "activa",
+      estadoPago: f.estadoPago === "pagada" ? "pagada" : "pendiente"
     };
   });
 
-  res.render('facturas-profesores/index', { facturas: facturasConNombre });
+  // Aplicar filtros
+  if (profesor) {
+    const busqueda = profesor.toLowerCase();
+    facturasConNombre = facturasConNombre.filter(f =>
+      f.profesorNombre.toLowerCase().includes(busqueda)
+    );
+  }
+
+  if (fecha) {
+    facturasConNombre = facturasConNombre.filter(f => f.fecha === fecha);
+  }
+
+  if (estadoPago) {
+    facturasConNombre = facturasConNombre.filter(f => f.estadoPago === estadoPago);
+  }
+
+  if (estadoFactura) {
+    facturasConNombre = facturasConNombre.filter(f => f.estadoFactura === estadoFactura);
+  }
+
+  res.render('facturas-profesores/index', {
+    facturas: facturasConNombre,
+    profesor,
+    fecha,
+    estadoPago,
+    estadoFactura
+  });
 });
+
 
 // GET /facturas-profesores/nueva
 router.get('/nueva', (req, res) => {

@@ -1,7 +1,16 @@
-extends layout
+extends ../layout
 
 block content
   h2 Listado de Alumnos
+  div.mb-5
+    form(method="GET", action="/alumnos", class="mb-3")
+      div.row
+        div.col
+          input.form-control(type="text", name="nombre", placeholder="Buscar por nombre o apellido", value=nombre || '')
+        div.col
+          input.form-control(type="text", name="curso", placeholder="Buscar por curso", value=curso || '')
+        div.col
+          button.btn.btn-primary(type="submit") Buscar
 
   table.table.table-striped.table-bordered
     thead
@@ -22,7 +31,7 @@ block content
           td= alumno.curso
           td
             form(action=`/alumnos/${alumno.id}?_method=DELETE`, method="POST", style="display:inline")
-              button.btn.btn-danger.btn-sm(type="submit") Eliminar
+              button.btn.btn-danger.btn-sm.me-2(type="submit") Eliminar
             form(action=`/alumnos/${alumno.id}/editar`, method="GET", style="display:inline")
               button.btn.btn-primary.btn-sm(type="submit") Editar
 
