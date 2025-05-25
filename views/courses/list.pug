@@ -23,7 +23,7 @@ block content
       each course in response
         tr
           td= course.nombre
-          td= course.profesor
+          td= course.profesorNombre
           td= course.horario
           - var inscriptos = course.alumnos ? course.alumnos.length : 0;
           - var disponibles = course.cupo - inscriptos;
@@ -43,9 +43,14 @@ block content
       .card-body
         h2.mb-4 Crear Curso
 
+        //- .mb-3
+        //-   label(for="profesor" class="form-label") Profesor (ID):
+        //-   input#profesor.form-control(type="text" name="profesor" required)
         .mb-3
-          label(for="profesor" class="form-label") Profesor (ID):
-          input#profesor.form-control(type="text" name="profesor" required)
+          label(for="profesor" class="form-label") Profesor:
+          select#profesor.form-select(name="profesor" required)
+            each prof in profesores
+              option(value=prof.id)= `${prof.apellido} ${prof.nombre} (${prof.id})`
 
         .mb-3
           label(for="nombre" class="form-label") Nombre del curso:
