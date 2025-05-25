@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  h2 Agregar Pago a Inscripción ##{inscripcion.id}
+
+  form(action=`/inscripciones/pago/${inscripcion.id}`, method="POST")
+    .card.shadow
+      .card-body
+
+        .mb-3
+          label(for="monto" class="form-label") Monto:
+          input#monto.form-control(
+            type="number" 
+            name="monto" 
+            step="0.01" 
+            required
+          )
+
+        .mb-3
+          label(for="medio" class="form-label") Medio de Pago:
+          input#medio.form-control(
+            type="text" 
+            name="medio" 
+            required
+          )
+
+        .text-center
+          button.btn.btn-success(type="submit") Registrar Pago

@@ -38,11 +38,12 @@ block content
                 button.btn.btn-danger.btn-sm(type="submit") Eliminar
                 
               form(action=`/inscripciones/editar/${inscripcion.id}`, method="GET", style="display:inline")
-                button.btn.btn-warning.btn-sm(type="submit") Editar
+                button.btn.btn-primary.btn-sm(type="submit") Editar
 
               if inscripcion.estado === 'inactivo'
                 form(action=`/inscripciones/pago/${inscripcion.id}`, method="GET", style="display:inline")
-                button.btn.btn-success.btn-sm(type="submit") Agregar Pago
+                  button.btn.btn-success.btn-sm(type="submit") Agregar Pago
+
 
   br
   // Formulario para crear nueva inscripción
@@ -52,6 +53,7 @@ block content
         h2.mb-4 Nueva Inscripción
         .mb-3
           label(for="alumnoId" class="form-label") Alumno:
+          a.nav-link(href="/alumnos" style="color: blue; text-decoration: underline;") Para agregar alumno haga click aquí
           select#alumnoId.form-control(name="alumnoId" required)
             option(value="") Seleccionar alumno
             each alumno in alumnos
@@ -60,8 +62,12 @@ block content
           label(for="cursoId" class="form-label") Curso:
           select#cursoId.form-control(name="cursoId" required)
             option(value="") Seleccionar curso
-            each curso in cursos
-              option(value=curso.id)= curso.nombre
+            if cursosDisponibles && cursosDisponibles.length
+              each curso in cursosDisponibles
+                option(value=curso.id)= curso.nombre
+            else
+              option(value="") No hay cursos disponibles
+
         h4.mt-4.mb-3 Pago Inicial
         .mb-3
           label(for="pagoMonto" class="form-label") Monto:
