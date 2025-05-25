@@ -78,13 +78,5 @@
     "email": "diego.morales@docentes.ar",
     "telefono": "1191234567",
     "cuit": "23-99887766-4"
-  },
-  {
-    "id": 11,
-    "nombre": "Cristian",
-    "apellido": "Orihuela",
-    "email": "sdfsda@fgdf",
-    "telefono": "223",
-    "cuit": "20250612436"
   }
 ]
