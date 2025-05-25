@@ -8,6 +8,15 @@ block content
   div.d-flex.justify-content-center
     a(href="#new"): button.btn.btn-primary(type="button")  Crear nuevo curso
   br
+  div.mb-5
+    form(method="GET", action="/courses", class="mb-3")
+      div.row
+        div.col
+          input.form-control(type="text", name="nombreCurso", placeholder="Buscar por nombre del curso", value=nombreCurso || '')
+        div.col
+          input.form-control(type="text", name="nombreProfesor", placeholder="Buscar por nombre de profesor", value=nombreProfesor || '')
+        div.col
+          button.btn.btn-primary(type="submit") Buscar
 
   table.table.table-striped.table-bordered(border="1" cellpadding="5" cellspacing="0")
     thead
