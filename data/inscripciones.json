@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "alumnoId": 3,
+    "cursoId": "06b9ccd1-6cde-4362-a211-8d8c623109fe",
+    "fecha_inscripcion": "2025-05-20",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 15000,
+        "fecha_pago": "2025-05-21",
+        "medio": "transferencia"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "alumnoId": 2,
+    "cursoId": "6651d105a12c4a7e53e1da01",
+    "fecha_inscripcion": "2025-06-15",
+    "estado": "inactivo",
+    "pagos": [
+      {
+        "monto": 20000,
+        "fecha_pago": "2025-06-16",
+        "medio": "efectivo"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "alumnoId": 3,
+    "cursoId": "6651d105a12c4a7e53e1da02",
+    "fecha_inscripcion": "2025-07-10",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 25000,
+        "fecha_pago": "2025-07-11",
+        "medio": "tarjeta"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "alumnoId": 2,
+    "cursoId": "7688b2a3-96ed-4106-8403-467e5fb3e5da",
+    "fecha_inscripcion": "2025-04-24",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 100,
+        "medio": "efectivo",
+        "fecha_pago": "2025-05-25"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "alumnoId": 8,
+    "cursoId": "48715773-f505-4e25-aec9-fc43def5f26d",
+    "fecha_inscripcion": "2025-05-24",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 100,
+        "medio": "efectivo",
+        "fecha_pago": "2025-05-25"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "alumnoId": 1,
+    "cursoId": "83187b29-0344-4c56-b57f-3697c8188c54",
+    "fecha_inscripcion": "2025-05-25",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 1000,
+        "fecha_pago": "2025-05-25",
+        "medio": "efectivo"
+      }
+    ]
+  }
+]

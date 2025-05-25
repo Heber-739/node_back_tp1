@@ -14,6 +14,7 @@ const profesoresRouter = require('./routes/profesores');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const coursesRouter = require('./routes/courses');
+const inscripcionesRouter = require('./routes/inscripciones');
 const facturasProfesoresRouter = require('./routes/facturas-profesores');
 
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
+
 // Middleware de sesión 
 app.use(session({
   secret: 'secreto', 
@@ -38,12 +40,12 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } // si usás HTTPS ponelo en true
 }));
+
 // Middleware para verificar si el usuario está logueado y pasarlo a las vistas
 app.use((req, res, next) => {
   res.locals.usuario = req.session.usuario || null;
   next();
 });
-
 
 // Rutas
 app.use('/', indexRouter);
@@ -53,6 +55,7 @@ app.use('/profesores', profesoresRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/courses', coursesRouter);
+app.use('/inscripciones', inscripcionesRouter);
 app.use('/facturas-profesores', facturasProfesoresRouter);
 
 // Captura de error 404

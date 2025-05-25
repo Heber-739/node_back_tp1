@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  h2 Editar Inscripción
+
+  form(action=`/inscripciones/editar/${inscripcion.id}?_method=PUT`, method="POST")
+    input(type="hidden", name="_method", value="PUT")
+    .card.shadow
+      .card-body
+
+        //– Selector de alumno
+        .mb-3
+          label(for="alumnoId" class="form-label") Alumno:
+          select#alumnoId.form-control(name="alumnoId" required)
+            option(value="") Seleccionar alumno
+            each a in alumnos
+              option(
+                value=a.id 
+                selected=(String(a.id) === String(inscripcion.alumnoId)) ? true : false
+              ) #{a.nombre} #{a.apellido}
+
+        //– Selector de curso
+        .mb-3
+          label(for="cursoId" class="form-label") Curso:
+          select#cursoId.form-control(name="cursoId" required)
+            option(value="") Seleccionar curso
+            if cursosDisponibles.length
+              each c in cursosDisponibles
+                option(
+                  value=c.id
+                  selected=(String(c.id) === String(inscripcion.cursoId)) ? true : false
+                ) #{c.nombre}
+            else
+              option(disabled)= 'No hay cursos con cupo'
+
+        .text-center
+          button.btn.btn-primary(type="submit") Guardar cambios
