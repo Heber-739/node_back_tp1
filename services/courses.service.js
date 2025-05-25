@@ -101,6 +101,29 @@ class CoursesService {
     );
     return coursesResult;
   };
+
+removeAlumns = (courseId, alumnId) => {
+
+    const data = readFile(COURSES_FILE);
+    if (!data || !Array.isArray(data.courses)) {
+      throw new Error('Formato de courses.json inválido');
+    }
+
+    const idx = data.courses.findIndex(c => c.id === courseId);
+    if (idx === -1) {
+      throw new Error('Curso no encontrado');
+    }
+    const course = data.courses[idx];
+    const inscritosAntes = Array.isArray(course.alumnos) ? course.alumnos.length : 0;
+    course.alumnos = (course.alumnos || []).filter(a => String(a) !== String(alumnId));
+    if (course.alumnos.length === inscritosAntes) {
+      throw new Error('El alumno no estaba inscrito en este curso');
+    }
+
+    data.courses[idx] = course;
+    writeFile(data, COURSES_FILE);
+  };
+  
 }
 const coursesService = new CoursesService();
 
