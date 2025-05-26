@@ -37,7 +37,6 @@ class CoursesService {
       throw new Error("");
     }
 
-    // TODO agregar la logica para obtener el nombre del profesor
     return course;
   };
 
