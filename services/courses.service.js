@@ -57,18 +57,18 @@ class CoursesService {
 
   addAlumns = (courseId, alumnArray) => {
     let course = this.getCourseById(courseId);
-    if(course.cupo == course.alumnos.length){
-        throw new Error("Cupo lleno");
-        
+    if (course.cupo == course.alumnos.length) {
+      throw new Error("Cupo lleno");
+
     }
-    alumnArray = alumnArray.filter((a)=> !course.alumnos.includes(a))
+    alumnArray = alumnArray.filter((a) => !course.alumnos.includes(a))
     course.alumnos.push(...alumnArray);
     this.updateCourse(course);
   };
 
-  addCourseAttendence = (courseId,fecha,alumnos)=>{
-    this.addDictation(courseId,fecha);
-    this.addAlumns(courseId,alumnos);
+  addCourseAttendence = (courseId, fecha, alumnos) => {
+    this.addDictation(courseId, fecha);
+    this.addAlumns(courseId, alumnos);
   }
 
   getAlumnsByCourse = (courseId) => {
@@ -107,7 +107,7 @@ class CoursesService {
     return coursesResult;
   };
 
-removeAlumns = (courseId, alumnId) => {
+  removeAlumns = (courseId, alumnId) => {
 
     const data = readFile(COURSES_FILE);
     if (!data || !Array.isArray(data)) {
@@ -128,7 +128,6 @@ removeAlumns = (courseId, alumnId) => {
     data[idx] = course;
     writeFile(data, COURSES_FILE);
   };
-  
 }
 const coursesService = new CoursesService();
 
