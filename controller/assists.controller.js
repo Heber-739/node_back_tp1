@@ -1,8 +1,5 @@
-// const { readFile, writeFile } = require("../services/data.service");
-// const { Course } = require("../models/course.class");
 const alumnService = require("../services/alumns.service");
 const { coursesService } = require("../services/courses.service");
-// const COURSES_FILE = require("path").join(__dirname, "../data/courses.json");
 
 const USER_AGENT_API = ["Thunder Client", "Postman"]
 
@@ -17,7 +14,8 @@ const isApi = (req) => {
 
 const newDictation = (req, res) => {
   const courses = coursesService.getActiveCourses();
-  res.render("assists/new-dictation", { courses })
+   isApi(req) ? res.status(200).send(courses) 
+    : res.render("assists/new-dictation", { courses })
 };
 
 const goToAddAssists = (req, res) => {
@@ -26,6 +24,7 @@ const goToAddAssists = (req, res) => {
   const alumnsData = alumnService.getAllAlumnsByIds(alumns)
   dataState.dictationData = { cursoId, fecha }
 
+  isApi(req) ? res.status(200).send(alumnsData) :
   res.render("assists/addAssists", { alumnsData })
 };
 
@@ -37,7 +36,8 @@ const registerDictation = (req, res) => {
   const { cursoId, fecha } = dataState.dictationData;
   dataState.dictationData = {}
   coursesService.addDictation(cursoId, fecha, alumns)
-  res.redirect("/assists/new-dictation");
+  isApi(req) ? res.status(200).send("Registro de clase exitoso")
+  : res.redirect("/assists/new-dictation");
 };
 
 const goToRecords = (req, res) => {
@@ -49,8 +49,8 @@ const goToRecords = (req, res) => {
       })
       return {...c, dictados}
     })
-    
-  res.render("assists/records-home", {courses})
+    isApi(req) ? res.status(200).send(courses)
+    : res.render("assists/records-home", {courses})
 }
 
 module.exports = {

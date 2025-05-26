@@ -6,7 +6,7 @@ class AlumnsService {
     
     getAllAlumnsByIds = (alumns) => {
         const data = readFile(ALUMNS_FILE);
-        const response = data.filter((a)=>alumns.includes(a.id))
+        const response = data.filter((a)=>alumns.includes(String(a.id)))
         return response
     }
     

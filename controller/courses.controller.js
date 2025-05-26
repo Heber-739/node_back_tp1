@@ -143,7 +143,8 @@ const deleteCourseById = (req, res) => {
   } catch (error) {
     console.error(error);
   }
-  res.redirect("/courses");
+  isApi(req) ? res.status(200).send("Curso eliminado con éxito")
+      : res.redirect("/courses");
 };
 
 module.exports = {
