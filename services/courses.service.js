@@ -17,11 +17,7 @@ class CoursesService {
   addCourse = (curse) => {
     let courses = this.getAllCourses()
     courses.unshift(curse);
-<<<<<<< HEAD
-    writeFile({ courses }, COURSES_FILE)
-=======
     writeFile(courses,COURSES_FILE)
->>>>>>> origin/master
   }
 
   updateCourse = (course) => {
@@ -30,13 +26,8 @@ class CoursesService {
     if (index === -1) {
       throw new Error("Curso no encontrado");
     }
-<<<<<<< HEAD
-    data.courses[index] = course;
-    writeFile(data, COURSES_FILE);
-=======
     data[index] = course;
     writeFile(data,COURSES_FILE);
->>>>>>> origin/master
   };
 
   getCourseById = (id) => {
@@ -52,15 +43,10 @@ class CoursesService {
 
   addDictation = (courseId, fecha, alumns) => {
     let course = this.getCourseById(courseId);
-<<<<<<< HEAD
-    if (course.dictados.some(d => new Date(d?.fecha) === new Date(fecha))) {
-      return;
-=======
     try {
       const newDate = new Date(fecha)
       if(course.dictados.some(d => new Date(d?.fecha) === newDate)){
         return;
->>>>>>> origin/master
     }
     course.dictados?.unshift({ fecha, asistencias: alumns });
     this.updateCourse(course);

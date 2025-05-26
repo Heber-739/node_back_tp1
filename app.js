@@ -16,12 +16,8 @@ const logoutRouter = require('./routes/logout');
 const coursesRouter = require('./routes/courses');
 const inscripcionesRouter = require('./routes/inscripciones');
 const facturasProfesoresRouter = require('./routes/facturas-profesores');
-<<<<<<< HEAD
 const reportRoutes = require("./routes/reportes");
-
-=======
 const assistsRouter = require('./routes/assists');
->>>>>>> origin/master
 
 
 
@@ -63,11 +59,8 @@ app.use('/logout', logoutRouter);
 app.use('/courses', coursesRouter);
 app.use('/inscripciones', inscripcionesRouter);
 app.use('/facturas-profesores', facturasProfesoresRouter);
-<<<<<<< HEAD
 app.use('/report', reportRoutes);
-=======
 app.use('/assists', assistsRouter);
->>>>>>> origin/master
 
 // Captura de error 404
 app.use((req, res, next) => {
