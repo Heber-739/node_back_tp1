@@ -9,10 +9,7 @@ const USER_AGENT_API = ["Thunder Client", "Postman"]
 
 const isApi = (req) => {
   const userAgent = req.get('User-Agent');
-  return USER_AGENT_API.some(agent => {
-    console.log(userAgent.includes(agent))
-    return userAgent.includes(agent)
-  });
+  return USER_AGENT_API.some(agent => userAgent.includes(agent));
 };
 
 const getAllCourses = (req, res) => {
@@ -46,11 +43,8 @@ const getAllCourses = (req, res) => {
       );
     }
 
-    if (isApi(req)) {
-      return res.status(200).send(response);
-    } else {
-      return res.render("courses/list", { response, profesores, filtros: { nombreCurso, nombreProfesor } });
-    }
+    isApi(req) ? res.status(200).send(response) 
+    : res.render("courses/list", { response, profesores, filtros: { nombreCurso, nombreProfesor } });
   } catch (error) {
     console.error("Error en getAllCourses:", error);
     res.status(500).send("No se pudieron obtener los cursos o profesores");

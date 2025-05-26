@@ -76,7 +76,7 @@ block content
               each curso in cursosDisponibles
                 option(value=curso.id)= curso.nombre
             else
-              option(value="") No hay cursos disponibles
+              option(value="" disabled) No hay cursos disponibles
 
         h4.mt-4.mb-3 Pago Inicial
         .mb-3
@@ -85,7 +85,10 @@ block content
 
         .mb-3
           label(for="pagoMedio" class="form-label") Medio de Pago:
-          input#pagoMedio.form-control(type="text" name="medio" required)
-
+          select#pagoMedio.form-control(name="medio" required)
+            option(value="efectivo")= "Efectivo"
+            option(value="tarjeta")= "Tarjeta"
+            option(value="Transferencia")= "Transferencia"
+            
         .text-center
           button.btn.btn-primary(type="submit") Crear Inscripción

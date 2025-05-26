@@ -6,6 +6,7 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet", href="stylesheets/style.css")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
+    link(rel="script", href="utils/assists.js")
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   body
     header.bg-primary.text-white.p-3
@@ -13,7 +14,7 @@ html
 
     .container-fluid
       .row
-        if usuario
+        if true
           // Sidebar
           .col-md-3.bg-light.p-3
             nav
@@ -21,6 +22,16 @@ html
               ul.nav.flex-column
                 li.nav-item
                   a.nav-link(href="/") Inicio
+
+                  // Submenú Asistencias
+                li.nav-item
+                  a.nav-link(data-bs-toggle="collapse" href="#submenuAsistencias" role="button" aria-expanded="false" aria-controls="submenuAsistencias")
+                    | Asistencias ▾
+                  ul.collapse.ms-3#submenuAsistencias
+                    li.nav-item
+                      a.nav-link(href="/assists/new-dictation") Nuevo registro
+                    li.nav-item
+                      a.nav-link(href="/assists/attendence-records") Registros
 
                 // Submenú Alumnos
                 li.nav-item
