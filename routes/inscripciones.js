@@ -13,6 +13,12 @@ const leerDatos = (ruta) => JSON.parse(fs.readFileSync(ruta, 'utf8'));
 const escribirDatos = (ruta, datos) =>
   fs.writeFileSync(ruta, JSON.stringify(datos, null, 2));
 
+// Detectar si es un User-Agent de API
+const isApi = (req) => {
+  const ua = req.get('User-Agent');
+  return /postman|thunder client/i.test(ua);
+};
+
 
 // GET todas las inscripciones
 router.get('/', (req, res) => {
@@ -21,7 +27,7 @@ router.get('/', (req, res) => {
   const inscripciones = leerDatos(inscripcionesPath);
   const alumnos = leerDatos(alumnosPath);
   const cursos = coursesService.getAllCourses();
-  
+
 
   const inscripcionesConInfo = inscripciones.map(insc => {
     const alumno = alumnos.find(a => String(a.id) === String(insc.alumnoId));
@@ -38,7 +44,7 @@ router.get('/', (req, res) => {
     let estado = "inactivo";
     if (insc.pagos?.length) {
       const ultimaFechaPago = new Date(insc.pagos[insc.pagos.length - 1].fecha_pago);
-      const hoy = new Date(); 
+      const hoy = new Date();
       const diferencia = hoy - ultimaFechaPago;
       const dias = diferencia / (1000 * 60 * 60 * 24);
       estado = dias > 30 ? "inactivo" : "activo";
@@ -55,16 +61,16 @@ router.get('/', (req, res) => {
   });
 
   let listado = inscripcionesConInfo;
-  
+
   // Filtrar por nombre de alumno
-    if (nombreAlumno) {
+  if (nombreAlumno) {
     const aux = nombreAlumno.toLowerCase();
     listado = listado.filter(i =>
       i.alumno?.nombre.toLowerCase().includes(aux)
     );
   }
 
-  
+
   // Filtro por nombre de curso
   if (nombreCurso) {
     const aux = nombreCurso.toLowerCase();
@@ -72,16 +78,21 @@ router.get('/', (req, res) => {
       i.curso?.nombre.toLowerCase().includes(aux)
     );
   }
+  if (isApi(req)) {
+    return res.status(200).json(listado);
+  } else {
+    res.render('inscripciones/listado', {
+      inscripciones: listado,
+      alumnos,
+      cursos,
+      cursosDisponibles: coursesService.getVacancyCourses() || [],
+      nombreAlumno,
+      nombreCurso
 
-  res.render('inscripciones/listado', {
-    inscripciones: listado,
-    alumnos,
-    cursos,
-    cursosDisponibles: coursesService.getVacancyCourses() || [],
-    nombreAlumno,
-    nombreCurso
+    });
 
-  });
+  }
+
 });
 
 // POST Crear nueva inscripción
@@ -145,7 +156,14 @@ router.post('/', (req, res) => {
   } catch (err) {
     return res.status(400).send(err.message);
   }
-  res.redirect('/inscripciones');
+  if (isApi(req)) {
+    return res.status(201).json({
+      message: 'Inscripción creada correctamente',
+      inscripcion: nuevaInscripcion
+    });
+  } else {
+    return res.redirect('/inscripciones');
+  }
 });
 
 // GET Editar inscripción
@@ -182,10 +200,10 @@ router.put('/editar/:id', (req, res) => {
   }
   const original = inscripciones[idx];
   const antiguoAlumnoId = String(original.alumnoId);
-  const antiguoCursoId  = String(original.cursoId);
-  
+  const antiguoCursoId = String(original.cursoId);
+
   original.alumnoId = Number(nuevoAlumnoId);
-  original.cursoId  = nuevoCursoId;
+  original.cursoId = nuevoCursoId;
   escribirDatos(inscripcionesPath, inscripciones);
 
   // Se debe eliminar al alumno antiguo del curso antiguo (si hay cambio de alumno o curso)
@@ -206,7 +224,9 @@ router.put('/editar/:id', (req, res) => {
     }
   }
 
-  res.redirect('/inscripciones');
+  isApi(req)
+    ? res.status(200).send(original)
+    : res.redirect('/inscripciones');
 });
 
 
@@ -219,7 +239,9 @@ router.get('/pago/:id', (req, res) => {
   if (!inscripcion) {
     return res.status(404).send('Inscripción no encontrada');
   }
-  res.render('inscripciones/nuevoPago', { inscripcion });
+  isApi(req)
+    ? res.status(200).send(inscripcion)
+    : res.render('inscripciones/nuevoPago', { inscripcion });
 
 });
 
@@ -249,7 +271,9 @@ router.post('/pago/:id', (req, res) => {
   insc.estado = 'activo';
 
   escribirDatos(inscripcionesPath, inscripciones);
-  res.redirect('/inscripciones');
+  isApi(req)
+    ? res.status(200).send(insc)
+    : res.redirect('/inscripciones');
 });
 
 // DELETE eliminar inscripción
@@ -258,9 +282,11 @@ router.delete('/:id', (req, res) => {
   const inscripciones = leerDatos(inscripcionesPath);
 
   const index = inscripciones.findIndex(i => String(i.id) === String(id));
+
   if (index === -1) {
     return res.status(404).json({ error: 'Inscripción no encontrada' });
   }
+
   const eliminada = inscripciones.splice(index, 1)[0];
   escribirDatos(inscripcionesPath, inscripciones);
   try {
@@ -269,7 +295,9 @@ router.delete('/:id', (req, res) => {
     console.error('Error al remover alumno del curso:', err.message);
   }
 
-  res.redirect('/inscripciones');
+  isApi(req)
+    ? res.status(200).send({ mensaje: 'Inscripción eliminada', eliminada })
+    : res.redirect('/inscripciones');
 });
 
 module.exports = router;
