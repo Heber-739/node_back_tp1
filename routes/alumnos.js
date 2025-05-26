@@ -82,12 +82,11 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     let alumnos = leerDatos();
     const id = parseInt(req.params.id);
-    const cantidadInicial = alumnos.length;
-    alumnos = alumnos.filter(a => a.id !== id);
-    if (alumnos.length === cantidadInicial)
+    const cantidadInicial = alumnos?.length;
+    alumnos = alumnos?.filter(a => a.id !== id);
+    if (alumnos?.length === cantidadInicial)
         return res.status(404).send('Alumno no encontrado');
     escribirDatos(alumnos);
-    console.log(res.sendStatus(204));
     res.redirect('/alumnos'); // Redirige a la lista de alumnos para mostrar el cambio
 });
 
