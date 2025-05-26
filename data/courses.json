@@ -2,7 +2,7 @@
   {
     "id": "d943e20c-8f04-478c-b90c-c0243e87f31d",
     "profesor": "3",
-    "dictados": [ ],
+    "dictados": [],
     "nombre": "ramirez",
     "horario": "Lunes y Miércoles 18-20hs",
     "cupo": 23,
@@ -11,20 +11,17 @@
     "alumnos": []
   },
   {
-    "id": "6c1addcc-f4c0-44b3-bf3b-b0d2118a6188",
-    "profesor": "9",
-    "dictados": [],
-    "nombre": "asdasd",
-    "horario": "Lunes y Miércoles 18-20hs",
-    "cupo": 13,
-    "area": "programacion",
-    "estado": "activa",
-    "alumnos": []
-  },
-  {
     "id": "6651d105a12c4a7e53e1da00",
-    "profesor": "6651d118a12c4a7e53e1db00",
+    "profesor": "4",
     "dictados": [
+      {
+        "fecha": "2025-05-28",
+        "asistencias": [
+          "2",
+          "3",
+          "4"
+        ]
+      },
       {
         "fecha": "2025-05-01",
         "asistencias": [
@@ -44,7 +41,6 @@
     "area": "programacion",
     "estado": "activa",
     "alumnos": [
-      "1",
       "2",
       "3",
       "4",
@@ -57,7 +53,7 @@
   },
   {
     "id": "6651d105a12c4a7e53e1da01",
-    "profesor": "6651d118a12c4a7e53e1db01",
+    "profesor": "6",
     "dictados": [
       {
         "fecha": "2025-05-02",
@@ -181,7 +177,7 @@
   },
   {
     "id": "6651d105a12c4a7e53e1da03",
-    "profesor": "6651d118a12c4a7e53e1db03",
+    "profesor": "3",
     "dictados": [
       {
         "fecha": "2025-05-05",
@@ -207,7 +203,7 @@
   },
   {
     "id": "6651d105a12c4a7e53e1da04",
-    "profesor": "6651d118a12c4a7e53e1db04",
+    "profesor": "4",
     "dictados": [
       {
         "fecha": "2025-05-06",
@@ -235,7 +231,7 @@
   },
   {
     "id": "6651d105a12c4a7e53e1da05",
-    "profesor": "6651d118a12c4a7e53e1db05",
+    "profesor": "10",
     "dictados": [
       {
         "fecha": "2025-05-07",

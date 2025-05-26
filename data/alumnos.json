@@ -1,65 +1,58 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "nombre": "Juan",
     "apellido": "Pérez",
     "email": "juan.perez@example.com",
     "curso": "Diseño Gráfico"
   },
   {
-    "id": "2",
+    "id": 2,
     "nombre": "María",
     "apellido": "Gómez",
     "email": "maria.gomez@example.com",
     "curso": "Programación"
   },
   {
-    "id": "3",
+    "id": 3,
     "nombre": "Lucas",
     "apellido": "Fernández",
     "email": "lucas.fernandez@example.com",
     "curso": "Marketing Digital"
   },
   {
-    "id": "4",
+    "id": 4,
     "nombre": "Sofía",
     "apellido": "Martínez",
     "email": "sofia.martinez@example.com",
     "curso": "Fotografía"
   },
   {
-    "id": "5",
+    "id": 5,
     "nombre": "Paola",
     "apellido": "sdasdf",
     "email": "a6@asdfs",
     "curso": "sdfsd"
   },
   {
-    "id": "6",
+    "id": 6,
     "nombre": "Tito1",
     "apellido": "fgg",
     "email": "fdg@2fd",
     "curso": "sdf"
   },
   {
-    "id": "7",
+    "id": 7,
     "nombre": "Marcos",
     "apellido": "sdfasd",
     "email": "sdafasd@asdad",
     "curso": "dfsdfg"
   },
   {
-    "id": "8",
+    "id": 8,
     "nombre": "Fede",
     "apellido": "Manzoz",
     "email": "smarcosz@example.com",
     "curso": "Futbol"
-  },
-  {
-    "id": "9",
-    "nombre": "Valen",
-    "apellido": "sdasdf",
-    "email": "a6@asdfs",
-    "curso": "sdfsd"
   }
 ]

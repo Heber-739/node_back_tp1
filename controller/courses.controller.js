@@ -108,8 +108,7 @@ const newCourse = (req, res) => {
 };
 
 const updateCourseById = (req, res) => {
-  try {
-    let course = coursesService.getCourseById(req.params.id)
+  try {    let course = coursesService.getCourseById(req.params.id)
     if (!course === -1) {
       return res.status(404).send("Curso no encontrado");
     }
@@ -136,11 +135,11 @@ const deleteCourseById = (req, res) => {
   try {
     const data = readFile(COURSES_FILE);
     const id = req.params.id;
-    const origin_length = data.courses.length;
-    let courses = data.courses.filter((c) => c.id !== id);
+    const origin_length = data.length;
+    let courses = data.filter((c) => c.id !== id);
     if (origin_length === courses.length)
       return res.status(404).send("Curso no encontrado");
-    writeFile({ courses }, COURSES_FILE);
+    writeFile( courses , COURSES_FILE);
   } catch (error) {
     console.error(error);
   }

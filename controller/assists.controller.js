@@ -31,7 +31,7 @@ const goToAddAssists = (req, res) => {
 
 const registerDictation = (req, res) => {
   const alumns = req.body.selected
-  if(alumns.length == 0){
+  if(alumns?.length == 0){
     res.redirect("assists/new-dictation")
   }
   const { cursoId, fecha } = dataState.dictationData;
