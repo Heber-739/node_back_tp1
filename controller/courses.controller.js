@@ -9,10 +9,7 @@ const USER_AGENT_API = ["Thunder Client", "Postman"]
 
 const isApi = (req) => {
   const userAgent = req.get('User-Agent');
-  return USER_AGENT_API.some(agent => {
-    console.log(userAgent.includes(agent))
-    return userAgent.includes(agent)
-  });
+  return USER_AGENT_API.some(agent => userAgent.includes(agent));
 };
 
 const getAllCourses = (req, res) => {
@@ -46,11 +43,8 @@ const getAllCourses = (req, res) => {
       );
     }
 
-    if (isApi(req)) {
-      return res.status(200).send(response);
-    } else {
-      return res.render("courses/list", { response, profesores, filtros: { nombreCurso, nombreProfesor } });
-    }
+    isApi(req) ? res.status(200).send(response) 
+    : res.render("courses/list", { response, profesores, filtros: { nombreCurso, nombreProfesor } });
   } catch (error) {
     console.error("Error en getAllCourses:", error);
     res.status(500).send("No se pudieron obtener los cursos o profesores");
@@ -65,12 +59,10 @@ const getCourseById = (req, res) => {
     if (!course) return res.status(404).send("Curso no encontrado");
     isApi(req) ? res.status(200).send(course)
       : res.render("courses/details", { course });
-      : res.render("courses/details", { course });
   } catch (error) {
     res.status(500).send("Error al buscar el curso");
   }
 };
-
 
 const goToEditCourseById = (req, res) => {
   try {
@@ -108,16 +100,13 @@ const newCourse = (req, res) => {
     coursesService.addCourse(course);
     isApi(req) ? res.status(200).send(course)
       : res.redirect("/courses");
-      : res.redirect("/courses");
   } catch (error) {
     console.error(error);
     res.status(500).send("No pudimos agregar el curso")
   }
 
-
 };
 
-const updateCourseById = (req, res) => {
 const updateCourseById = (req, res) => {
   try {
     let course = coursesService.getCourseById(req.params.id)
@@ -136,7 +125,6 @@ const updateCourseById = (req, res) => {
     coursesService.updateCourse(course)
     isApi(req) ? res.status(200).send(course)
       : res.redirect("/courses");
-      : res.redirect("/courses");
   } catch (err) {
     console.error(err);
     res.status(500);
@@ -144,7 +132,6 @@ const updateCourseById = (req, res) => {
 
 };
 
-const deleteCourseById = (req, res) => {
 const deleteCourseById = (req, res) => {
   try {
     const data = readFile(COURSES_FILE);
