@@ -24,7 +24,7 @@ const { newDictation, goToAddAssists, registerDictation, goToRecords } = require
 router.get("/new-dictation", newDictation);
 router.post("/addAssists", goToAddAssists);
 router.post("/register", registerDictation);
-router.post("/attendence-records", goToRecords);
+router.get("/attendence-records", goToRecords);
 
 // // Update course data
 // router.put("/:id", updateCourseById);

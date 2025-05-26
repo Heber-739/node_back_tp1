@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 
 const DB_FILE = path.join(__dirname, '../data/profesores.json');
-console.log(DB_FILE);
 
 // Funciones para leer y escribir datos
 const leerDatos = () => JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));

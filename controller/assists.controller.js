@@ -23,7 +23,7 @@ const newDictation = (req, res) => {
 const goToAddAssists = (req, res) => {
   const {cursoId, fecha} = req.body;
   const alumns = coursesService.getAlumnsByCourse(cursoId);
-  const alumnsData = alumnService.getAllAlumnsByCourse(alumns)
+  const alumnsData = alumnService.getAllAlumnsByIds(alumns)
   dataState.dictationData = { cursoId, fecha }
 
   res.render("assists/addAssists", { alumnsData })
@@ -31,6 +31,9 @@ const goToAddAssists = (req, res) => {
 
 const registerDictation = (req, res) => {
   const alumns = req.body.selected
+  if(alumns.length == 0){
+    res.redirect("assists/new-dictation")
+  }
   const { cursoId, fecha } = dataState.dictationData;
   dataState.dictationData = {}
   coursesService.addDictation(cursoId, fecha, alumns)
@@ -38,7 +41,16 @@ const registerDictation = (req, res) => {
 };
 
 const goToRecords = (req, res) => {
-  res.render("assists/records-home")
+  let courses = coursesService.getAllCourses();
+  courses = courses.map((c)=>{
+     let dictados = c.dictados?.map((d)=>{
+      let asistencias = alumnService.getAllAlumnsByIds(d.asistencias)
+      return {...d, asistencias}
+      })
+      return {...c, dictados}
+    })
+    
+  res.render("assists/records-home", {courses})
 }
 
 module.exports = {

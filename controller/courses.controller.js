@@ -9,10 +9,7 @@ const USER_AGENT_API = ["Thunder Client", "Postman"]
 
 const isApi = (req) => {
   const userAgent = req.get('User-Agent');
-  return USER_AGENT_API.some(agent => {
-    console.log(userAgent.includes(agent))
-    return userAgent.includes(agent)
-  });
+  return USER_AGENT_API.some(agent => userAgent.includes(agent));
 };
 
 const getAllCourses = (req, res) => {

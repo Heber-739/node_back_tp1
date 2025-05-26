@@ -1,24 +1,30 @@
 extends ../layout
 
 block content
+  .container.mt-4
+    h2.mb-4 Registros de Asistencias
 
-    .container.mt-5
-      h1.mb-4 Crear registro de asistencias
-
-      form(action="/assists/addAssists" method="POST")
-        .mb-3
-          label(for="cursoId" class="form-label") Curso:
-          select#cursoId.form-control(name="cursoId" required)
-            option(value="") Seleccionar curso
-            if courses
-              each course in courses
-                option(value=course.id)=course.nombre
+    if courses.length
+      each course in courses
+        .card.mb-3
+          .card-header.bg-primary.text-white
+            h5.mb-0= course.nombre
+          .card-body
+            p.mb-1
+              strong Fecha(s):
+            if course.dictados && course.dictados.length
+              each dictado in course.dictados
+                .mb-3.border.p-2.rounded
+                  p.mb-1
+                    strong Fecha: 
+                    | #{dictado.fecha}
+                  p.mb-1
+                    strong Asistencias:
+                  ul
+                    each asistencia in dictado.asistencias
+                      li= "Alumno: " + asistencia.nombre + " - Email: " + asistencia.email
             else
-              option(value="" disabled) No hay cursos activos
+              p.text-muted No hay dictados registrados.
 
-        .mb-3
-          label.form-label(for="fecha") Fecha
-          input.form-control(type="date" name="fecha" id="fecha" required)
-
-        button.btn.btn-primary(type="submit") Agregar asistencias
-
+    else
+      p.text-muted No hay cursos para mostrar.

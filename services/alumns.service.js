@@ -4,7 +4,7 @@ const ALUMNS_FILE = require("path").join(__dirname, "../data/alumnos.json");
 
 class AlumnsService {
     
-    getAllAlumnsByCourse = (alumns) => {
+    getAllAlumnsByIds = (alumns) => {
         const data = readFile(ALUMNS_FILE);
         const response = data.filter((a)=>alumns.includes(a.id))
         return response
