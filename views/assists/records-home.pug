@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    h2.mb-4 Registros de Asistencias
+
+    if courses.length
+      each course in courses
+        .card.mb-3
+          .card-header.bg-primary.text-white
+            h5.mb-0= course.nombre
+          .card-body
+            p.mb-1
+              strong Fecha(s):
+            if course.dictados && course.dictados.length
+              each dictado in course.dictados
+                .mb-3.border.p-2.rounded
+                  p.mb-1
+                    strong Fecha: 
+                    | #{dictado.fecha}
+                  p.mb-1
+                    strong Asistencias:
+                  ul
+                    each asistencia in dictado.asistencias
+                      li= "Alumno: " + asistencia.nombre + " - Email: " + asistencia.email
+            else
+              p.text-muted No hay dictados registrados.
+
+    else
+      p.text-muted No hay cursos para mostrar.

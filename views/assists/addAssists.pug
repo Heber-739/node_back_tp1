@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+
+    .container.mt-5
+      h1 Lista de nombres
+      form.mb-3(action="/assists/register" method="POST")
+      
+        .mb-3
+          each alumn, index in alumnsData
+            .form-check
+              input.form-check-input(type="checkbox", name="selected" value=alumn.id id="nombre-" + index)
+              label.form-check-label(for="nombre-" + index)=alumn.nombre
+        button.mt-3.btn.btn-primary(type="submit") Enviar

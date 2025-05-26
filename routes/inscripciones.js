@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
     let estado = "inactivo";
     if (insc.pagos?.length) {
       const ultimaFechaPago = new Date(insc.pagos[insc.pagos.length - 1].fecha_pago);
-      const hoy = new Date();
+      const hoy = new Date(); 
       const diferencia = hoy - ultimaFechaPago;
       const dias = diferencia / (1000 * 60 * 60 * 24);
       estado = dias > 30 ? "inactivo" : "activo";

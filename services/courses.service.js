@@ -6,33 +6,42 @@ class CoursesService {
 
   getAllCourses = () => {
     const data = readFile(COURSES_FILE);
-    return (
-      data?.courses?.map((course) => {
-        delete course?.dictados;
-        return course;
-      }) || []
-    );
+    return data || [];
+  };
+
+  getActiveCourses = () => {
+    const data = readFile(COURSES_FILE);
+    return data?.filter((course) => course?.estado === "activa") || [];
   };
 
   addCourse = (curse) => {
     let courses = this.getAllCourses()
     courses.unshift(curse);
+<<<<<<< HEAD
     writeFile({ courses }, COURSES_FILE)
+=======
+    writeFile(courses,COURSES_FILE)
+>>>>>>> origin/master
   }
 
   updateCourse = (course) => {
     const data = readFile(COURSES_FILE);
-    const index = data?.courses?.findIndex((c) => c.id === course.id);
+    const index = data?.findIndex((c) => c.id === course.id);
     if (index === -1) {
       throw new Error("Curso no encontrado");
     }
+<<<<<<< HEAD
     data.courses[index] = course;
     writeFile(data, COURSES_FILE);
+=======
+    data[index] = course;
+    writeFile(data,COURSES_FILE);
+>>>>>>> origin/master
   };
 
   getCourseById = (id) => {
     const data = readFile(COURSES_FILE);
-    const course = data?.courses?.find((c) => c.id === id);
+    const course = data?.find((c) => c.id === id);
     if (!course) {
       throw new Error("");
     }
@@ -41,13 +50,23 @@ class CoursesService {
     return course;
   };
 
-  addDictation = (courseId, fecha) => {
+  addDictation = (courseId, fecha, alumns) => {
     let course = this.getCourseById(courseId);
+<<<<<<< HEAD
     if (course.dictados.some(d => new Date(d?.fecha) === new Date(fecha))) {
       return;
+=======
+    try {
+      const newDate = new Date(fecha)
+      if(course.dictados.some(d => new Date(d?.fecha) === newDate)){
+        return;
+>>>>>>> origin/master
     }
-    course.dictados?.unshift({ fecha, asistencias: [] });
+    course.dictados?.unshift({ fecha, asistencias: alumns });
     this.updateCourse(course);
+    } catch (error) {
+      throw new Error("No se pudo agregar el registro de clase");
+    }
   };
 
   addAlumns = (courseId, alumnArray) => {
@@ -105,22 +124,22 @@ class CoursesService {
   removeAlumns = (courseId, alumnId) => {
 
     const data = readFile(COURSES_FILE);
-    if (!data || !Array.isArray(data.courses)) {
+    if (!data || !Array.isArray(data)) {
       throw new Error('Formato de courses.json inválido');
     }
 
-    const idx = data.courses.findIndex(c => c.id === courseId);
+    const idx = data.findIndex(c => c.id === courseId);
     if (idx === -1) {
       throw new Error('Curso no encontrado');
     }
-    const course = data.courses[idx];
+    const course = data[idx];
     const inscritosAntes = Array.isArray(course.alumnos) ? course.alumnos.length : 0;
     course.alumnos = (course.alumnos || []).filter(a => String(a) !== String(alumnId));
     if (course.alumnos.length === inscritosAntes) {
       throw new Error('El alumno no estaba inscrito en este curso');
     }
 
-    data.courses[idx] = course;
+    data[idx] = course;
     writeFile(data, COURSES_FILE);
   };
 }

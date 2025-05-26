@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "courses": [
     {
@@ -294,3 +295,267 @@
     }
   ]
 }
+=======
+[
+  {
+    "id": "d943e20c-8f04-478c-b90c-c0243e87f31d",
+    "profesor": "3",
+    "dictados": [ ],
+    "nombre": "ramirez",
+    "horario": "Lunes y Miércoles 18-20hs",
+    "cupo": 23,
+    "area": "programacion",
+    "estado": "activa",
+    "alumnos": []
+  },
+  {
+    "id": "6c1addcc-f4c0-44b3-bf3b-b0d2118a6188",
+    "profesor": "9",
+    "dictados": [],
+    "nombre": "asdasd",
+    "horario": "Lunes y Miércoles 18-20hs",
+    "cupo": 13,
+    "area": "programacion",
+    "estado": "activa",
+    "alumnos": []
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da00",
+    "profesor": "6651d118a12c4a7e53e1db00",
+    "dictados": [
+      {
+        "fecha": "2025-05-01",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      }
+    ],
+    "nombre": "Programación Web",
+    "horario": "Lunes y Miércoles 18-20hs",
+    "cupo": 15,
+    "area": "programacion",
+    "estado": "activa",
+    "alumnos": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da01",
+    "profesor": "6651d118a12c4a7e53e1db01",
+    "dictados": [
+      {
+        "fecha": "2025-05-02",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      {
+        "fecha": "2025-05-09",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      {
+        "fecha": "2025-05-16",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      {
+        "fecha": "2025-05-23",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      {
+        "fecha": "2025-05-30",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      {
+        "fecha": "2025-06-06",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      }
+    ],
+    "nombre": "Base de Datos",
+    "horario": "Viernes 9-12hs",
+    "cupo": 20,
+    "area": "sistemas",
+    "estado": "activa",
+    "alumnos": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da01",
+    "profesor": "6651d118a12c4a7e53e1db01",
+    "dictados": [],
+    "nombre": "Base de Datos I",
+    "horario": "Martes 14-16hs",
+    "cupo": 5,
+    "area": "sistemas",
+    "estado": "activa",
+    "alumnos": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da02",
+    "profesor": "6651d118a12c4a7e53e1db02",
+    "dictados": [],
+    "nombre": "Diseño Web",
+    "horario": "Jueves 10-12hs",
+    "cupo": 5,
+    "area": "diseño",
+    "estado": "activa",
+    "alumnos": [
+      "1",
+      "2",
+      "3"
+    ]
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da03",
+    "profesor": "6651d118a12c4a7e53e1db03",
+    "dictados": [
+      {
+        "fecha": "2025-05-05",
+        "asistencias": [
+          "6",
+          "7",
+          "8",
+          "9"
+        ]
+      }
+    ],
+    "nombre": "Backend con Node.js",
+    "horario": "Viernes 16-18hs",
+    "cupo": 5,
+    "area": "programacion",
+    "estado": "activa",
+    "alumnos": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da04",
+    "profesor": "6651d118a12c4a7e53e1db04",
+    "dictados": [
+      {
+        "fecha": "2025-05-06",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      }
+    ],
+    "nombre": "Seguridad Informática",
+    "horario": "Miércoles 9-11hs",
+    "cupo": 5,
+    "area": "seguridad",
+    "estado": "activa",
+    "alumnos": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ]
+  },
+  {
+    "id": "6651d105a12c4a7e53e1da05",
+    "profesor": "6651d118a12c4a7e53e1db05",
+    "dictados": [
+      {
+        "fecha": "2025-05-07",
+        "asistencias": [
+          "6",
+          "7",
+          "8",
+          "9"
+        ]
+      }
+    ],
+    "nombre": "Introducción a la Robótica",
+    "horario": "Lunes 10-12hs",
+    "cupo": 5,
+    "area": "robotica",
+    "estado": "activa",
+    "alumnos": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  }
+]
+>>>>>>> origin/master
