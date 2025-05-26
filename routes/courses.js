@@ -13,11 +13,11 @@ const {
 // Get all courses whitout dictation
 router.get("/", getAllCourses);
 
-// Get curso por ID
-router.get("/:id", getCourseById);
-
 // Go to page for edit course
 router.get("/edit/:id", goToEditCourseById);
+
+// Get curso por ID
+router.get("/:id", getCourseById);
 
 // Create new course
 router.post("/new", newCourse);

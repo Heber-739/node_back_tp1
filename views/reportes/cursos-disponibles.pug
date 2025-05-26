@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+    .container.mt-5
+        h1.text-center.mb-4 Cursos con Vacantes Disponibles
+
+        if cursos.length
+            table.table.table-striped
+                thead
+                    tr
+                        //th ID
+                        th Nombre
+                        th Cupo
+                        th Inscritos
+                        th Cupos disponibles
+                        th Estado
+                tbody
+                    each course in cursos
+                        tr
+                            //td= course.id
+                            td= course.nombre
+                            td= course.cupo
+                            td= course.alumnos.length
+                            td= course.cupo - course.alumnos.length
+                            td= course.estado
+        else
+            .alert.alert-warning No hay cursos con vacantes disponibles.

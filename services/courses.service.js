@@ -17,7 +17,7 @@ class CoursesService {
   addCourse = (curse) => {
     let courses = this.getAllCourses()
     courses.unshift(curse);
-    writeFile({courses},COURSES_FILE)
+    writeFile({ courses }, COURSES_FILE)
   }
 
   updateCourse = (course) => {
@@ -27,7 +27,7 @@ class CoursesService {
       throw new Error("Curso no encontrado");
     }
     data.courses[index] = course;
-    writeFile(data,COURSES_FILE);
+    writeFile(data, COURSES_FILE);
   };
 
   getCourseById = (id) => {
@@ -43,8 +43,8 @@ class CoursesService {
 
   addDictation = (courseId, fecha) => {
     let course = this.getCourseById(courseId);
-    if(course.dictados.some(d => new Date(d?.fecha) === new Date(fecha))){
-        return;
+    if (course.dictados.some(d => new Date(d?.fecha) === new Date(fecha))) {
+      return;
     }
     course.dictados?.unshift({ fecha, asistencias: [] });
     this.updateCourse(course);
@@ -52,18 +52,18 @@ class CoursesService {
 
   addAlumns = (courseId, alumnArray) => {
     let course = this.getCourseById(courseId);
-    if(course.cupo == course.alumnos.length){
-        throw new Error("Cupo lleno");
-        
+    if (course.cupo == course.alumnos.length) {
+      throw new Error("Cupo lleno");
+
     }
-    alumnArray = alumnArray.filter((a)=> !course.alumnos.includes(a))
+    alumnArray = alumnArray.filter((a) => !course.alumnos.includes(a))
     course.alumnos.push(...alumnArray);
     this.updateCourse(course);
   };
 
-  addCourseAttendence = (courseId,fecha,alumnos)=>{
-    this.addDictation(courseId,fecha);
-    this.addAlumns(courseId,alumnos);
+  addCourseAttendence = (courseId, fecha, alumnos) => {
+    this.addDictation(courseId, fecha);
+    this.addAlumns(courseId, alumnos);
   }
 
   getAlumnsByCourse = (courseId) => {
@@ -102,7 +102,7 @@ class CoursesService {
     return coursesResult;
   };
 
-removeAlumns = (courseId, alumnId) => {
+  removeAlumns = (courseId, alumnId) => {
 
     const data = readFile(COURSES_FILE);
     if (!data || !Array.isArray(data.courses)) {
@@ -123,7 +123,6 @@ removeAlumns = (courseId, alumnId) => {
     data.courses[idx] = course;
     writeFile(data, COURSES_FILE);
   };
-  
 }
 const coursesService = new CoursesService();
 

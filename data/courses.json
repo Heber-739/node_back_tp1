@@ -5,10 +5,12 @@
       "profesor": "1",
       "nombre": "Introducción a Python",
       "horario": "Lunes y Miércoles 18-20hs",
-      "cupo": 20,
+      "cupo": 2,
       "area": "programacion",
       "estado": "activa",
-      "alumnos": []
+      "alumnos": [
+        1
+      ]
     },
     {
       "id": "b2c3d4e5-f6a7-48b9-8234-bcdefedcba98",

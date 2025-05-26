@@ -82,5 +82,19 @@
         "medio": "efectivo"
       }
     ]
+  },
+  {
+    "id": 9,
+    "alumnoId": 1,
+    "cursoId": "a1b2c3d4-e5f6-47a8-9123-abcdeffedcba",
+    "fecha_inscripcion": "2025-05-26",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 100000,
+        "fecha_pago": "2025-05-26",
+        "medio": "1"
+      }
+    ]
   }
 ]

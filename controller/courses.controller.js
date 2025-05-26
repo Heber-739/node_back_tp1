@@ -15,17 +15,6 @@ const isApi = (req) => {
   });
 };
 
-// const getAllCourses = (req, res) => {
-//   try {
-//     const response = coursesService.getAllCourses();
-//     const profesores = getAllProfesores();
-
-//     isApi(req) ? res.status(200).send(response) 
-//     : res.render("courses/list", { response, profesores });
-//   } catch (error) {
-//     res.status(500).send("No se pudieron obtener los courses o profesores");
-//   }
-// };
 
 const getAllCourses = (req, res) => {
   try {
@@ -64,25 +53,11 @@ const getCourseById = (req, res) => {
     // TODO agregar la logica para obtener el nombre del profesor
     if (!course) return res.status(404).send("Curso no encontrado");
     isApi(req) ? res.status(200).send(course)
-    : res.render("courses/details", { course }) ;
+      : res.render("courses/details", { course });
   } catch (error) {
     res.status(500).send("Error al buscar el curso");
   }
 };
-
-// const goToEditCourseById = (req, res) => {
-//   try {
-    
-//     const course = coursesService.getCourseById(req.params.id);
-//     if (!course) {
-//       res.status(404).send("Curso no encontrado");
-//     }
-//     isApi(req) ? res.status(200).send(course) 
-//     : res.render("courses/edit", { course });
-//   } catch (error) {
-//     res.status(500).send("No se pudieron obtener el curso");
-//   }
-// };
 
 
 const goToEditCourseById = (req, res) => {
@@ -120,15 +95,15 @@ const newCourse = (req, res) => {
     const course = new Course(profesor, nombre, horario, Number(cupo), area, estado);
     coursesService.addCourse(course);
     isApi(req) ? res.status(200).send(course)
-    : res.redirect("/courses");
+      : res.redirect("/courses");
   } catch (error) {
     console.error(error);
     res.status(500).send("No pudimos agregar el curso")
   }
-  
+
 };
 
-const updateCourseById = (req,res) => {
+const updateCourseById = (req, res) => {
   try {
     let course = coursesService.getCourseById(req.params.id)
     if (!course === -1) {
@@ -145,7 +120,7 @@ const updateCourseById = (req,res) => {
     };
     coursesService.updateCourse(course)
     isApi(req) ? res.status(200).send(course)
-    : res.redirect("/courses");
+      : res.redirect("/courses");
   } catch (err) {
     console.error(err);
     res.status(500);
@@ -153,7 +128,7 @@ const updateCourseById = (req,res) => {
 
 };
 
-const deleteCourseById = (req,res) => {
+const deleteCourseById = (req, res) => {
   try {
     const data = readFile(COURSES_FILE);
     const id = req.params.id;

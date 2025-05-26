@@ -47,6 +47,15 @@ html
                   a.nav-link(href="/courses") Cursos
                 li.nav-item
                   a.nav-link(href="/inscripciones") Inscripciones
+                // Sunmenú Reportes
+                li.nav-item
+                  a.nav-link(data-bs-toggle="collapse" href="#submenuReportes" role="button" aria-expanded="false" aria-controls="submenuReportes")
+                    | Reportes ▾
+                  ul.collapse.ms-3#submenuReportes
+                    li.nav-item
+                      a.nav-link(href="/report/cursos-disponibles") Cursos con Vacantes Disponibles
+                    li.nav-item
+                      a.nav-link(href="/") Otro Reporte
                 li.nav-item
                   a.nav-link(href="/logout") Cerrar sesión
 
