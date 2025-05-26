@@ -15,7 +15,7 @@ const escribirDatos = (ruta, datos) =>
 
 // Detectar si es un User-Agent de API
 const isApi = (req) => {
-  const ua = req.get('User-Agent') || '';
+  const ua = req.get('User-Agent');
   return /postman|thunder client/i.test(ua);
 };
 
