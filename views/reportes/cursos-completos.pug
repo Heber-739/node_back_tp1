@@ -2,7 +2,7 @@ extends ../layout
 
 block content
     .container.mt-5
-        h1.text-center.mb-4 Cursos con Vacantes Disponibles (activos)
+        h1.text-center.mb-4 Cursos con Vacantes Completas (activos)
 
         if cursos.length
             table.table.table-striped
@@ -22,4 +22,4 @@ block content
                             td= course.cupo - course.alumnos.length
                             td= course.estado
         else
-            .alert.alert-warning No hay cursos con vacantes disponibles.
+            .alert.alert-warning No hay cursos con vacantes completas.
