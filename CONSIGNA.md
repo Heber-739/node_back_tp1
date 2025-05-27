@@ -61,21 +61,21 @@ Automatizar la gestión de:
 
 ## 🧩 Módulo mínimo para primera entrega
 
-- ✅ CRUD de:
-  - Cursos
-  - Alumnos
-  - Inscripciones
-- 📅 Registro de asistencias
-- 📈 Reportes simples:
-  - Cursos completos
-  - Alumnos por curso
-  - Cupos disponibles
-- 🗂️ Almacenamiento de datos en archivos JSON
-- 👁️ Vistas con motor **Pug**
-- 🔎 Búsquedas y filtros por:
+-  CRUD de:
+  - Cursos ✅
+  - Alumnos ✅
+  - Inscripciones ✅
+-  Registro de asistencias ✅
+-  Reportes simples:
+  - Cursos completos ✅
+  - Alumnos por curso ✅
+  - Cupos disponibles ✅
+-  Almacenamiento de datos en archivos JSON ✅
+-  Vistas con motor **Pug** ✅
+-  Búsquedas y filtros por:
   - Curso
-  - Alumno
-  - Fecha
+  - Alumno ✅
+  - Fecha 
 
 ---
 

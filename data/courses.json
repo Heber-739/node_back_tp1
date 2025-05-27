@@ -2,13 +2,29 @@
   {
     "id": "d943e20c-8f04-478c-b90c-c0243e87f31d",
     "profesor": "3",
-    "dictados": [],
-    "nombre": "ramirez",
+    "dictados": [
+      {
+        "fecha": "2025-05-25"
+      },
+      {
+        "fecha": "2025-05-25"
+      },
+      {
+        "fecha": "2025-05-27"
+      },
+      {
+        "fecha": "2025-05-26"
+      }
+    ],
+    "nombre": "Python 1",
     "horario": "Lunes y Miércoles 18-20hs",
     "cupo": 23,
     "area": "programacion",
     "estado": "activa",
-    "alumnos": []
+    "alumnos": [
+      1,
+      2
+    ]
   },
   {
     "id": "6651d105a12c4a7e53e1da00",
@@ -35,13 +51,12 @@
         ]
       }
     ],
-    "nombre": "Programación Web",
+    "nombre": "Programación Web 3",
     "horario": "Lunes y Miércoles 18-20hs",
     "cupo": 15,
     "area": "programacion",
-    "estado": "activa",
+    "estado": "inactiva",
     "alumnos": [
-      "2",
       "3",
       "4",
       "5",
@@ -55,6 +70,18 @@
     "id": "6651d105a12c4a7e53e1da01",
     "profesor": "6",
     "dictados": [
+      {
+        "fecha": "2025-05-27",
+        "asistencias": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
       {
         "fecha": "2025-05-02",
         "asistencias": [
@@ -141,7 +168,9 @@
       "5",
       "6",
       "7",
-      "8"
+      "8",
+      3,
+      4
     ]
   },
   {

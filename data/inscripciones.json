@@ -2,7 +2,7 @@
   {
     "id": 1,
     "alumnoId": 1,
-    "cursoId": "6651d105a12c4a7e53e1da00",
+    "cursoId": "d943e20c-8f04-478c-b90c-c0243e87f31d",
     "fecha_inscripcion": "2025-05-26",
     "estado": "activo",
     "pagos": [
@@ -16,7 +16,7 @@
   {
     "id": 2,
     "alumnoId": 2,
-    "cursoId": "6651d105a12c4a7e53e1da00",
+    "cursoId": "d943e20c-8f04-478c-b90c-c0243e87f31d",
     "fecha_inscripcion": "2025-05-26",
     "estado": "activo",
     "pagos": [
@@ -29,6 +29,34 @@
         "monto": 10000,
         "medio": "transferencia",
         "fecha_pago": "2025-05-26"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "alumnoId": 3,
+    "cursoId": "6651d105a12c4a7e53e1da01",
+    "fecha_inscripcion": "2025-05-27",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 10000,
+        "fecha_pago": "2025-05-27",
+        "medio": "efectivo"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "alumnoId": 4,
+    "cursoId": "6651d105a12c4a7e53e1da01",
+    "fecha_inscripcion": "2025-05-27",
+    "estado": "activo",
+    "pagos": [
+      {
+        "monto": 11233,
+        "fecha_pago": "2025-05-27",
+        "medio": "efectivo"
       }
     ]
   }
