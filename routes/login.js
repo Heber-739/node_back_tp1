@@ -13,7 +13,7 @@ const leerUsuarios = () => {
 // Rutas de login
 
 router.get('/', (req, res) => {
-  res.render('login');
+  res.render('login', { isLoginPage: true });
 });
 
 router.post('/', (req, res) => {
@@ -27,7 +27,10 @@ router.post('/', (req, res) => {
     return res.redirect('/alumnos');
   }
 
-  res.render('login', { error: 'Credenciales incorrectas' });
+  res.render('login', {
+    error: 'Credenciales incorrectas',
+    isLoginPage: true
+  });
 });
 
 router.get('/logout', (req, res) => {
