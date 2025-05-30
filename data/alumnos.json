@@ -1,19 +1,5 @@
 [
   {
-    "id": 1,
-    "nombre": "Juan",
-    "apellido": "Pérez",
-    "email": "juan.perez@example.com",
-    "curso": "Diseño Gráfico"
-  },
-  {
-    "id": 2,
-    "nombre": "María",
-    "apellido": "Gómez",
-    "email": "maria.gomez@example.com",
-    "curso": "Programación"
-  },
-  {
     "id": 3,
     "nombre": "Lucas",
     "apellido": "Fernández",
@@ -54,5 +40,12 @@
     "apellido": "Manzoz",
     "email": "smarcosz@example.com",
     "curso": "Futbol"
+  },
+  {
+    "id": 9,
+    "nombre": "Micaela",
+    "apellido": "Orellano",
+    "email": "miqa.orellano@gmail.com",
+    "curso": "Programación"
   }
 ]
