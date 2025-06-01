@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { coursesService } = require('../services/courses.service');
 const { readFile, writeFile } = require('../services/data.service');
+const { Inscripcion } = require('../models/inscripcion.class');
 
 const inscripcionesPath = path.join(__dirname, '../data/inscripciones.json');
 const alumnosPath = path.join(__dirname, '../data/alumnos.json');
@@ -103,18 +104,7 @@ const crearInscripcion = (req, res) => {
     return res.status(400).send('El alumno ya está inscripto');
   }
 
-  const nuevaInscripcion = {
-    id: inscripciones.length ? inscripciones[inscripciones.length - 1].id + 1 : 1,
-    alumnoId: Number(alumnoId),
-    cursoId: cursoId,
-    fecha_inscripcion: new Date().toISOString().split('T')[0],
-    estado: "activo",
-    pagos: [{
-      monto: Number(monto),
-      fecha_pago: new Date().toISOString().split('T')[0],
-      medio
-    }]
-  };
+  const nuevaInscripcion = new Inscripcion(alumnoId, cursoId, monto, medio);
 
   inscripciones.push(nuevaInscripcion);
   writeFile(inscripciones, inscripcionesPath);

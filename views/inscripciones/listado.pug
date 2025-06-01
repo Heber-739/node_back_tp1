@@ -21,7 +21,6 @@ block content
     table.table.table-striped.table-bordered
       thead
         tr
-          th ID
           th Alumno
           th Curso
           th Fecha inscripcion
@@ -31,7 +30,6 @@ block content
       tbody
         each inscripcion in inscripciones
           tr
-            td= inscripcion.id
             td= inscripcion.alumno ? `${inscripcion.alumno.nombre} ${inscripcion.alumno.apellido}` : 'Sin alumno'
             td= inscripcion.curso ? inscripcion.curso.nombre : 'Sin curso'
             td= inscripcion.fecha_inscripcion || 'Sin fecha'
