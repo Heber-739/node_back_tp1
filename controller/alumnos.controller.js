@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { readFile, writeFile } = require('../services/data.service');
-
+const { Alumno } = require('../models/alumno.class'); 
 const DB_FILE = require('path').join(__dirname, '../data/alumnos.json');
 
 const isApi = (req) => {
