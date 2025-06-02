@@ -100,7 +100,7 @@ const crearInscripcion = (req, res) => {
     return res.status(400).send('Pago inicial obligatorio');
   }
 
-  if (curso.alumnos.includes(Number(alumnoId))) {
+  if (curso.alumnos.includes(alumnoId)) {
     return res.status(400).send('El alumno ya está inscripto');
   }
 
@@ -110,7 +110,7 @@ const crearInscripcion = (req, res) => {
   writeFile(inscripciones, inscripcionesPath);
 
   try {
-    coursesService.addAlumns(cursoId, [Number(alumnoId)]);
+    coursesService.addAlumns(cursoId, [alumnoId]);
   } catch (err) {
     return res.status(400).send(err.message);
   }
