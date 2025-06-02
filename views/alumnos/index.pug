@@ -8,8 +8,6 @@ block content
         div.col
           input.form-control(type="text", name="nombre", placeholder="Buscar por nombre o apellido", value=nombre || '')
         div.col
-          input.form-control(type="text", name="curso", placeholder="Buscar por curso", value=curso || '')
-        div.col
           button.btn.btn-primary(type="submit") Buscar
 
   table.table.table-striped.table-bordered
@@ -19,7 +17,7 @@ block content
         th Nombre
         th Apellido
         th Email
-        th Curso
+        th Telefono
         th Acciones
     tbody
       each alumno in alumnos
@@ -28,7 +26,7 @@ block content
           td= alumno.nombre
           td= alumno.apellido
           td= alumno.email
-          td= alumno.curso
+          td= alumno.telefono
           td
             form(action=`/alumnos/${alumno.id}?_method=DELETE`, method="POST", style="display:inline")
               button.btn.btn-danger.btn-sm.me-2(type="submit") Eliminar
@@ -49,6 +47,6 @@ block content
       label.form-label(for="email") Email:
       input.form-control(type="email", name="email", required)
     div.mb-3
-      label.form-label(for="curso") Curso:
-      input.form-control(type="text", name="curso", required)
+      label.form-label(for="telefono") Telefono:
+      input.form-control(type="text", name="telefono", required)
     button.btn.btn-success(type="submit") Agregar

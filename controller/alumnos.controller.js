@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { readFile, writeFile } = require('../services/data.service');
-
+const { Alumno } = require('../models/alumno.class'); 
 const DB_FILE = require('path').join(__dirname, '../data/alumnos.json');
 
 const isApi = (req) => {
@@ -11,7 +11,7 @@ const isApi = (req) => {
 // GET /alumnos con búsqueda y filtros
 const getAllAlumnos = (req, res) => {
   const alumnos = readFile(DB_FILE);
-  const { nombre, curso } = req.query;
+  const { nombre } = req.query;
 
   let filtrados = alumnos;
 
@@ -23,21 +23,17 @@ const getAllAlumnos = (req, res) => {
     );
   }
 
-  if (curso) {
-    filtrados = filtrados.filter(a => a.curso.toLowerCase().includes(curso.toLowerCase()));
-  }
-
   if (isApi(req)) {
     return res.status(200).json(filtrados);
   } else {
-    res.render('alumnos/index', { alumnos: filtrados, nombre, curso });
+    res.render('alumnos/index', { alumnos: filtrados, nombre });
   }
 };
 
 // GET /alumnos/:id/editar
 const goToEditarAlumno = (req, res) => {
   const alumnos = readFile(DB_FILE);
-  const alumno = alumnos.find(a => a.id === parseInt(req.params.id));
+  const alumno = alumnos.find(a => String(a.id) === String(req.params.id));
   if (!alumno) return res.status(404).send('Alumno no encontrado');
 
   if (isApi(req)) {
@@ -51,19 +47,12 @@ const goToEditarAlumno = (req, res) => {
 const crearAlumno = (req, res) => {
   const alumnos = readFile(DB_FILE);
 
-  const { nombre, apellido, email, curso } = req.body;
-  if (!nombre || !apellido || !email || !curso) {
+  const { nombre, apellido, email, telefono } = req.body;
+  if (!nombre || !apellido || !email || !telefono) {
     return res.status(400).send('Faltan campos requeridos');
   }
 
-  const nuevoAlumno = {
-    id: alumnos.length > 0 ? alumnos[alumnos.length - 1].id + 1 : 1,
-    nombre,
-    apellido,
-    email,
-    curso
-  };
-
+  const nuevoAlumno = new Alumno(nombre, apellido, email, telefono);
   alumnos.push(nuevoAlumno);
   writeFile(alumnos, DB_FILE);
 
@@ -77,8 +66,8 @@ const crearAlumno = (req, res) => {
 // PUT /alumnos/:id - actualiza un alumno
 const editarAlumno = (req, res) => {
   const alumnos = readFile(DB_FILE);
-  const id = parseInt(req.params.id);
-  const index = alumnos.findIndex(a => a.id === id);
+  const id = String(req.params.id);
+  const index = alumnos.findIndex(a => String(a.id) === id);
 
   if (index === -1) return res.status(404).send('Alumno no encontrado');
 
@@ -87,7 +76,7 @@ const editarAlumno = (req, res) => {
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     email: req.body.email,
-    curso: req.body.curso
+    telefono: req.body.telefono
   };
 
   writeFile(alumnos, DB_FILE);
@@ -102,7 +91,7 @@ const editarAlumno = (req, res) => {
 // DELETE /alumnos/:id - elimina un alumno
 const eliminaAlumno = (req, res) => {
   let alumnos = readFile(DB_FILE);
-  const id = parseInt(req.params.id);
+  const id = String(req.params.id);
   const cantidadInicial = alumnos.length;
   alumnos = alumnos.filter(a => a.id !== id);
 

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { coursesService } = require('../services/courses.service');
 const { readFile, writeFile } = require('../services/data.service');
+const { Inscripcion } = require('../models/inscripcion.class');
 
 const inscripcionesPath = path.join(__dirname, '../data/inscripciones.json');
 const alumnosPath = path.join(__dirname, '../data/alumnos.json');
@@ -99,28 +100,17 @@ const crearInscripcion = (req, res) => {
     return res.status(400).send('Pago inicial obligatorio');
   }
 
-  if (curso.alumnos.includes(Number(alumnoId))) {
+  if (curso.alumnos.includes(alumnoId)) {
     return res.status(400).send('El alumno ya está inscripto');
   }
 
-  const nuevaInscripcion = {
-    id: inscripciones.length ? inscripciones[inscripciones.length - 1].id + 1 : 1,
-    alumnoId: Number(alumnoId),
-    cursoId: cursoId,
-    fecha_inscripcion: new Date().toISOString().split('T')[0],
-    estado: "activo",
-    pagos: [{
-      monto: Number(monto),
-      fecha_pago: new Date().toISOString().split('T')[0],
-      medio
-    }]
-  };
+  const nuevaInscripcion = new Inscripcion(alumnoId, cursoId, monto, medio);
 
   inscripciones.push(nuevaInscripcion);
   writeFile(inscripciones, inscripcionesPath);
 
   try {
-    coursesService.addAlumns(cursoId, [Number(alumnoId)]);
+    coursesService.addAlumns(cursoId, [alumnoId]);
   } catch (err) {
     return res.status(400).send(err.message);
   }
@@ -156,36 +146,32 @@ const editarInscripcion = (req, res) => {
   const { id } = req.params;
   const { alumnoId: nuevoAlumnoId, cursoId: nuevoCursoId } = req.body;
   const inscripciones = readFile(inscripcionesPath);
+  const alumnos = readFile(alumnosPath);
+  const cursos = coursesService.getAllCourses();
 
   const idx = inscripciones.findIndex(i => String(i.id) === String(id));
   if (idx === -1) {
     return res.status(404).send('Inscripción no encontrada');
   }
+
   const original = inscripciones[idx];
   const antiguoAlumnoId = String(original.alumnoId);
   const antiguoCursoId = String(original.cursoId);
 
-  original.alumnoId = Number(nuevoAlumnoId);
+  original.alumnoId = nuevoAlumnoId;
   original.cursoId = nuevoCursoId;
   writeFile(inscripciones, inscripcionesPath);
 
-  // Se debe eliminar al alumno antiguo del curso antiguo (si hay cambio de alumno o curso)
-  if (antiguoAlumnoId !== String(nuevoAlumnoId) || antiguoCursoId !== String(nuevoCursoId)) {
+  // Quitar del curso viejo y agregar al nuevo si corresponde
+  if (antiguoAlumnoId !== nuevoAlumnoId || antiguoCursoId !== nuevoCursoId) {
     try {
       coursesService.removeAlumns(antiguoCursoId, antiguoAlumnoId);
+      coursesService.addAlumns(nuevoCursoId, [nuevoAlumnoId]);
     } catch (err) {
-      console.error('No pude quitar alumno antiguo:', err.message);
+      console.error('Error al actualizar cursos:', err.message);
     }
   }
 
-  // Se debe agregar al nuevo alumno al nuevo curso (si hay cambio de alumno o curso)
-  if (antiguoAlumnoId !== String(nuevoAlumnoId) || antiguoCursoId !== String(nuevoCursoId)) {
-    try {
-      coursesService.addAlumns(nuevoCursoId, [Number(nuevoAlumnoId)]);
-    } catch (err) {
-      console.error('No pude añadir alumno nuevo:', err.message);
-    }
-  }
   isApi(req)
     ? res.status(200).send(original)
     : res.redirect('/inscripciones');
@@ -215,18 +201,18 @@ const agregarPago = (req, res) => {
   if (idx === -1) {
     return res.status(404).send('Inscripción no encontrada');
   }
+
   if (!monto || !medio) {
     return res.status(400).send('Monto y medio de pago son obligatorios');
   }
 
   // Insertar nuevo pago con fecha del sistema
   const insc = inscripciones[idx];
-  insc.pagos = insc.pagos || [];
-  insc.pagos.push({
+  insc.pagos = [{
     monto: Number(monto),
     medio,
     fecha_pago: new Date().toISOString().slice(0, 10)
-  });
+  }];
 
   insc.estado = 'activo';
 
