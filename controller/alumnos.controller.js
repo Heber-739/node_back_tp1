@@ -33,7 +33,7 @@ const getAllAlumnos = (req, res) => {
 // GET /alumnos/:id/editar
 const goToEditarAlumno = (req, res) => {
   const alumnos = readFile(DB_FILE);
-  const alumno = alumnos.find(a => a.id === parseInt(req.params.id));
+  const alumno = alumnos.find(a => String(a.id) === String(req.params.id));
   if (!alumno) return res.status(404).send('Alumno no encontrado');
 
   if (isApi(req)) {
@@ -66,8 +66,8 @@ const crearAlumno = (req, res) => {
 // PUT /alumnos/:id - actualiza un alumno
 const editarAlumno = (req, res) => {
   const alumnos = readFile(DB_FILE);
-  const id = parseInt(req.params.id);
-  const index = alumnos.findIndex(a => a.id === id);
+  const id = String(req.params.id);
+  const index = alumnos.findIndex(a => String(a.id) === id);
 
   if (index === -1) return res.status(404).send('Alumno no encontrado');
 
@@ -91,7 +91,7 @@ const editarAlumno = (req, res) => {
 // DELETE /alumnos/:id - elimina un alumno
 const eliminaAlumno = (req, res) => {
   let alumnos = readFile(DB_FILE);
-  const id = parseInt(req.params.id);
+  const id = String(req.params.id);
   const cantidadInicial = alumnos.length;
   alumnos = alumnos.filter(a => a.id !== id);
 
