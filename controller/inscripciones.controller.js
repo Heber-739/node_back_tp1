@@ -201,18 +201,18 @@ const agregarPago = (req, res) => {
   if (idx === -1) {
     return res.status(404).send('Inscripción no encontrada');
   }
+
   if (!monto || !medio) {
     return res.status(400).send('Monto y medio de pago son obligatorios');
   }
 
   // Insertar nuevo pago con fecha del sistema
   const insc = inscripciones[idx];
-  insc.pagos = insc.pagos || [];
-  insc.pagos.push({
+  insc.pagos = [{
     monto: Number(monto),
     medio,
     fecha_pago: new Date().toISOString().slice(0, 10)
-  });
+  }];
 
   insc.estado = 'activo';
 
