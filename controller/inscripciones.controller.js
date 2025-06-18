@@ -1,12 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const { coursesService } = require('../services/courses.service');
-const { readFile, writeFile } = require('../services/data.service');
-const { Inscripcion } = require('../models/inscripcion.class');
+const { Inscripcion } = require('../models/inscripcion.model');
 
 const inscripcionesPath = path.join(__dirname, '../data/inscripciones.json');
 const alumnosPath = path.join(__dirname, '../data/alumnos.json');
-
 
 const isApi = (req) => {
   const ua = req.get('User-Agent');
