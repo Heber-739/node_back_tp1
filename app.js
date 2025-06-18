@@ -1,3 +1,6 @@
+require('dotenv').config();
+const connectDB = require('./config/db');
+connectDB();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -76,10 +79,12 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-// Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// Solo iniciar el servidor si no está en modo test
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
 
 module.exports = app;
