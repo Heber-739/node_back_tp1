@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
+const serverless = require('serverless-http');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -7,17 +8,17 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 
 // Rutas
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const alumnosRouter = require('./routes/alumnos');
-const profesoresRouter = require('./routes/profesores');
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
-const coursesRouter = require('./routes/courses');
-const inscripcionesRouter = require('./routes/inscripciones');
-const facturasProfesoresRouter = require('./routes/facturas-profesores');
-const reportRoutes = require("./routes/reportes");
-const assistsRouter = require('./routes/assists');
+const indexRouter = require('../routes/index');
+const usersRouter = require('../routes/users');
+const alumnosRouter = require('../routes/alumnos');
+const profesoresRouter = require('../routes/profesores');
+const loginRouter = require('../routes/login');
+const logoutRouter = require('../routes/logout');
+const coursesRouter = require('../routes/courses');
+const inscripcionesRouter = require('../routes/inscripciones');
+const facturasProfesoresRouter = require('../routes/facturas-profesores');
+const reportRoutes = require("../routes/reportes");
+const assistsRouter = require('../routes/assists');
 
 
 
@@ -76,10 +77,6 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-// Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+module.exports = serverless(app);
 
 module.exports = app;
