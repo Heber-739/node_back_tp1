@@ -1,13 +1,13 @@
-const fs = require("fs");
-//const path = require("path");
+const Profesor = require('../models/Profesor.model');
 
-const PROFESORES_FILE = require('path').join(__dirname, "../data/profesores.json");
-
-
-const getAllProfesores = () => {
-  const leerDatos = () => JSON.parse(fs.readFileSync(PROFESORES_FILE, 'utf8'));
-  const profesores = leerDatos();
-  return profesores;  // Devuelvo el array profesores
+const getAllProfesores = async () => {
+  try {
+    const profesores = await Profesor.find().lean();
+    return profesores;
+  } catch (error) {
+    console.error("Error al obtener profesores desde MongoDB:", error);
+    return [];
+  }
 };
 
 module.exports = {
