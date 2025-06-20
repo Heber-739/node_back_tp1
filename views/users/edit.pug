@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  h2 Editar Usuario
+
+  form(action=`/users/${user.id}/editar`, method="POST")
+    div.mb-3
+      label.form-label(for="username") Username:
+      input.form-control(type="text", name="username", required, value=user.username)
+    div.mb-3
+      label.form-label(for="name") Nombre:
+      input.form-control(type="text", name="name", required, value=user.name)
+    div.mb-3
+      label.form-label(for="password") Nueva Contraseña (opcional):
+      input.form-control(type="password", name="password", placeholder="Dejar en blanco para mantener actual")
+    button.btn.btn-primary(type="submit") Guardar Cambios
+    a.btn.btn-secondary.ms-2(href="/users") Cancelar
