@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
 
 const pagoSchema = new mongoose.Schema({
   monto: { type: Number, required: true },
@@ -8,17 +7,32 @@ const pagoSchema = new mongoose.Schema({
 }, { _id: false });
 
 const inscripcionSchema = new mongoose.Schema({
-  id: { type: String, default: uuidv4 }, // 👈 tu ID personalizado con UUID
-  alumnoId: { type: String, required: true },
-  cursoId: { type: String, required: true },
+
+  alumnoId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Alumno',
+    required: true
+  },
+  cursoId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course',
+    required: true
+  },
   fecha_inscripcion: {
     type: String,
     default: () => new Date().toISOString().split('T')[0]
   },
-  estado: { type: String, default: 'activo' },
-  pagos: { type: [pagoSchema], default: [] }
+  estado: {
+    type: String,
+    default: 'activo',
+    enum: ['activo', 'cancelado', 'finalizado'] // opcional: limitar estados válidos
+  },
+  pagos: {
+    type: [pagoSchema],
+    default: []
+  }
 }, {
-  timestamps: true // opcional: agrega createdAt / updatedAt
+  timestamps: true
 });
 
 module.exports = mongoose.model('Inscripcion', inscripcionSchema);

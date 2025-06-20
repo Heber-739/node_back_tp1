@@ -1,133 +1,120 @@
-const { readFile, writeFile } = require("./data.service");
-
-const COURSES_FILE = require("path").join(__dirname, "../data/courses.json");
+const Course = require('../models/Course.model');
 
 class CoursesService {
 
-  getAllCourses = () => {
-    const data = readFile(COURSES_FILE);
-    return data || [];
+  getAllCourses = async () => {
+    return await Course.find().lean();
   };
 
-  getActiveCourses = () => {
-    const data = readFile(COURSES_FILE);
-    return data?.filter((course) => course?.estado === "activa") || [];
+  getActiveCourses = async () => {
+    return await Course.find({ estado: 'activa' }).lean();
   };
 
-  addCourse = (curse) => {
-    let courses = this.getAllCourses()
-    courses.unshift(curse);
-    writeFile(courses,COURSES_FILE)
+  addCourse = async (course) => {
+    const nuevo = new Course(course);
+    return await nuevo.save();
   }
 
-  updateCourse = (course) => {
-    const data = readFile(COURSES_FILE);
-    const index = data?.findIndex((c) => c.id === course.id);
-    if (index === -1) {
-      throw new Error("Curso no encontrado");
-    }
-    data[index] = course;
-    writeFile(data,COURSES_FILE);
+  updateCourse = async (updatedCourse) => {
+    const course = await Course.findById(updatedCourse._id);
+    if (!course) throw new Error("Curso no encontrado");
+
+    Object.assign(course, updatedCourse);
+    return await course.save();
   };
 
-  getCourseById = (id) => {
-    const data = readFile(COURSES_FILE);
-    const course = data?.find((c) => c.id === id);
-    if (!course) {
-      throw new Error("");
-    }
-
+  getCourseById = async (id) => {
+    const course = await Course.findById(id).lean();
+    if (!course) throw new Error("Curso no encontrado");
     return course;
   };
 
-  addDictation = (courseId, fecha, alumns) => {
-    let course = this.getCourseById(courseId);
-    try {
-      const newDate = new Date(fecha)
-      if(course.dictados.some(d => new Date(d?.fecha) === newDate)){
-        return;
-    }
-    course.dictados?.unshift({ fecha, asistencias: alumns });
-    this.updateCourse(course);
-    } catch (error) {
-      throw new Error("No se pudo agregar el registro de clase");
-    }
-  };
+  addDictation = async (courseId, fecha, alumns) => {
 
-  addAlumns = (courseId, alumnArray) => {
-    let course = this.getCourseById(courseId);
-    if (course.cupo == course.alumnos.length) {
-      throw new Error("Cupo lleno");
+    const course = await Course.findById(courseId);
+    if (!course) throw new Error("Curso no encontrado");
 
+    const fechaDate = new Date(fecha);
+    if (course.dictados?.some(d => new Date(d.fecha).toDateString() === fechaDate.toDateString())) {
+      return;
     }
-    alumnArray = alumnArray.filter((a) => !course.alumnos.includes(a))
-    course.alumnos.push(...alumnArray);
-    this.updateCourse(course);
-  };
 
-  addCourseAttendence = (courseId, fecha, alumnos) => {
-    this.addDictation(courseId, fecha);
-    this.addAlumns(courseId, alumnos);
+    course.dictados.unshift({ fecha: fechaDate, asistencias: alumns });
+    await course.save();
+  }
+};
+
+addAlumns = async (courseId, alumnArray) => {
+  const course = await Course.findById(courseId);
+  if (!course) throw new Error("Curso no encontrado");
+
+  if (course.alumnos.length >= course.cupo) {
+    throw new Error("Cupo lleno");
   }
 
-  getAlumnsByCourse = (courseId) => {
-    let course = this.getCourseById(courseId);
-    return course.alumnos;
-  };
+  const nuevos = alumnArray.filter((a) => !course.alumnos.includes(a));
+  course.alumnos.push(...nuevos);
+  await course.save();
+};
 
-  getQuotaByCourse = (courseId) => {
-    let course = this.getCourseById(courseId);
-    return course.cupo;
-  };
-
-  getFullCourses = () => {
-    const courses = this.getAllCourses();
-    const fullCourses = courses.filter((c) => c?.estado === "activa" && c?.cupo === c?.alumnos.length);
-    return fullCourses || [];
-  };
-
-  getVacancyCourses = () => {
-    const courses = this.getAllCourses();
-    const vacancyCourses = courses.filter((c) => c?.estado === "activa" && c?.cupo > c?.alumnos.length);
-    return vacancyCourses || [];
-  }
-
-  getCoursesByAlumnId = (id) => {
-    const allCourses = this.getAllCourses();
-    const coursesResult = allCourses.filter((c) => c?.alumnos?.includes(id));
-    return coursesResult || [];
-  };
-
-  getCoursesByDateDictation = (date) => {
-    const allCourses = this.getAllCourses();
-    const coursesResult = allCourses.filter((c) =>
-      c?.dictados?.find((d) => new Date(d.fecha) === new Date(date))
-    );
-    return coursesResult;
-  };
-
-  removeAlumns = (courseId, alumnId) => {
-
-    const data = readFile(COURSES_FILE);
-    if (!data || !Array.isArray(data)) {
-      throw new Error('Formato de courses.json inválido');
-    }
-
-    const idx = data.findIndex(c => c.id === courseId);
-    if (idx === -1) {
-      throw new Error('Curso no encontrado');
-    }
-    const course = data[idx];
-    const inscritosAntes = Array.isArray(course.alumnos) ? course.alumnos.length : 0;
-    course.alumnos = (course.alumnos || []).filter(a => String(a) !== String(alumnId));
-    if (course.alumnos.length === inscritosAntes) {
-      throw new Error('El alumno no estaba inscrito en este curso');
-    }
-
-    data[idx] = course;
-    writeFile(data, COURSES_FILE);
-  };
+addCourseAttendence = async (courseId, fecha, alumnos) => {
+  await this.addDictation(courseId, fecha, alumnos);
+  await this.addAlumns(courseId, alumnos);
 }
+
+getAlumnsByCourse = async (courseId) => {
+  const course = await Course.findById(courseId).lean();
+  return course?.alumnos || [];
+};
+
+getQuotaByCourse = async (courseId) => {
+  const course = await Course.findById(courseId).lean();
+  return course?.cupo;
+};
+
+getFullCourses = async () => {
+  return await Course.find({
+    estado: 'activa',
+    $expr: { $eq: [{ $size: "$alumnos" }, "$cupo"] }
+  }).lean();
+};
+
+getVacancyCourses = async () => {
+  return await Course.find({
+    estado: 'activa',
+    $expr: { $lt: [{ $size: "$alumnos" }, "$cupo"] }
+  }).lean();
+}
+
+getCoursesByAlumnId = async (id) => {
+  return await Course.find({ alumnos: id }).lean();
+};
+
+getCoursesByDateDictation = async (date) => {
+  const fecha = new Date(date).toDateString();
+  const allCourses = await Course.find().lean();
+
+  const coursesResult = allCourses.filter((c) =>
+    c?.dictados?.some(d => new Date(d.fecha).toDateString() === fecha)
+  );
+  return coursesResult;
+};
+
+removeAlumns = async (courseId, alumnId) => {
+
+  const course = await Course.findById(courseId);
+  if (!course) throw new Error("Curso no encontrado");
+
+  const antes = course.alumnos.length;
+  course.alumnos = course.alumnos.filter(a => String(a) !== String(alumnId));
+
+  if (course.alumnos.length === antes) {
+    throw new Error("El alumno no estaba inscrito en este curso");
+  }
+
+  await course.save();
+};
+
 const coursesService = new CoursesService();
 
 module.exports = {
