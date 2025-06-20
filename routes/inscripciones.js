@@ -1,4 +1,5 @@
 const express = require('express');
+const verifyToken = require('../middlewares/verifyToken'); // Middleware para verificar el token
 const router = express.Router();
 const {
   getAllInscripciones,
@@ -9,6 +10,9 @@ const {
   agregarPago,
   eliminarInscripcion
 } = require('../controller/inscripciones.controller');
+
+// Middleware global para este router
+router.use(verifyToken); // Verifica el token en todas las rutas de este router
 
 // GET todas las inscripciones
 router.get('/', getAllInscripciones);

@@ -1,4 +1,5 @@
 const express = require('express');
+const verifyToken = require('../middlewares/verifyToken');
 const router = express.Router();
 const {
   getUsers,
@@ -7,6 +8,9 @@ const {
   updateUser,
   deleteUser
 } = require('../controller/users.controller');
+
+// Middleware global para este router
+router.use(verifyToken); // Verifica el token en todas las rutas de este router
 
 // Listar
 router.get('/', getUsers);

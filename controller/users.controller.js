@@ -1,7 +1,13 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/User.model');
+  const bcrypt = require('bcrypt');
+  const User = require('../models/User.model');
 
-// GET /users - Listar usuarios + opcional búsqueda
+  const isApi = (req) => {
+    const ua = req.get('User-Agent');
+    return /postman|thunder client/i.test(ua);
+  };
+
+
+ // GET /users - Listar usuarios + opcional búsqueda
 const getUsers = async (req, res, next) => {
   try {
     const filtro = req.query.nombre;
@@ -18,7 +24,11 @@ const getUsers = async (req, res, next) => {
       users = await User.find({});
     }
 
-    res.render('users/index', { users, nombre: filtro });
+    if (isApi(req)) {
+      return res.status(200).json(users);
+    } else {
+      res.render('users/index', { users, nombre: filtro });
+    }
   } catch (error) {
     next(error);
   }

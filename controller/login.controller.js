@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const User = require('../models/User.model'); // corregí según tu estructura
+const User = require('../models/User.model');
+
+const isApi = (req) => {
+  const ua = req.get('User-Agent') || '';
+  return /postman|thunder client/i.test(ua);
+};
 
 const loginUser = async (req, res, next) => {
   try {
@@ -10,10 +15,14 @@ const loginUser = async (req, res, next) => {
     const passwordCorrect = user && await bcrypt.compare(password, user.passwordHash);
 
     if (!user || !passwordCorrect) {
-      return res.status(401).render('login', {
-        error: 'Credenciales incorrectas',
-        isLoginPage: true
-      });
+      if (isApi(req)) {
+        return res.status(401).json({ error: 'Credenciales incorrectas' });
+      } else {
+        return res.status(401).render('login', {
+          error: 'Credenciales incorrectas',
+          isLoginPage: true
+        });
+      }
     }
 
     const userForToken = {
@@ -33,13 +42,18 @@ const loginUser = async (req, res, next) => {
     };
     req.session.token = token;
 
-    // Redirigir al dashboard o página protegida
-    res.redirect('/alumnos');
+    if (isApi(req)) {
+      return res.json({
+        token,
+        username: user.username,
+        name: user.name
+      });
+    } else {
+      return res.redirect('/alumnos');
+    }
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = {
-  loginUser
-};
+module.exports = { loginUser };
