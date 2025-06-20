@@ -47,5 +47,12 @@
     "apellido": "Orellano",
     "email": "miqa.orellano@gmail.com",
     "curso": "Programación"
+  },
+  {
+    "id": "8792f4bf-d578-40b6-8c82-c5416cf2a542",
+    "nombre": "Micaela",
+    "apellido": "Orellano",
+    "email": "miqa.orellano@gmail.com",
+    "telefono": "02914136292"
   }
 ]

@@ -1,12 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+const Inscripcion = require('../models/Inscripcion.model');
+const Alumno = require('../models/Alumno.model');
+const Course = require('../models/Course.model');
 const { coursesService } = require('../services/courses.service');
-const { readFile, writeFile } = require('../services/data.service');
-const { Inscripcion } = require('../models/inscripcion.class');
-
-const inscripcionesPath = path.join(__dirname, '../data/inscripciones.json');
-const alumnosPath = path.join(__dirname, '../data/alumnos.json');
-
 
 const isApi = (req) => {
   const ua = req.get('User-Agent');
@@ -14,236 +9,232 @@ const isApi = (req) => {
 };
 
 //Obtener todas las inscripciones
-const getAllInscripciones = (req, res) => {
-  const { nombreAlumno = '', nombreCurso = '' } = req.query;
+const getAllInscripciones = async (req, res) => {
+  try {
+    const { nombreAlumno = '', nombreCurso = '' } = req.query;
 
-  const inscripciones = readFile(inscripcionesPath);
-  const alumnos = readFile(alumnosPath);
-  const cursos = coursesService.getAllCourses();
+    let inscripciones = await Inscripcion.find()
+      .populate('alumnoId')
+      .populate('cursoId')
+      .lean();
 
-  const inscripcionesConInfo = inscripciones.map(insc => {
-    const alumno = alumnos.find(a => String(a.id) === String(insc.alumnoId));
-    const curso = cursos.find(c => String(c.id) === String(insc.cursoId));
+    inscripciones = inscripciones.map(insc => {
+      const alumno = insc.alumnoId;
+      const curso = insc.cursoId;
 
-    const fechaInscripcion = new Date(insc.fecha_inscripcion).toLocaleDateString('es-AR');
-    const pagosFormateados = (insc.pagos || []).map(pago => ({
-      ...pago,
-      fecha_pago: new Date(pago.fecha_pago).toLocaleDateString('es-AR')
-    }));
+      const fechaInscripcion = new Date(insc.fecha_inscripcion).toLocaleDateString('es-AR');
+      const pagosFormateados = (insc.pagos || []).map(pago => ({
+        ...pago,
+        fecha_pago: new Date(pago.fecha_pago).toLocaleDateString('es-AR')
+      }));
 
-    let estado = "inactivo";
-    if (insc.pagos?.length) {
-      const ultimaFechaPago = new Date(insc.pagos[insc.pagos.length - 1].fecha_pago);
-      const hoy = new Date();
-      const dias = (hoy - ultimaFechaPago) / (1000 * 60 * 60 * 24);
-      estado = dias > 30 ? "inactivo" : "activo";
+      let estado = "inactivo";
+      if (insc.pagos?.length) {
+        const ultimaFechaPago = new Date(insc.pagos[insc.pagos.length - 1].fecha_pago);
+        const hoy = new Date();
+        const dias = (hoy - ultimaFechaPago) / (1000 * 60 * 60 * 24);
+        estado = dias > 30 ? "inactivo" : "activo";
+      }
+
+      return {
+        ...insc,
+        alumno: alumno ? { id: alumno._id, nombre: alumno.nombre, apellido: alumno.apellido } : null,
+        curso: curso ? { id: curso._id, nombre: curso.nombre } : null,
+        fecha_inscripcion: fechaInscripcion,
+        pagos: pagosFormateados,
+        estado: estado
+      };
+    });
+
+    if (nombreAlumno) {
+      const aux = nombreAlumno.toLowerCase();
+      inscripciones = inscripciones.filter(i => i.alumno && i.alumno.nombre && i.alumno.nombre.toLowerCase().includes(aux));
+    }
+    if (nombreCurso) {
+      const aux = nombreCurso.toLowerCase();
+      inscripciones = inscripciones.filter(i => i.curso && i.curso.nombre && i.curso.nombre.toLowerCase().includes(aux));
     }
 
-    return {
-      ...insc,
-      alumno: alumno ? { id: alumno.id, nombre: alumno.nombre, apellido: alumno.apellido } : null,
-      curso: curso ? { id: curso.id, nombre: curso.nombre } : null,
-      fecha_inscripcion: fechaInscripcion,
-      pagos: pagosFormateados,
-      estado: estado
-    };
-  });
-
-  let listado = inscripcionesConInfo;
-  if (nombreAlumno) {
-    const aux = nombreAlumno.toLowerCase();
-    listado = listado.filter(i => i.alumno?.nombre.toLowerCase().includes(aux));
-  }
-  if (nombreCurso) {
-    const aux = nombreCurso.toLowerCase();
-    listado = listado.filter(i => i.curso?.nombre.toLowerCase().includes(aux));
-  }
-
-  if (isApi(req)) {
-    return res.status(200).json(listado);
-  } else {
-    res.render('inscripciones/listado', {
-      inscripciones: listado,
-      alumnos,
-      cursos,
-      cursosDisponibles: coursesService.getVacancyCourses() || [],
-      nombreAlumno,
-      nombreCurso
-    });
+    if (isApi(req)) {
+      return res.status(200).json(inscripciones);
+    } else {
+      const alumnos = await Alumno.find().lean();
+      const cursos = await coursesService.getAllCourses();
+      const cursosDisponibles = await coursesService.getVacancyCourses();
+      return res.render('inscripciones/listado', {
+        inscripciones,
+        alumnos,
+        cursos,
+        cursosDisponibles,
+        nombreAlumno,
+        nombreCurso
+      });
+    }
+  } catch (error) {
+    console.error("Error al obtener inscripciones:", error);
+    res.status(500).send("Error interno del servidor");
   }
 };
 
 // Crear una nueva inscripción
-const crearInscripcion = (req, res) => {
-  const inscripciones = readFile(inscripcionesPath);
-  const alumnos = readFile(alumnosPath);
-
-  const { alumnoId, cursoId, monto, medio } = req.body;
-
-  const alumno = alumnos.find(a => String(a.id) === String(alumnoId));
-  if (!alumno) {
-    return res.status(400).send('El alumno no existe');
-  }
-
-  let curso;
+const crearInscripcion = async (req, res) => {
   try {
-    curso = coursesService.getCourseById(cursoId);
-  } catch (err) {
-    return res.status(400).send('El curso no existe');
+    const { alumnoId, cursoId, monto, medio } = req.body;
+
+    const alumno = await Alumno.findById(alumnoId);
+    const curso = await coursesService.getCourseById(cursoId);
+
+    if (!alumno || !curso) {
+      return res.status(400).send('Alumno o curso no válido');
+    }
+
+    if (curso.alumnos.includes(alumnoId)) {
+      return res.status(400).send('El alumno ya está inscripto');
+    }
+
+    if (curso.alumnos.length >= curso.cupo) {
+      return res.status(400).send('No hay cupos disponibles');
+    }
+
+    if (!monto || !medio) {
+      return res.status(400).send('Pago inicial obligatorio');
+    }
+
+    const nuevaInscripcion = new Inscripcion({
+      alumnoId,
+      cursoId,
+      pagos: [{
+        monto: Number(monto),
+        medio,
+        fecha_pago: new Date().toISOString().slice(0, 10)
+      }]
+    });
+
+    await nuevaInscripcion.save();
+    await coursesService.addAlumns(cursoId, [alumnoId]);
+
+    isApi(req)
+      ? res.status(201).json({ message: 'Inscripción creada', inscripcion: nuevaInscripcion })
+      : res.redirect('/inscripciones');
+  } catch (error) {
+    console.error("Error al crear inscripción:", error);
+    res.status(500).send("Error interno al crear inscripción");
   }
-
-  if (curso.cupo <= curso.alumnos.length) {
-    return res.status(400).send('No hay cupos disponibles');
-  }
-
-  if (!monto || !medio) {
-    return res.status(400).send('Pago inicial obligatorio');
-  }
-
-  if (curso.alumnos.includes(alumnoId)) {
-    return res.status(400).send('El alumno ya está inscripto');
-  }
-
-  const nuevaInscripcion = new Inscripcion(alumnoId, cursoId, monto, medio);
-
-  inscripciones.push(nuevaInscripcion);
-  writeFile(inscripciones, inscripcionesPath);
-
-  try {
-    coursesService.addAlumns(cursoId, [alumnoId]);
-  } catch (err) {
-    return res.status(400).send(err.message);
-  }
-
-  isApi(req)
-    ? res.status(201).json({ message: 'Inscripción creada', inscripcion: nuevaInscripcion })
-    : res.redirect('/inscripciones');
 };
 
 // GET Editar inscripción
-const goToeditarInscripcion = (req, res) => {
-  const { id } = req.params;
-  const inscripciones = readFile(inscripcionesPath);
-  const alumnos = readFile(alumnosPath);
+const goToeditarInscripcion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const inscripcion = await Inscripcion.findById(id).lean();
+    const alumnos = await Alumno.find().lean();
+    const cursosDisponibles = await coursesService.getVacancyCourses();
+    if (!inscripcion)
+      return res.status(404).send("Inscripción no encontrada");
 
-  const inscripcion = inscripciones.find(i => String(i.id) === String(id));
-  if (!inscripcion) {
-    return res.status(404).send('Inscripción no encontrada');
+    res.render('inscripciones/editar', { inscripcion, alumnos, cursosDisponibles });
+  } catch (error) {
+    res.status(500).send("Error interno al cargar edición");
   }
-
-  // Cursos con cupo disponible
-  const cursosDisponibles = coursesService.getVacancyCourses() || [];
-
-  res.render('inscripciones/editar', {
-    inscripcion,
-    alumnos,
-    cursosDisponibles
-  });
 };
 
 // PUT Editar inscripción
-const editarInscripcion = (req, res) => {
-  const { id } = req.params;
-  const { alumnoId: nuevoAlumnoId, cursoId: nuevoCursoId } = req.body;
-  const inscripciones = readFile(inscripcionesPath);
-  const alumnos = readFile(alumnosPath);
-  const cursos = coursesService.getAllCourses();
+const editarInscripcion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { alumnoId, cursoId } = req.body;
 
-  const idx = inscripciones.findIndex(i => String(i.id) === String(id));
-  if (idx === -1) {
-    return res.status(404).send('Inscripción no encontrada');
-  }
+    const inscripcion = await Inscripcion.findById(id);
+    if (!inscripcion) return res.status(404).send("Inscripción no encontrada");
 
-  const original = inscripciones[idx];
-  const antiguoAlumnoId = String(original.alumnoId);
-  const antiguoCursoId = String(original.cursoId);
+    const cursoCambio = String(inscripcion.cursoId) !== String(cursoId);
+    const alumnoCambio = String(inscripcion.alumnoId) !== String(alumnoId);
 
-  original.alumnoId = nuevoAlumnoId;
-  original.cursoId = nuevoCursoId;
-  writeFile(inscripciones, inscripcionesPath);
-
-  // Quitar del curso viejo y agregar al nuevo si corresponde
-  if (antiguoAlumnoId !== nuevoAlumnoId || antiguoCursoId !== nuevoCursoId) {
-    try {
-      coursesService.removeAlumns(antiguoCursoId, antiguoAlumnoId);
-      coursesService.addAlumns(nuevoCursoId, [nuevoAlumnoId]);
-    } catch (err) {
-      console.error('Error al actualizar cursos:', err.message);
+    if (cursoCambio || alumnoCambio) {
+      await coursesService.removeAlumns(inscripcion.cursoId, inscripcion.alumnoId);
+      await coursesService.addAlumns(cursoId, [alumnoId]);
     }
-  }
 
-  isApi(req)
-    ? res.status(200).send(original)
-    : res.redirect('/inscripciones');
+    inscripcion.alumnoId = alumnoId;
+    inscripcion.cursoId = cursoId;
+    await inscripcion.save();
+
+    return isApi(req)
+      ? res.status(200).json(inscripcion)
+      : res.redirect('/inscripciones');
+
+  } catch (error) {
+    console.error("Error al editar inscripción:", error);
+    res.status(500).send("Error al editar inscripción");
+  }
 };
 
 //Para pagos
 // GET para agregar pago
-const goToAgregarPago = (req, res) => {
-  const { id } = req.params;
-  const inscripciones = readFile(inscripcionesPath);
-  const inscripcion = inscripciones.find(i => String(i.id) === String(id));
-  if (!inscripcion) {
-    return res.status(404).send('Inscripción no encontrada');
+const goToAgregarPago = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const inscripcion = await Inscripcion.findById(id).lean();
+
+    if (!inscripcion) return res.status(404).send("Inscripción no encontrada");
+
+    isApi(req)
+      ? res.status(200).send(inscripcion)
+      : res.render('inscripciones/nuevoPago', { inscripcion });
+
+  } catch (error) {
+    res.status(500).send("Error al buscar inscripción");
   }
-  isApi(req)
-    ? res.status(200).send(inscripcion)
-    : res.render('inscripciones/nuevoPago', { inscripcion });
 };
 
 // POST que registra el pago
-const agregarPago = (req, res) => {
-  const { id } = req.params;
-  const { monto, medio } = req.body;
-  const inscripciones = readFile(inscripcionesPath);
+const agregarPago = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { monto, medio } = req.body;
 
-  const idx = inscripciones.findIndex(i => String(i.id) === String(id));
-  if (idx === -1) {
-    return res.status(404).send('Inscripción no encontrada');
+    const inscripcion = await Inscripcion.findById(id);
+    if (!inscripcion)
+      return res.status(404).send("Inscripción no encontrada");
+
+    if (!monto || !medio)
+      return res.status(400).send("Monto y medio de pago son obligatorios");
+
+
+    inscripcion.pagos.push({
+      monto: Number(monto),
+      medio,
+      fecha_pago: new Date().toISOString().slice(0, 10)
+    });
+
+    inscripcion.estado = 'activo';
+    await inscripcion.save();
+
+    isApi(req)
+      ? res.status(200).json(inscripcion)
+      : res.redirect('/inscripciones');
+  } catch (error) {
+    console.error("Error al registrar pago:", error);
+    res.status(500).send("Error al registrar pago");
   }
-
-  if (!monto || !medio) {
-    return res.status(400).send('Monto y medio de pago son obligatorios');
-  }
-
-  // Insertar nuevo pago con fecha del sistema
-  const insc = inscripciones[idx];
-  insc.pagos = [{
-    monto: Number(monto),
-    medio,
-    fecha_pago: new Date().toISOString().slice(0, 10)
-  }];
-
-  insc.estado = 'activo';
-
-  writeFile(inscripciones, inscripcionesPath);
-  isApi(req)
-    ? res.status(200).send(insc)
-    : res.redirect('/inscripciones');
 };
 
 // DELETE eliminar inscripción
-const eliminarInscripcion = (req, res) => {
-  const { id } = req.params;
-  const inscripciones = readFile(inscripcionesPath);
-
-  const index = inscripciones.findIndex(i => String(i.id) === String(id));
-
-  if (index === -1) {
-    return res.status(404).json({ error: 'Inscripción no encontrada' });
-  }
-
-  const eliminada = inscripciones.splice(index, 1)[0];
-  writeFile(inscripciones, inscripcionesPath);
+const eliminarInscripcion = async (req, res) => {
   try {
-    coursesService.removeAlumns(eliminada.cursoId, eliminada.alumnoId);
-  } catch (err) {
-    console.error('Error al remover alumno del curso:', err.message);
-  }
+    const { id } = req.params;
+    const inscripcion = await Inscripcion.findByIdAndDelete(id);
 
-  isApi(req)
-    ? res.status(200).send({ mensaje: 'Inscripción eliminada', eliminada })
-    : res.redirect('/inscripciones');
+    if (!inscripcion) return res.status(404).send("Inscripción no encontrada");
+
+    await coursesService.removeAlumns(inscripcion.cursoId, inscripcion.alumnoId);
+
+    isApi(req)
+      ? res.status(200).send({ mensaje: 'Inscripción eliminada', inscripcion })
+      : res.redirect('/inscripciones');
+  } catch (error) {
+    res.status(500).send("Error al eliminar inscripción");
+  }
 };
 
 module.exports = {

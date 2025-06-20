@@ -40,9 +40,9 @@ block content
           td= course.area
           td= course.estado
           td
-            a(href=`/courses/${course.id}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
-            a(href=`/courses/edit/${course.id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
-            form(action=`/courses/${course.id}?_method=DELETE` method="POST")
+            a(href=`/courses/${course._id}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
+            a(href=`/courses/edit/${course._id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
+            form(action=`/courses/${course._id}?_method=DELETE` method="POST")
               button.btn.btn-danger.btn-sm(type="submit") Eliminar
 
 
@@ -51,16 +51,11 @@ block content
     .card.shadow
       .card-body
         h2.mb-4 Crear Curso
-
-        //- .mb-3
-        //-   label(for="profesor" class="form-label") Profesor (ID):
-        //-   input#profesor.form-control(type="text" name="profesor" required)
         .mb-3
           label(for="profesor" class="form-label") Profesor:
           select#profesor.form-select(name="profesor" required)
             each prof in profesores
-              option(value=prof.id)= `${prof.apellido} ${prof.nombre} (${prof.id})`
-
+              option(value=prof._id)= `${prof.apellido} ${prof.nombre}`
         .mb-3
           label(for="nombre" class="form-label") Nombre del curso:
           input#nombre.form-control(type="text" name="nombre" required)
@@ -80,8 +75,8 @@ block content
         .mb-3
           label(for="estado" class="form-label") Estado:
           select#estado.form-select(name="estado" required)
-            option(value="activa") Activa
-            option(value="inactiva") Inactiva
+            option(value="activo") Activo
+            option(value="inactivo") Inactivo
 
         .text-center
           button.btn.btn-primary(type="submit") Crear Curso

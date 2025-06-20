@@ -42,14 +42,14 @@ block content
               else
                 i Sin pagos
             td
-              form(action=`/inscripciones/${inscripcion.id}?_method=DELETE`, method="POST", style="display:inline")
+              form(action=`/inscripciones/${inscripcion._id}?_method=DELETE`, method="POST", style="display:inline")
                 button.btn.btn-danger.btn-sm.me-2(type="submit") Eliminar
                 
-              form(action=`/inscripciones/editar/${inscripcion.id}`, method="GET", style="display:inline")
+              form(action=`/inscripciones/editar/${inscripcion._id}`, method="GET", style="display:inline")
                 button.btn.btn-primary.btn-sm(type="submit") Editar
 
               if inscripcion.estado === 'inactivo'
-                form(action=`/inscripciones/pago/${inscripcion.id}`, method="GET", style="display:inline")
+                form(action=`/inscripciones/pago/${inscripcion._id}`, method="GET", style="display:inline")
                   button.btn.btn-success.btn-sm(type="submit") Agregar Pago
 
 
@@ -65,14 +65,14 @@ block content
           select#alumnoId.form-control(name="alumnoId" required)
             option(value="") Seleccionar alumno
             each alumno in alumnos
-              option(value=alumno.id)= `${alumno.nombre} ${alumno.apellido}`
+              option(value=alumno._id)= `${alumno.nombre} ${alumno.apellido}`
         .mb-3
           label(for="cursoId" class="form-label") Curso:
           select#cursoId.form-control(name="cursoId" required)
             option(value="") Seleccionar curso
             if cursosDisponibles && cursosDisponibles.length
               each curso in cursosDisponibles
-                option(value=curso.id)= curso.nombre
+                option(value=curso._id)= curso.nombre
             else
               option(value="" disabled) No hay cursos disponibles
 

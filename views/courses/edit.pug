@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-    form(action=`/courses/${course.id}?_method=PUT` method="POST" class="container mt-5")
+    form(action=`/courses/${course._id}?_method=PUT` method="POST" class="container mt-5")
         .card.shadow
           .card-body
             h2.mb-4 Editar Curso
@@ -11,9 +11,9 @@ block content
               select#profesor.form-select(name="profesor" required)
                 each prof in profesores
                   option(
-                    value=prof.id
-                    selected=(String(prof.id) === String(course.profesor) ? true : false)
-                  ) #{prof.apellido} #{prof.nombre} (#{prof.id})
+                    value=prof._id
+                    selected=(String(prof._id) === String(course.profesor) ? true : false)
+                  ) #{prof.apellido} #{prof.nombre}
 
             .mb-3
               label(for="nombre" class="form-label") Nombre del curso:

@@ -1,7 +1,4 @@
-const fs = require('fs');
-const { readFile, writeFile } = require('../services/data.service');
-const { Alumno } = require('../models/alumno.class'); 
-const DB_FILE = require('path').join(__dirname, '../data/alumnos.json');
+const Alumno = require('../models/Alumno.model');
 
 const isApi = (req) => {
   const ua = req.get('User-Agent');
@@ -9,102 +6,107 @@ const isApi = (req) => {
 };
 
 // GET /alumnos con búsqueda y filtros
-const getAllAlumnos = (req, res) => {
-  const alumnos = readFile(DB_FILE);
+const getAllAlumnos = async (req, res) => {
   const { nombre } = req.query;
 
-  let filtrados = alumnos;
+  try {
+    let query = {};
+    if (nombre) {
+      const regex = new RegExp(nombre, 'i');
+      query = {
+        $or: [
+          { nombre: regex },
+          { apellido: regex }
+        ]
+      };
+    }
 
-  if (nombre) {
-    const busqueda = nombre.toLowerCase();
-    filtrados = filtrados.filter(a =>
-      a.nombre.toLowerCase().includes(busqueda) ||
-      a.apellido.toLowerCase().includes(busqueda)
-    );
-  }
+    const alumnos = await Alumno.find(query);
 
-  if (isApi(req)) {
-    return res.status(200).json(filtrados);
-  } else {
-    res.render('alumnos/index', { alumnos: filtrados, nombre });
+    if (isApi(req)) {
+      return res.status(200).json(alumnos);
+    } else {
+      res.render('alumnos/index', { alumnos, nombre });
+    }
+  } catch (err) {
+    res.status(500).send('Error al obtener alumnos');
   }
 };
 
 // GET /alumnos/:id/editar
-const goToEditarAlumno = (req, res) => {
-  const alumnos = readFile(DB_FILE);
-  const alumno = alumnos.find(a => String(a.id) === String(req.params.id));
-  if (!alumno) return res.status(404).send('Alumno no encontrado');
+const goToEditarAlumno = async (req, res) => {
+  try {
+    const alumno = await Alumno.findById(req.params.id);
+    if (!alumno) return res.status(404).send('Alumno no encontrado');
 
-  if (isApi(req)) {
-    return res.status(200).json(alumno);
-  } else {
-    res.render('alumnos/editar', { alumno });
+    if (isApi(req)) {
+      return res.status(200).json(alumno);
+    } else {
+      res.render('alumnos/editar', { alumno });
+    }
+  } catch (err) {
+    res.status(500).send('Error al obtener alumno');
   }
 };
 
 // POST /alumnos - crea un nuevo alumno
-const crearAlumno = (req, res) => {
-  const alumnos = readFile(DB_FILE);
-
+const crearAlumno = async (req, res) => {
   const { nombre, apellido, email, telefono } = req.body;
   if (!nombre || !apellido || !email || !telefono) {
     return res.status(400).send('Faltan campos requeridos');
   }
+  try {
+    const nuevoAlumno = new Alumno({ nombre, apellido, email, telefono });
+    await nuevoAlumno.save();
 
-  const nuevoAlumno = new Alumno(nombre, apellido, email, telefono);
-  alumnos.push(nuevoAlumno);
-  writeFile(alumnos, DB_FILE);
-
-  if (isApi(req)) {
-    return res.status(201).json({ message: 'Alumno creado', alumno: nuevoAlumno });
-  } else {
-    res.redirect('/alumnos');
+    if (isApi(req)) {
+      return res.status(201).json({ message: 'Alumno creado', alumno: nuevoAlumno });
+    } else {
+      res.redirect('/alumnos');
+    }
+  } catch (err) {
+    
+    res.status(500).send('Error al crear alumno');
   }
+
 };
 
 // PUT /alumnos/:id - actualiza un alumno
-const editarAlumno = (req, res) => {
-  const alumnos = readFile(DB_FILE);
-  const id = String(req.params.id);
-  const index = alumnos.findIndex(a => String(a.id) === id);
+const editarAlumno = async (req, res) => {
+  const { nombre, apellido, email, telefono } = req.body;
 
-  if (index === -1) return res.status(404).send('Alumno no encontrado');
+  try {
+    const alumno = await Alumno.findByIdAndUpdate(
+      req.params.id,
+      { nombre, apellido, email, telefono },
+      { new: true }
+    );
 
-  alumnos[index] = {
-    id,
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    email: req.body.email,
-    telefono: req.body.telefono
-  };
+    if (!alumno) return res.status(404).send('Alumno no encontrado');
 
-  writeFile(alumnos, DB_FILE);
-
-  if (isApi(req)) {
-    return res.status(200).json({ message: 'Alumno actualizado', alumno: alumnos[index] });
-  } else {
-    res.redirect('/alumnos');
+    if (isApi(req)) {
+      return res.status(200).json({ message: 'Alumno actualizado', alumno });
+    } else {
+      res.redirect('/alumnos');
+    }
+  } catch (err) {
+    res.status(500).send('Error al actualizar alumno');
   }
 };
 
 // DELETE /alumnos/:id - elimina un alumno
-const eliminaAlumno = (req, res) => {
-  let alumnos = readFile(DB_FILE);
-  const id = String(req.params.id);
-  const cantidadInicial = alumnos.length;
-  alumnos = alumnos.filter(a => a.id !== id);
+const eliminaAlumno = async (req, res) => {
+  try {
+    const alumno = await Alumno.findByIdAndDelete(req.params.id);
+    if (!alumno) return res.status(404).send('Alumno no encontrado');
 
-  if (alumnos.length === cantidadInicial) {
-    return res.status(404).send('Alumno no encontrado');
-  }
-
-  writeFile(alumnos, DB_FILE);
-
-  if (isApi(req)) {
-    return res.status(200).json({ message: 'Alumno eliminado', idEliminado: id });
-  } else {
-    res.redirect('/alumnos');
+    if (isApi(req)) {
+      return res.status(200).json({ message: 'Alumno eliminado', idEliminado: req.params.id });
+    } else {
+      res.redirect('/alumnos');
+    }
+  } catch (err) {
+    res.status(500).send('Error al eliminar alumno');
   }
 };
 
