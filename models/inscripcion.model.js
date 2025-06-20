@@ -7,7 +7,6 @@ const pagoSchema = new mongoose.Schema({
 }, { _id: false });
 
 const inscripcionSchema = new mongoose.Schema({
-
   alumnoId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Alumno',

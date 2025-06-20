@@ -1,4 +1,4 @@
-const Inscripcion = require('../models/Inscripcion.model');
+const Inscripcion = require('../models/inscripcion.model');
 const Alumno = require('../models/Alumno.model');
 const Course = require('../models/Course.model');
 const { coursesService } = require('../services/courses.service');
