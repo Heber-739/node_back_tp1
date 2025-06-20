@@ -1,21 +1,22 @@
-const fs = require("fs"); // <--- faltaba esta línea
-const { readFile, writeFile } = require("./data.service");
-const path = require("path");
-
-const ALUMNS_FILE = path.join(__dirname, "../data/alumnos.json");
+const Alumno = require('../models/Alumno.model');
 
 class AlumnsService {
 
-    getAllAlumnsByIds = (alumns) => {
-        const data = readFile(ALUMNS_FILE);
-        const response = data.filter((a) => alumns.includes(String(a.id)))
-        return response
-    }
-    
-    getAllAlumns = () => {
+    getAllAlumnsByIds = async (alumns) => {
         try {
-            const data = fs.readFileSync(ALUMNS_FILE, 'utf-8');
-            const alumnos = JSON.parse(data);
+            const encontrados = await Alumno.find({
+                _id: { $in: alumns }
+            });
+            return encontrados;
+        } catch (error) {
+            console.error("Error al buscar alumnos por ID:", error);
+            return [];
+        }
+    }
+
+    getAllAlumns = async () => {
+        try {
+            const alumnos = await Alumno.find();
             return alumnos;
         } catch (error) {
             console.error("Error leyendo archivo de alumnos:", error);

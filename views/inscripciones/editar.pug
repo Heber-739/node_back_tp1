@@ -3,7 +3,7 @@ extends ../layout
 block content
   h2 Editar Inscripción
 
-  form(action=`/inscripciones/editar/${inscripcion.id}?_method=PUT`, method="POST")
+  form(action=`/inscripciones/editar/${inscripcion._id}?_method=PUT`, method="POST")
     input(type="hidden", name="_method", value="PUT")
     .card.shadow
       .card-body
@@ -15,8 +15,8 @@ block content
             option(value="") Seleccionar alumno
             each a in alumnos
               option(
-                value=a.id 
-                selected=(String(a.id) === String(inscripcion.alumnoId)) ? true : false
+                value=a._id 
+                selected=(a._id === inscripcion.alumnoId) ? true : false
               ) #{a.nombre} #{a.apellido}
 
         //– Selector de curso
@@ -27,8 +27,8 @@ block content
             if cursosDisponibles.length
               each c in cursosDisponibles
                 option(
-                  value=c.id
-                  selected=(String(c.id) === String(inscripcion.cursoId)) ? true : false
+                  value=c._id
+                  selected=((c._id) === inscripcion.cursoId) ? true : false
                 ) #{c.nombre}
             else
               option(disabled)= 'No hay cursos con cupo'
