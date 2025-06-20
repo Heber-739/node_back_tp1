@@ -25,7 +25,7 @@ const inscripcionSchema = new mongoose.Schema({
   estado: {
     type: String,
     default: 'activo',
-    enum: ['activo', 'cancelado', 'finalizado'] // opcional: limitar estados válidos
+    enum: ['activo', 'inactivo'] 
   },
   pagos: {
     type: [pagoSchema],
