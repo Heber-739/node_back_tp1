@@ -21,7 +21,6 @@
     "jsonwebtoken": "9.0.2",
     "method-override": "3.0.0",
     "mongoose": "8.16.0",
-    "mongoose-unique-validator": "4.0.1",
     "morgan": "1.9.1",
     "pug": "3.0.3",
     "uuid": "11.1.0"
