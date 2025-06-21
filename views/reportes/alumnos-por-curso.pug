@@ -14,8 +14,8 @@ block content
           option(value="") -- Todos los cursos --
           each cursoItem in cursos
             option(
-              value=cursoItem.id,
-              selected=(curso && curso.id === cursoItem.id) ? 'selected' : false
+              value=cursoItem._id,
+              selected=(curso && curso._id === cursoItem._id) ? 'selected' : false
             )= cursoItem.nombre
       button.btn.btn-primary(type="submit") Buscar
 
@@ -30,7 +30,7 @@ block content
               th Apellido
               th Email
               th Fecha de inscripción
-              th Asistencias
+              //-th Asistencias
           tbody
             each alumno in alumnos
               tr
@@ -38,10 +38,10 @@ block content
                 td= alumno.apellido
                 td= alumno.email
                 td= new Date(alumno.fechaInscripcion).toLocaleDateString()
-                td
-                  if alumno.asistencias && alumno.asistencias.length
-                    span.badge.bg-success #{alumno.asistencias.length} asistencia(s)
-                  else
-                    span.badge.bg-secondary Sin datos
+                //- td
+                //-   if alumno.asistencias && alumno.asistencias.length
+                //-     span.badge.bg-success #{alumno.asistencias.length} asistencia(s)
+                //-   else
+                //-     span.badge.bg-secondary Sin datos
     else
       .alert.alert-warning.mt-4 No hay alumnos inscritos en este curso.

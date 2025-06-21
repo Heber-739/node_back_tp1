@@ -1,78 +1,63 @@
-// REPORT.CONTROLLER
-
+const mongoose = require("mongoose");
 const { coursesService } = require("../services/courses.service");
-const { alumnsService } = require("../services/alumns.service");
+const Inscripcion = require("../models/inscripcion.model");
 
-
-const reportCursosDisponibles = (req, res) => {
-    const cursos = coursesService.getVacancyCourses();
-    res.render("reportes/cursos-disponibles", { cursos });
-};
-
-const reportCursosCompletos = (req, res) => {
-    const cursos = coursesService.getFullCourses();
-    res.render("reportes/cursos-completos", { cursos });
-};
-
-const reportAlumnosPorCurso = (req, res) => {
-    const cursoId = req.query.cursoId;
-    const cursos = coursesService.getAllCourses(); // todos los cursos
-    const alumnos = alumnsService.getAllAlumns();  // todos los alumnos
-
-    if (!cursoId) {
-        return res.render("reportes/alumnos-por-curso", {
-            cursos,
-            curso: null,
-            alumnos: []
-        });
-    }
-
+const reportCursosDisponibles = async (req, res) => {
     try {
-        // const curso = coursesService.getCourseById(cursoId);
-        // if (!curso) throw new Error("Curso no encontrado");
-
-        // // IDs de alumnos inscritos
-        // const alumnosIds = curso.alumnos;
-
-        // // Filtrar alumnos completos por IDs
-        // const alumnosDelCurso = alumnos.filter(a => alumnosIds.includes(a.id));
-        const curso = coursesService.getCourseById(cursoId);
-        if (!curso) throw new Error("Curso no encontrado");
-
-        // IDs de alumnos inscritos
-        const alumnosIds = curso.alumnos;
-
-        // Filtrar alumnos completos por IDs
-        let alumnosDelCurso = alumnos.filter(a => alumnosIds.includes(a.id));
-
-        // Agregar asistencias a cada alumno
-        alumnosDelCurso = alumnosDelCurso.map(alumno => {
-            // Contar cuántas veces aparece el ID del alumno en los dictados
-            const asistencias = (curso.dictados || []).filter(d => 
-                d.asistencias && d.asistencias.includes(alumno.id)
-            ).length;
-
-            return {
-                ...alumno,
-                asistencias
-            };
-        });
-
-
-        res.render("reportes/alumnos-por-curso", {
-            cursos,
-            curso,
-            alumnos: alumnosDelCurso
-        });
+        const cursos = await coursesService.getVacancyCourses();
+        res.render("reportes/cursos-disponibles", { cursos });
     } catch (error) {
-        res.status(404).send(error.message);
+        res.status(500).send("Error al obtener cursos disponibles");
     }
 };
 
+const reportCursosCompletos = async (req, res) => {
+    try {
+        const cursos = await coursesService.getFullCourses();
+        res.render("reportes/cursos-completos", { cursos });
+    } catch (error) {
+        return res.status(500).send("Error al obtener cursos completos");
+    }
+}
 
+const reportAlumnosPorCurso = async (req, res) => {
+  const cursoId = req.query.cursoId;
 
+  try {
+    const cursos = await coursesService.getAllCourses();
 
+    if (!cursoId || !mongoose.Types.ObjectId.isValid(cursoId)) {
+      return res.render("reportes/alumnos-por-curso", {
+        cursos,
+        curso: null,
+        alumnos: []
+      });
+    }
 
+    const curso = await coursesService.getCourseById(cursoId);
+    if (!curso) throw new Error("Curso no encontrado");
+
+    const inscripciones = await Inscripcion.find({ cursoId })
+      .populate("alumnoId")
+      .lean();
+
+    const alumnosDelCurso = inscripciones.map(insc => ({
+      nombre: insc.alumnoId?.nombre,
+      apellido: insc.alumnoId?.apellido,
+      email: insc.alumnoId?.email,
+      fechaInscripcion: insc.fecha_inscripcion
+    }));
+
+    res.render("reportes/alumnos-por-curso", {
+      cursos,
+      curso,
+      alumnos: alumnosDelCurso
+    });
+  } catch (error) {
+    console.error("Error en reporte alumnos por curso:", error);
+    res.status(500).send(error.message);
+  }
+};
 
 module.exports = {
     reportCursosDisponibles,
