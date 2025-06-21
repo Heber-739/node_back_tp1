@@ -18,7 +18,7 @@ const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const coursesRouter = require('./routes/courses');
 const inscripcionesRouter = require('./routes/inscripciones');
-const facturasProfesoresRouter = require('./routes/facturas-profesores');
+const facturasProfesoresRouter = require('./routes/facturas');
 const reportRoutes = require("./routes/reportes");
 const assistsRouter = require('./routes/assists');
 
