@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require("../middlewares/verifyToken"); // Middleware to verify the token
+
+// Middleware global for this router
+router.use(verifyToken); // Verifies the token in all routes of this router
 
 const {
   getAllCourses,

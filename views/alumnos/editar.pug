@@ -4,16 +4,18 @@ block content
   h2 Editar Alumno
 
   form(action=`/alumnos/${alumno.id}?_method=PUT`, method="POST")
-    div
-      label Nombre:
-      input(type="text", name="nombre", value=alumno.nombre, required)
-    div
-      label Apellido:
-      input(type="text", name="apellido", value=alumno.apellido, required)
-    div
-      label Email:
-      input(type="email", name="email", value=alumno.email, required)
-    div
-      label Telefono:
-      input(type="text", name="telefono", value=alumno.telefono, required)
-    button(type="submit") Guardar cambios
+    div.mb-3
+      label.form-label(for="nombre") Nombre:
+      input.form-control(type="text", id="nombre", name="nombre", value=alumno.nombre, required)
+    div.mb-3
+      label.form-label(for="apellido") Apellido:
+      input.form-control(type="text", id="apellido", name="apellido", value=alumno.apellido, required)
+    div.mb-3
+      label.form-label(for="email") Email:
+      input.form-control(type="email", id="email", name="email", value=alumno.email, required)
+    div.mb-3
+      label.form-label(for="telefono") Telefono:
+      input.form-control(type="text", id="telefono", name="telefono", value=alumno.telefono, required)
+
+    button.btn.btn-primary(type="submit") Guardar cambios
+    a.btn.btn-secondary.ms-2(href="/alumnos") Cancelar

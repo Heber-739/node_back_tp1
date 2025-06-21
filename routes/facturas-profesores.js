@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const verifyToken = require('../middlewares/verifyToken'); // Middleware para verificar el token
+
+// Middleware global para este router
+router.use(verifyToken); // Verifica el token en todas las rutas de este router 
 
 const FACTURAS_FILE = path.join(__dirname, '../data/facturas-profesores.json');
 const PROFESORES_FILE = path.join(__dirname, '../data/profesores.json');
