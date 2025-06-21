@@ -71,7 +71,7 @@ class CoursesService {
 
   getFullCourses = async () => {
     return await Course.find({
-      estado: 'activa',
+      estado: 'activo',
       $expr: { $eq: [{ $size: "$alumnos" }, "$cupo"] }
     }).lean();
   };

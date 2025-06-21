@@ -10,23 +10,25 @@
   },
   "type": "commonjs",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "method-override": "^3.0.0",
-    "mongoose": "^8.16.0",
-    "morgan": "~1.9.1",
-    "pug": "^3.0.3",
-    "uuid": "^11.1.0"
+    "bcrypt": "6.0.0",
+    "cookie-parser": "1.4.4",
+    "debug": "2.6.9",
+    "dotenv": "16.5.0",
+    "express": "5.1.0",
+    "express-session": "1.18.1",
+    "http-errors": "1.6.3",
+    "jade": "1.11.0",
+    "jsonwebtoken": "9.0.2",
+    "method-override": "3.0.0",
+    "mongoose": "8.16.0",
+    "morgan": "1.9.1",
+    "pug": "3.0.3",
+    "uuid": "11.1.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "jest": "^30.0.0",
-    "nodemon": "^3.1.10",
-    "supertest": "^7.1.1"
+    "cross-env": "7.0.3",
+    "jest": "30.0.0",
+    "nodemon": "3.1.10",
+    "supertest": "7.1.1"
   }
 }

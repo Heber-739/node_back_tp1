@@ -1,0 +1,46 @@
+extends ../layout
+
+block content
+  h2 Listado de Usuarios
+
+  div.mb-5
+    form(method="GET", action="/users", class="mb-3")
+      div.row
+        div.col
+          input.form-control(type="text", name="nombre", placeholder="Buscar por nombre o username", value=nombre || '')
+        div.col
+          button.btn.btn-primary(type="submit") Buscar
+
+  table.table.table-striped.table-bordered
+    thead
+      tr
+        th ID
+        th Username
+        th Nombre
+        th Acciones
+    tbody
+      each user in users
+        tr
+          td= user.id
+          td= user.username
+          td= user.name
+          td
+            form(action=`/users/${user.id}?_method=DELETE`, method="POST", style="display:inline")
+              button.btn.btn-danger.btn-sm.me-2(type="submit") Eliminar
+            form(action=`/users/${user.id}/editar`, method="GET", style="display:inline")
+              button.btn.btn-primary.btn-sm(type="submit") Editar
+
+  hr
+
+  h3 Agregar Nuevo Usuario
+  form(action="/users", method="POST")
+    div.mb-3
+      label.form-label(for="username") Username:
+      input.form-control(type="text", name="username", required)
+    div.mb-3
+      label.form-label(for="name") Nombre:
+      input.form-control(type="text", name="name", required)
+    div.mb-3
+      label.form-label(for="password") Contraseña:
+      input.form-control(type="password", name="password", required)
+    button.btn.btn-success(type="submit") Agregar
