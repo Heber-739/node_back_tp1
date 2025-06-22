@@ -63,7 +63,7 @@ app.use('/courses', coursesRouter);
 app.use('/inscripciones', inscripcionesRouter);
 app.use('/facturas-profesores', facturasProfesoresRouter);
 app.use('/report', reportRoutes);
-app.use('/assists', assistsRouter);
+app.use('/assists', assistsRouter); 
 
 // Captura de error 404
 app.use((req, res, next) => {

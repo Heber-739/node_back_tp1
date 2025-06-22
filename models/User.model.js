@@ -6,7 +6,12 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   name: String,
-  passwordHash: String
+  passwordHash: String,
+  role: {
+    type: String,
+    enum: ['admin', 'usuario', 'profesor'],
+    default: 'usuario'
+  }
 });
 
 userSchema.set('toJSON', {

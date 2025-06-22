@@ -17,6 +17,7 @@ block content
         th ID
         th Username
         th Nombre
+        th Rol
         th Acciones
     tbody
       each user in users
@@ -24,6 +25,7 @@ block content
           td= user.id
           td= user.username
           td= user.name
+          td= user.role
           td
             form(action=`/users/${user.id}?_method=DELETE`, method="POST", style="display:inline")
               button.btn.btn-danger.btn-sm.me-2(type="submit") Eliminar
@@ -37,10 +39,20 @@ block content
     div.mb-3
       label.form-label(for="username") Username:
       input.form-control(type="text", name="username", required)
+
     div.mb-3
       label.form-label(for="name") Nombre:
       input.form-control(type="text", name="name", required)
+
     div.mb-3
       label.form-label(for="password") Contraseña:
       input.form-control(type="password", name="password", required)
+
+    div.mb-3
+      label.form-label(for="role") Rol:
+      select.form-control(name="role", required)
+        option(value="usuario") Usuario
+        option(value="admin") Administrador
+        option(value="profesor") Profesor
+
     button.btn.btn-success(type="submit") Agregar

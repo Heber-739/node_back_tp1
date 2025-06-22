@@ -13,5 +13,11 @@ block content
     div.mb-3
       label.form-label(for="password") Nueva Contraseña (opcional):
       input.form-control(type="password", name="password", placeholder="Dejar en blanco para mantener actual")
+    div.mb-3
+      label.form-label(for="role") Rol:
+      select.form-control(name="role", required)
+        option(value="usuario") Usuario
+        option(value="admin") Administrador
+        option(value="profesor") Profesor
     button.btn.btn-primary(type="submit") Guardar Cambios
     a.btn.btn-secondary.ms-2(href="/users") Cancelar

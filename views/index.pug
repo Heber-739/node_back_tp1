@@ -1,5 +1,25 @@
 extends layout
 
 block content
-  h2 Bienvenido al sistema de gestión
-  p Usa el menú para navegar entre las secciones.
+  .container.mt-5.text-center
+    h1 Bienvenido, #{usuario.name}!
+    h4 Tu rol es: 
+      span.badge(
+        class= usuario.role === 'admin' ? 'bg-danger' :
+               usuario.role === 'profesor' ? 'bg-info' : 'bg-secondary'
+      ) #{usuario.role.toUpperCase()}
+
+    if usuario.role === 'admin'
+      p.mt-4.text-muted Tenés control total del sistema: usuarios, cursos, facturación y más.
+      a.btn.btn-danger.mt-3(href='/users') Ir a usuarios
+
+    else if usuario.role === 'profesor'
+      p.mt-4.text-muted Podés acceder a tus cursos, registrar asistencia y cargar materiales.
+      a.btn.btn-info.mt-3(href='/courses') Ir a cursos
+
+    else
+      p.mt-4.text-muted Podés adminsitrar alumnos, profesores y cursos.
+      a.btn.btn-secondary.mt-3(href='/alumnos') Ir a alumnos
+
+    hr.my-4
+    a.btn.btn-outline-dark(href='/logout') Cerrar sesión

@@ -37,11 +37,11 @@ const getUsers = async (req, res, next) => {
 // POST /users - Crear nuevo usuario
 const createUser = async (req, res, next) => {
   try {
-    const { username, name, password } = req.body;
+    const { username, name, password, role } = req.body; 
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const user = new User({ username, name, passwordHash });
+    const user = new User({ username, name, passwordHash, role });
     await user.save();
 
     res.redirect('/users');
@@ -49,7 +49,6 @@ const createUser = async (req, res, next) => {
     next(error);
   }
 };
-
 // GET /users/:id/editar - Formulario de edición
 const getUserEditForm = async (req, res, next) => {
   try {
@@ -61,12 +60,11 @@ const getUserEditForm = async (req, res, next) => {
   }
 };
 
-// POST /users/:id/editar - Actualizar usuario
 const updateUser = async (req, res, next) => {
   try {
-    const { name, username, password } = req.body;
+    const { name, username, password, role } = req.body;
 
-    const updateData = { name, username };
+    const updateData = { name, username, role };
     if (password && password.trim() !== '') {
       const saltRounds = 10;
       updateData.passwordHash = await bcrypt.hash(password, saltRounds);
