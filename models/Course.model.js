@@ -7,7 +7,7 @@ const courseSchema = new mongoose.Schema({
     required: true
   },
   dictados: {
-    type: [String],
+    type: [Object],
     default: []
   },
   nombre: {

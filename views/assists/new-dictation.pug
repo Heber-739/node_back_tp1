@@ -12,7 +12,7 @@ block content
             option(value="") Seleccionar curso
             if courses
               each course in courses
-                option(value=course.id)=course.nombre
+                option(value=course._id)=course.nombre
             else
               option(value="" disabled) No hay cursos activos
 
