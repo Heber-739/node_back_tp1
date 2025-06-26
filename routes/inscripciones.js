@@ -1,5 +1,6 @@
 const express = require('express');
 const verifyToken = require('../middlewares/verifyToken'); // Middleware para verificar el token
+const checkRole = require('../middlewares/checkRole');
 const router = express.Router();
 const {
   getAllInscripciones,
@@ -14,25 +15,13 @@ const {
 // Middleware global para este router
 router.use(verifyToken); // Verifica el token en todas las rutas de este router
 
-// GET todas las inscripciones
-router.get('/', getAllInscripciones);
-
-// POST nueva inscripción
-router.post('/', crearInscripcion);
-
-// GET editar inscripción
-router.get('/editar/:id', goToeditarInscripcion);
-
-// PUT editar inscripción
-router.put('/editar/:id', editarInscripcion);
-
-// GET formulario para agregar pago
-router.get('/pago/:id', goToAgregarPago);
-
-// POST registrar pago
-router.post('/pago/:id', agregarPago);
-
-// DELETE eliminar inscripción
-router.delete('/:id', eliminarInscripcion);
+// Rutas con permisos para usuario, admin y profesor
+router.get('/', checkRole('usuario', 'admin', 'profesor'), getAllInscripciones);
+router.post('/', checkRole('usuario', 'admin'), crearInscripcion);
+router.get('/editar/:id', checkRole('usuario', 'admin'), goToeditarInscripcion);
+router.put('/editar/:id', checkRole('usuario', 'admin'), editarInscripcion);
+router.get('/pago/:id', checkRole('usuario', 'admin'), goToAgregarPago);
+router.post('/pago/:id', checkRole('usuario', 'admin'), agregarPago);
+router.delete('/:id', checkRole('usuario', 'admin'), eliminarInscripcion);
 
 module.exports = router;

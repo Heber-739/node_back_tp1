@@ -9,14 +9,21 @@ const isApi = (req) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const {
+      username,
+      password
+    } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({
+      username
+    });
     const passwordCorrect = user && await bcrypt.compare(password, user.passwordHash);
 
     if (!user || !passwordCorrect) {
       if (isApi(req)) {
-        return res.status(401).json({ error: 'Credenciales incorrectas' });
+        return res.status(401).json({
+          error: 'Credenciales incorrectas'
+        });
       } else {
         return res.status(401).render('login', {
           error: 'Credenciales incorrectas',
@@ -27,7 +34,8 @@ const loginUser = async (req, res, next) => {
 
     const userForToken = {
       username: user.username,
-      id: user._id
+      id: user._id,
+      role: user.role
     };
 
     const token = jwt.sign(userForToken, process.env.SECRET, {
@@ -38,7 +46,8 @@ const loginUser = async (req, res, next) => {
     req.session.usuario = {
       id: user._id,
       username: user.username,
-      name: user.name
+      name: user.name,
+      role: user.role
     };
     req.session.token = token;
 
@@ -49,11 +58,13 @@ const loginUser = async (req, res, next) => {
         name: user.name
       });
     } else {
-      return res.redirect('/alumnos');
+      return res.render('index', { usuario: req.session.usuario });
     }
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = { loginUser };
+module.exports = {
+  loginUser
+};

@@ -40,11 +40,13 @@ block content
           td= course.area
           td= course.estado
           td
-            a(href=`/courses/${course._id}`): button.btn.btn-primary.btn-sm(type="submit") Detalles
-            a(href=`/courses/edit/${course._id}`): button.m-2.btn.btn-info.btn-sm(type="button") Editar
-            form(action=`/courses/${course._id}?_method=DELETE` method="POST")
-              button.btn.btn-danger.btn-sm(type="submit") Eliminar
-
+            .d-flex.gap-2
+              a(href=`/courses/${course._id}`)
+                button.btn.btn-primary.btn-sm(type="button") Detalles
+              a(href=`/courses/edit/${course._id}`)
+                button.btn.btn-info.btn-sm(type="button") Editar
+              form(action=`/courses/${course._id}?_method=DELETE` method="POST")
+                button.btn.btn-danger.btn-sm(type="submit") Eliminar
 
   br
   form(action="/courses/new" id="new" method="POST" class="container mt-5")

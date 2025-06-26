@@ -1,5 +1,7 @@
 const express = require('express');
 const verifyToken = require('../middlewares/verifyToken');
+const checkRole = require('../middlewares/checkRole');
+
 const router = express.Router();
 const {
   getUsers,
@@ -12,19 +14,19 @@ const {
 // Middleware global para este router
 router.use(verifyToken); // Verifica el token en todas las rutas de este router
 
-// Listar
-router.get('/', getUsers);
+// Listar (solo admin y usuario)
+router.get('/', checkRole('admin'), getUsers);
 
-// Crear
-router.post('/', createUser);
+// Crear (solo admin)
+router.post('/', checkRole('admin'), createUser);
 
-// Formulario edición
-router.get('/:id/editar', getUserEditForm);
+// Formulario edición (solo admin)
+router.get('/:id/editar', checkRole('admin'), getUserEditForm);
 
-// Actualizar
-router.post('/:id/editar', updateUser);
+// Actualizar (solo admin)
+router.post('/:id/editar', checkRole('admin'), updateUser);
 
-// Eliminar
-router.delete('/:id', deleteUser);
+// Eliminar (solo admin)
+router.delete('/:id', checkRole('admin'), deleteUser);
 
 module.exports = router;

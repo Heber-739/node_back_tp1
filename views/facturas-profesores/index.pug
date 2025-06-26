@@ -39,7 +39,7 @@ block content
     tbody
       each f in facturas
         tr
-          td= f.id
+          td= f._id
           td= f.profesorNombre
           td= f.fecha
           td= f.numeroFactura
@@ -49,21 +49,21 @@ block content
           td= f.estadoFactura
           td
             if f.estadoPago === 'pendiente'
-              form(action=`/facturas-profesores/pagar/${f.id}`, method="POST", style="display:inline")
+              form(action=`/facturas-profesores/pagar/${f._id}`, method="POST", style="display:inline")
                 button.btn.btn-success.btn-sm(type="submit") Pagar
-              form(action=`/facturas-profesores/anular-pago/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
-                button.btn.btn-warning.btn-sm(type="submit") Anular pago
+             
             else if f.estadoPago === 'pagada'
-              form(action=`/facturas-profesores/anular-pago/${f.id}`, method="POST", style="display:inline")
+              form(action=`/facturas-profesores/anular-pago/${f._id}`, method="POST", style="display:inline")
                 button.btn.btn-warning.btn-sm(type="submit") Anular pago
 
             if f.estadoFactura === 'activa'
-              form(action=`/facturas-profesores/anular-factura/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
+              form(action=`/facturas-profesores/anular-factura/${f._id}`, method="POST", style="display:inline; margin-left:5px;")
                 button.btn.btn-danger.btn-sm(type="submit") Anular factura
+                
             else if f.estadoFactura === 'anulada'
-              form(action=`/facturas-profesores/reactivar-factura/${f.id}`, method="POST", style="display:inline; margin-left:5px;")
+              form(action=`/facturas-profesores/reactivar-factura/${f._id}`, method="POST", style="display:inline; margin-left:5px;")
                 button.btn.btn-primary.btn-sm(type="submit") Reactivar factura
 
-            a.btn.btn-secondary.btn-sm(href=`/facturas-profesores/editar/${f.id}`, style="margin-left: 5px;") Editar
+            a.btn.btn-secondary.btn-sm(href=`/facturas-profesores/editar/${f._id}`, style="margin-left: 5px;") Editar
 
   a.btn.btn-primary(href="/facturas-profesores/nueva") Nueva factura
