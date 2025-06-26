@@ -9,9 +9,35 @@ block content
 
     form(action="/login", method="POST", class="mx-auto", style="max-width: 400px;")
       .mb-3
-        label.form-label(for="usersame") Usuario:
-        input#username.form-control(type="text", name="username", required, placeholder="Ingrese su nombre de usuario ( admin )")
+        label.form-label(for="username") Usuario:
+        input#username.form-control(type="text", name="username", required, placeholder="Ingrese su nombre de usuario (admin)")
       .mb-3
         label.form-label(for="password") Contraseña:
-        input#password.form-control(type="password", name="password", required, placeholder="Ingrese su contraseña ( 1234 )")
+        input#password.form-control(type="password", name="password", required, placeholder="Ingrese su contraseña (1234)")
       button.btn.btn-primary.w-100(type="submit") Entrar
+
+    //- Tarjeta de ayuda con usuarios demo
+    .card.mt-5.mx-auto.shadow-sm(style="max-width: 400px;")
+      .card-header.text-center.bg-light
+        strong Usuarios demo para probar el sistema
+      .card-body
+        ul.list-group.list-group-flush
+          li.list-group-item
+            strong Admin: 
+            |  usuario: 
+            code admin 
+            |  / contraseña: 
+            code 1234
+          li.list-group-item
+            strong Profesor: 
+            |  usuario: 
+            code profesor 
+            |  / contraseña: 
+            code 1234
+          li.list-group-item
+            strong Usuario: 
+            |  usuario: 
+            code usuario 
+            |  / contraseña: 
+            code 1234
+  
