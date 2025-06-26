@@ -21,6 +21,7 @@ const inscripcionesRouter = require('./routes/inscripciones');
 const facturasProfesoresRouter = require('./routes/facturas');
 const reportRoutes = require("./routes/reportes");
 const assistsRouter = require('./routes/assists');
+const ayudaRouter = require('./routes/ayuda');  
 
 
 
@@ -64,6 +65,8 @@ app.use('/inscripciones', inscripcionesRouter);
 app.use('/facturas-profesores', facturasProfesoresRouter);
 app.use('/report', reportRoutes);
 app.use('/assists', assistsRouter); 
+app.use('/ayuda', ayudaRouter);
+
 
 // Captura de error 404
 app.use((req, res, next) => {

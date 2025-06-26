@@ -15,7 +15,7 @@ const {
 router.use(verifyToken); // Verifica el token en todas las rutas de este router
 
 // Listar (solo admin y usuario)
-router.get('/', checkRole('admin', 'usuario'), getUsers);
+router.get('/', checkRole('admin'), getUsers);
 
 // Crear (solo admin)
 router.post('/', checkRole('admin'), createUser);

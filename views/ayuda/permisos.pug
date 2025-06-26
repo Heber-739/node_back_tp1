@@ -1,0 +1,270 @@
+extends ../layout
+
+block content
+  h2.mb-4 Tabla de permisos por módulo y rol
+
+  table.table.table-bordered.table-striped.table-hover
+    thead.table-dark
+      tr
+        th Módulo / Sección
+        th Acción
+        th.text-center Admin
+        th.text-center Profesor
+        th.text-center Usuario
+    tbody
+      - const check = (perm) => perm ? 'fa-check text-success' : 'fa-xmark text-danger'
+
+      tr
+        td Inicio
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Usuarios
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+
+      tr
+        td Usuarios
+        td Agregar / Eliminar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+
+      tr
+        td Usuarios
+        td Editar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+
+      tr
+        td Asistencias
+        td 
+          | └ Nueva Asistencia
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+
+      tr
+        td Asistencias
+        td 
+          | └ Registros de Asistencia
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+
+      tr
+        td Alumnos
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Alumnos
+        td Agregar / Eliminar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Alumnos
+        td Editar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Profesores
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Profesores
+        td Agregar / Eliminar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Profesores
+        td Editar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Facturas
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Facturas
+        td Agregar / Eliminar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Facturas
+        td Editar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Cursos
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Cursos
+        td Agregar / Eliminar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Cursos
+        td Editar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Inscripciones
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Inscripciones
+        td Agregar / Eliminar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Inscripciones
+        td Editar
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-xmark.text-danger
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Reportes
+        td 
+          | └ Cursos con Vacantes Disponibles
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Reportes
+        td 
+          | └ Cursos con Vacantes Completas
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Reportes
+        td 
+          | └ Alumnos por Curso
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+
+      tr
+        td Cerrar sesión
+        td Ver
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
+        td.text-center
+          i.fa-solid.fa-check.text-success
