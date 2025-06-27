@@ -8,19 +8,18 @@ const checkRole = require('../middlewares/checkRole');
 router.use(verifyToken); // Verifica el token en todas las rutas de este router
 
 // GET lista de alumnos
-router.get('/', checkRole('admin', 'profesor', 'usuario'), alumnosController.getAllAlumnos);
+router.get('/', checkRole('profesor', 'usuario'), alumnosController.getAllAlumnos);
 
 // GET form para editar alumno
-router.get('/:id/editar', checkRole('admin', 'usuario'), alumnosController.goToEditarAlumno);
+router.get('/:id/editar', checkRole('usuario'), alumnosController.goToEditarAlumno);
 
 // POST crear alumno
-router.post('/', checkRole('admin', 'usuario'), alumnosController.crearAlumno);
+router.post('/', checkRole('usuario'), alumnosController.crearAlumno);
 
 // PUT actualizar alumno
-router.put('/:id', checkRole('admin', 'usuario'), alumnosController.editarAlumno);
+router.put('/:id', checkRole('usuario'), alumnosController.editarAlumno);
 
 // DELETE eliminar alumno
-router.delete('/:id', checkRole('admin', 'usuario'), alumnosController.eliminaAlumno);
-
+router.delete('/:id', checkRole('usuario'), alumnosController.eliminaAlumno);
 
 module.exports = router; 
