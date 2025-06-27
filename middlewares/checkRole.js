@@ -3,8 +3,9 @@ const isApi = (req) => {
   return /postman|thunder client/i.test(ua);
 };
 
-const checkRole = (...allowedRoles) => {
+const checkRole = (...params) => {
   return (req, res, next) => {
+    const allowedRoles = [...params,'admin']
     const user = req.user || req.session.usuario;
     if (!user || !allowedRoles.includes(user.role)) {
       if (isApi(req)) {
