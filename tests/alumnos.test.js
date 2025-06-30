@@ -1,69 +1,99 @@
 const request = require('supertest');
-const app = require('../app'); 
-const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
+
+// Middleware y mocks
+jest.mock('../middlewares/verifyToken', () => (req, res, next) => next());
+jest.mock('../middlewares/checkRole', () => (role) => (req, res, next) => next());
+
+// Mock de Alumno
+const mockSave = jest.fn();
+jest.mock('../models/Alumno.model', () => {
+  return function Alumno(data) {
+    return {
+      ...data,
+      save: mockSave.mockResolvedValue({ _id: 'mock-id', ...data })
+    };
+  };
+});
 const Alumno = require('../models/Alumno.model');
-const connectDB = require('../config/db');
-require('dotenv').config();
 
-let idCreado = null;
+Alumno.find = jest.fn();
+Alumno.findById = jest.fn();
+Alumno.findByIdAndUpdate = jest.fn();
+Alumno.findByIdAndDelete = jest.fn();
 
-beforeAll(async () => {
-  await connectDB();
+const alumnosRoutes = require('../routes/alumnos');
+app.use(express.json());
+app.use((req, res, next) => {
+  req.get = () => 'Postman';
+  next();
+});
+app.use('/alumnos', alumnosRoutes);
+
+afterEach(() => jest.clearAllMocks());
+
+describe('GET /alumnos', () => {
+  test('Devuelve lista de alumnos', async () => {
+    const mockAlumnos = [{ nombre: 'Juan', apellido: 'Pérez' }];
+    Alumno.find.mockResolvedValue(mockAlumnos);
+
+    const res = await request(app).get('/alumnos');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(mockAlumnos);
+  });
 });
 
-afterAll(async () => {
-  //await Alumno.deleteMany({}); //Borrar todos los alumnos creados durante las pruebas (Ver si es peligroso)
-  await mongoose.connection.close();
+describe('GET /alumnos/:id/editar', () => {
+  test('Devuelve un alumno por ID', async () => {
+    const alumno = { _id: '1', nombre: 'Mica', apellido: 'Orellano' };
+    Alumno.findById.mockResolvedValue(alumno);
+
+    const res = await request(app).get('/alumnos/1/editar');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(alumno);
+  });
 });
 
-describe('Test de API /alumnos', () => {
-  it('debería crear un alumno', async () => {
-    const res = await request(app)
-      .post('/alumnos')
-      .set('User-Agent', 'Thunder Client')
-      .send({
-        nombre: 'Juan',
-        apellido: 'Pérez',
-        email: 'juan.perez@example.com',
-        telefono: '123456789'
-      });
+describe('POST /alumnos', () => {
+  test('Crea un nuevo alumno', async () => {
+    const data = {
+      nombre: 'Lautaro',
+      apellido: 'Gonzalez',
+      email: 'lau@mail.com',
+      telefono: '1234'
+    };
 
-    expect(res.statusCode).toBe(201);
-    expect(res.body.alumno).toHaveProperty('_id');
-    idCreado = res.body.alumno._id;
+    const res = await request(app).post('/alumnos').send(data);
+    expect(res.status).toBe(201);
+    expect(res.body.alumno.nombre).toBe('Lautaro');
+    expect(mockSave).toHaveBeenCalled();
   });
+});
 
-  it('debería obtener todos los alumnos', async () => {
-    const res = await request(app)
-      .get('/alumnos')
-      .set('User-Agent', 'Thunder Client');
+describe('PUT /alumnos/:id', () => {
+  test('Actualiza un alumno', async () => {
+    const updated = {
+      _id: '1',
+      nombre: 'Editado',
+      apellido: 'Apellido',
+      email: 'editado@mail.com',
+      telefono: '9999'
+    };
+    Alumno.findByIdAndUpdate.mockResolvedValue(updated);
 
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body.length).toBeGreaterThan(0);
+    const res = await request(app).put('/alumnos/1').send(updated);
+    expect(res.status).toBe(200);
+    expect(res.body.alumno).toEqual(updated);
   });
+});
 
-  it('debería editar el alumno', async () => {
-    const res = await request(app)
-      .put(`/alumnos/${idCreado}?_method=PUT`)
-      .set('User-Agent', 'Thunder Client')
-      .send({
-        nombre: 'Juan Carlos',
-        apellido: 'Pérez',
-        email: 'juan.carlos@example.com',
-        telefono: '987654321'
-      });
+describe('DELETE /alumnos/:id', () => {
+  test('Elimina un alumno', async () => {
+    Alumno.findByIdAndDelete.mockResolvedValue({ _id: '1' });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.alumno.nombre).toBe('Juan Carlos');
+    const res = await request(app).delete('/alumnos/1');
+    expect(res.status).toBe(200);
+    expect(res.body.idEliminado).toBe('1');
   });
-
- it('debería eliminar el alumno', async () => {
-    const res = await request(app)
-      .delete(`/alumnos/${idCreado}?_method=DELETE`)
-      .set('User-Agent', 'Thunder Client');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('idEliminado', idCreado);
-  }); 
 });
