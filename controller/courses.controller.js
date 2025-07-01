@@ -134,7 +134,7 @@ const updateCourseById = async (req, res) => {
     );
     if (!updated) return res.status(404).send("Curso no encontrado");
 
-    isApi(req) ? res.status(200).send(course)
+    isApi(req) ? res.status(200).send(updated)
       : res.redirect("/courses");
   } catch (err) {
     console.error(err);
