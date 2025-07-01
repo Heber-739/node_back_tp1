@@ -1,11 +1,11 @@
-# 🎓 Trabajo Integrador Desarrollo Web Backend
+# Trabajo Integrador Desarrollo Web Backend
 
 Este es un proyecto backend desarrollado con [Node.js](https://nodejs.org/) y [Express](https://expressjs.com/). 
 
-Consulta la [consigna completa del trabajo aquí](CONSIGNA.md).
 
 
-## 📁 Estructura del Proyecto
+
+## Estructura del Proyecto
 ```
 api/
 bin/
@@ -30,7 +30,7 @@ views/
 └── users/
 ```
 
-## ⚙️ Instalación
+##  Instalación
 
 1. Clonar el repositorio:
 
@@ -58,16 +58,24 @@ El servidor estará disponible en: http://localhost:3000
 
 Este documento describe los endpoints y controladores principales del backend, junto con los middlewares de seguridad y control de acceso usados.
 
-## 🔎 Módulo Cursos
-
-### Ruta base: `/courses`
-
 ### Middlewares globales
 
 - `verifyToken`: Verifica el JWT para todas las rutas.
 - `checkRole`: Control de acceso por roles `admin`, `usuario` y `profesor`.
 
+## Notas comunes
+
+- Todas las rutas usan middleware `verifyToken` para seguridad.
+- El middleware `checkRole` controla permisos según roles definidos.
+- Detecta peticiones API según el `User-Agent` (Postman, Thunder Client) para enviar JSON o renderizar vistas.
+- Los errores se manejan con status HTTP y mensajes claros.
+- Los modelos usados son Mongoose y las bases de datos MongoDB.
+
 ---
+
+## Módulo Cursos
+
+
 
 ### Endpoints
 
@@ -119,16 +127,10 @@ Este documento describe los endpoints y controladores principales del backend, j
 
 ---
 
-## 🔎 Módulo Asistencias (Dictados)
+##  Módulo Asistencias (Dictados de clases)
 
 ### Ruta base: `/assists`
 
-### Middlewares globales
-
-- `verifyToken`: JWT para todas las rutas.
-- `checkRole`: Roles `admin` y `profesor` para todas las rutas.
-
----
 
 ### Endpoints
 
@@ -168,16 +170,10 @@ Este documento describe los endpoints y controladores principales del backend, j
 
 ---
 
-## 🔎 Módulo Facturas
+## Módulo Facturas
 
 ### Ruta base: `/facturas-profesores`
 
-### Middlewares globales
-
-- `verifyToken`: Verifica JWT.
-- `checkRole`: Roles `admin` y `usuario`.
-
----
 
 ### Endpoints
 
@@ -203,16 +199,10 @@ Este documento describe los endpoints y controladores principales del backend, j
 
 ---
 
-## 🔎 Módulo Inscripciones
+## Módulo Inscripciones
 
 ### Ruta base: `/inscripciones`
 
-### Middlewares globales
-
-- `verifyToken`
-- `checkRole`: Roles `usuario`, `admin`, `profesor` según acción.
-
----
 
 ### Endpoints
 
@@ -239,16 +229,10 @@ Este documento describe los endpoints y controladores principales del backend, j
 
 ---
 
-## 🔎 Módulo Profesores
+## Módulo Profesores
 
 ### Ruta base: `/profesores`
 
-### Middlewares globales
-
-- `verifyToken`
-- `checkRole`: Roles `admin`, `usuario`.
-
----
 
 ### Endpoints
 
@@ -271,28 +255,9 @@ Este documento describe los endpoints y controladores principales del backend, j
 
 ---
 
-# Notas comunes
-
-- Todas las rutas usan middleware `verifyToken` para seguridad.
-- El middleware `checkRole` controla permisos según roles definidos.
-- Detecta peticiones API según el `User-Agent` (Postman, Thunder Client) para enviar JSON o renderizar vistas.
-- Los errores se manejan con status HTTP y mensajes claros.
-- Los modelos usados son Mongoose y las bases de datos MongoDB.
-
----
-
----
-
-## 🔎 Módulo Reportes
+## Módulo Reportes
 
 ### Ruta base: `/report`
-
-### Middlewares globales
-
-- `verifyToken`: Verifica el JWT en todas las rutas.
-- `checkRole('admin', 'usuario', 'profesor')`: Control de acceso por roles.
-
----
 
 ### Endpoints
 
@@ -328,16 +293,9 @@ Este documento describe los endpoints y controladores principales del backend, j
 
 ---
 
-## 🔎 Módulo Usuarios
+## Módulo Usuarios
 
 ### Ruta base: `/users`
-
-### Middlewares globales
-
-- `verifyToken`: Verifica JWT para todas las rutas.
-- `checkRole('admin')`: Solo administradores pueden acceder a estas rutas.
-
----
 
 ### Endpoints
 
@@ -399,7 +357,3 @@ Este documento describe los endpoints y controladores principales del backend, j
 - Manejo de errores con mensajes claros y status HTTP adecuados.
 
 ---
-
-¿Querés que también te arme un ejemplo de estructura de carpetas para este proyecto o algún script para automatizar tareas comunes?  
-Estoy para ayudarte.
-
